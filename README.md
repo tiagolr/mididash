@@ -20,12 +20,11 @@
 <div align="center">
 <img src="https://img.shields.io/github/v/release/tiagolr/mididash?color=%40&label=latest" alt="">
 <img src="https://img.shields.io/github/issues-raw/tiagolr/mididash" alt="">
+<img src="https://img.shields.io/github/downloads/tiagolr/mididash/total" alt="">
 <img src="https://img.shields.io/github/license/tiagolr/mididash">
 </div>
 
-<div align="center">
-  <img src="https://img.shields.io/github/downloads/tiagolr/mididash/total" alt="">
-</div>
+<p></p>
 
 
 
