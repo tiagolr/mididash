@@ -6,13 +6,25 @@
 </h1>
 
 <div align="center">
-[![Windows Support](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/tiagolr/mididash/releases) [![Ubuntu Support](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/tiagolr/mididash/releases) [![Mac Support](https://img.shields.io/badge/MACOS-adb8c5?style=for-the-badge&logo=macos&logoColor=white)](https://github.com/tiagolr/mididash/releases)
+  <a href="https://github.com/tiagolr/mididash/releases">
+    <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="">
+  </a>
+  <a href="https://github.com/tiagolr/mididash/releases">
+    <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" alt="">
+  </a>
+  <a href="https://github.com/tiagolr/mididash/releases">
+    <img src="https://img.shields.io/badge/MACOS-adb8c5?style=for-the-badge&logo=macos&logoColor=white" alt="">
+  </a>
 </div>
 
 <div align="center">
 <img src="https://img.shields.io/github/v/release/tiagolr/mididash?color=%40&label=latest" alt="">
 <img src="https://img.shields.io/github/issues-raw/tiagolr/mididash" alt="">
 <img src="https://img.shields.io/github/license/tiagolr/mididash">
+</div>
+
+<div align="center">
+  <img src="https://img.shields.io/github/downloads/tiagolr/mididash/total" alt="">
 </div>
 
 
