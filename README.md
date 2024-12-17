@@ -8,7 +8,7 @@
 Mididash is an open source MIDI routing software with a node-based dashboard. A modern take on programs like [MIDI-OX](http://www.midiox.com).
 
 <div style="text-align: center">
-  <img src="./doc/ss.png" style="max-width: 800px">
+  <img src="./src-assets/ss.png" style="max-width: 800px">
 </div>
 
 ### Features

@@ -9,7 +9,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "pages": "rm -rf docs && cd site && npm run build && mv dist ../docs && cd .."
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
