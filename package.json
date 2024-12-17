@@ -22,6 +22,7 @@
     "d3-flextree": "^2.1.2",
     "path-browserify": "^1.0.1",
     "pinia": "^2.2.6",
+    "semver": "^7.6.3",
     "tiny-emitter": "^2.1.0",
     "vue": "^3.5.13",
     "vue3-ace-editor": "^2.2.4"

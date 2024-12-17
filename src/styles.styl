@@ -111,7 +111,7 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif;
-  font-size: 14px;
+  font-size: 14px; // this should be on root to set the rem units, however the style looks better as it is for now
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -167,6 +167,10 @@ body {
 }
 .button.primary:active:not(:disabled) {
   background: lighten(rgb(0, 94, 170), 20%);
+}
+a {
+  color: var(--primary-content);
+  text-decoration: none;
 }
 
 /*
