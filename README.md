@@ -22,9 +22,7 @@
 
 Mididash is an open source MIDI routing software with a node-based dashboard and Lua scripting. A modern take on programs like [MIDI-OX](http://www.midiox.com).
 
-<div style="text-align: center">
-  <img src="./src-assets/ss.png" style="max-width: 800px">
-</div>
+![Screenshot](./src-assets/ss.png)
 
 ### Features
 
@@ -39,7 +37,7 @@ Mididash is an open source MIDI routing software with a node-based dashboard and
 
 ### Download
 
-The latest version and others can be found on [Github releases]()
+The latest version and others can be found on [Github releases](https://github.com/tiagolr/mididash/releases)
 
 ### Beta software
 
@@ -57,7 +55,7 @@ New devices or disconnected devices are detected every few seconds. To add a new
 
 ### Scripts and templates
 
-Using Lua 5.4 it's possible to program nodes for any kind midi processing. A few examples have been included to demonstrate how to modify and forward bytes. To test a script press `Ctrl+Enter` or `Cmd+Enter` from the code editor. Once a script is loaded into a node, it will run every time a signal is received on its input port.
+Using Lua 5.4 it's possible to program nodes for any kind MIDI processing. A few examples have been included to demonstrate how to modify and forward bytes. To test a script press `Ctrl+Enter` or `Cmd+Enter` from the code editor. Once a script is loaded into a node, it will run every time a signal is received on its input port.
 
 Scripts can be saved as global templates to be reused in projects, to do so
 click the settings icon near the code editor and then `Save as template`.
