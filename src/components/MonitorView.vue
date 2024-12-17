@@ -39,6 +39,10 @@ export default {
     filterEvents: {
       type: Array,
       default: () => []
+    },
+    filterChannels: {
+      type: Array,
+      default: () => []
     }
   },
   emits: [
@@ -57,7 +61,8 @@ export default {
       settings: {
         encoding: this.hexEncoding ? 'hex' : 'dec',
         ignoreCols: [...this.ignoreCols],
-        filterEvents: [...this.filterEvents]
+        filterEvents: [...this.filterEvents],
+        filterChannels: [...this.filterChannels]
       },
       // updating monitor with every midi input can be overkill for performance
       //
@@ -75,10 +80,14 @@ export default {
     inputEdges: vm => vm.node && vm.$store.graph.edges
       .filter(e => e.to === vm.node.id),
     filteredItems () {
-      if (!this.filterEvents.length) {
-        return this.items
+      let items = this.items
+      if (this.filterEvents.length) {
+        items = items.filter(i => this.filterEvents.includes(i.event))
       }
-      return this.items.filter(i => this.filterEvents.includes(i.event))
+      if (this.filterChannels.length) {
+        items = items.filter(i => this.filterChannels.includes(i.channel))
+      }
+      return items
     }
   },
   watch: {
@@ -131,6 +140,7 @@ export default {
       if (this.node && !this.inputEdges.some(e => e.from === from && e.fromPort === fromPort && (to === this.node.id || to === '*'))) {
         return // node mode, ignore midi from sources not connected to this monitor node
       }
+
       // split sysex messages into multiple lines to fit into the virtual scroll
       const splitSysex = (events) => {
         const chunkSize = 8
@@ -218,6 +228,11 @@ export default {
       this.settings.filterEvents = this.settings.filterEvents.includes(name)
         ? this.settings.filterEvents.filter(e => e !== name)
         : this.settings.filterEvents.concat(name)
+    },
+    toggleFilterChannel (channel) {
+      this.settings.filterChannels = this.settings.filterChannels.includes(channel)
+        ? this.settings.filterChannels.filter(e => e !== channel)
+        : this.settings.filterChannels.concat(channel)
     },
     toggleSettings () {
       this.settingsVisible = !this.settingsVisible
@@ -332,18 +347,32 @@ export default {
       </div>
       <div class="font-lighter mb-05rem">Columns</div>
       <div class="flex flex-wrap gap-4 mb-05rem">
-        <div v-for="(name, col) in columns" :key="col" class="flex gap-4" style="margin-right: 8px" @click.stop>
+        <div v-for="(name, col) in columns" :key="col" class="flex gap-4" style="margin-right: 8px; flex: 0 1 85px" @click.stop>
           <checkbox :checked="!settings.ignoreCols.includes(col)" @click="toggleIgnoreSettingsCol(col)">
           </checkbox>
           <div>{{ name }}</div>
         </div>
       </div>
-      <div class="font-lighter mb-05rem">Filter</div>
+      <div class="font-lighter mb-05rem">Filter events</div>
       <div class="flex flex-wrap gap-4">
-        <div v-for="event in midiTypes" :key="event" class="flex gap-4" style="margin-right: 8px" @click.stop>
+        <div v-for="event in midiTypes" :key="event" class="flex gap-4" style="margin-right: 8px; flex: 0 1 85px" @click.stop>
           <checkbox :checked="settings.filterEvents.includes(event)" @click="toggleFilterEvent(event)">
           </checkbox>
           <div>{{ event }}</div>
+        </div>
+      </div>
+      <div class="font-lighter mt-05rem mb-05rem">Filter Channels</div>
+      <div class="flex flex-wrap gap-4">
+        <div
+          v-for="chn in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"
+          :key="chn"
+          class="flex gap-4"
+          style="margin-right: 8px; flex: 0 1 35px"
+          @click.stop
+        >
+          <checkbox :checked="settings.filterChannels.includes(chn)" @click="toggleFilterChannel(chn)">
+          </checkbox>
+          <div>{{ chn + 1 }}</div>
         </div>
       </div>
     </div>

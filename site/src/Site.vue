@@ -77,7 +77,7 @@ export default {
         Download
       </h3>
       <p>
-        The latest version and others can be found on <a href="">Github releases</a>
+        Check the latest version on <a href="">Github releases</a>
       </p>
       <h3>Beta software</h3>
       <p>
@@ -90,7 +90,7 @@ export default {
       </p>
       <p>
         In terms of performance, it's about the same CPU usage (e.g. 5% CPU on high midi throughput),
-        the bundle size is small but cannot compete with 2MB of MIDI-OX,
+        the bundle size is small but cannot compete with 1MB of MIDI-OX,
         the memory footprint of the program is also similar but the webview can consume a few dozen MBs.
       </p>
       <h3>

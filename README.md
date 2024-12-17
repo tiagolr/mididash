@@ -47,7 +47,7 @@ This software is under active development, the core features are ready but there
 
 MIDI-OX is the main reference for this program, this one offers more routing capabilities and practical scripting via Lua nodes, it does not contain the same amount of MIDI tools like bank selectors or NPRN calculators but those can be added over time.
 
-In terms of performance, it's about the same CPU usage (e.g. 5% CPU on high midi throughput), the bundle size is small but cannot compete with 2MB of MIDI-OX, the memory footprint of the program is also similar but the webview can consume a few  dozen MBs.
+In terms of performance, it's about the same CPU usage (e.g. 5% CPU on high midi throughput), the bundle size is small but cannot compete with 1MB of MIDI-OX, the memory footprint of the program is also similar but the webview can consume a few  dozen MBs.
 
 ### Hot plugging
 

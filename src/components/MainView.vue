@@ -34,6 +34,7 @@ export default {
         encoding: 'dec',
         ignoreCols: ['port'],
         filterEvents: [],
+        filterChannels: [],
         x: 10,
         y: 50,
         w: 440,
@@ -44,6 +45,7 @@ export default {
         encoding: 'dec',
         ignoreCols: ['port'],
         filterEvents: [],
+        filterChannels: [],
         x: 10 + 440 + 10,
         y: 50,
         w: 440,
@@ -191,6 +193,7 @@ export default {
           :encoding="monitorIn.encoding"
           :ignore-cols="monitorIn.ignoreCols"
           :filter-events="monitorIn.filterEvents"
+          :filter-channels="monitorOut.filterChannels"
           @settings-change="s => onMonitorSettingsChange(s, false)"
         ></monitor-view>
       </template>
@@ -231,6 +234,7 @@ export default {
           :encoding="monitorOut.encoding"
           :ignore-cols="monitorOut.ignoreCols"
           :filter-events="monitorOut.filterEvents"
+          :filter-channels="monitorOut.filterChannels"
           @settings-change="s => onMonitorSettingsChange(s, true)"
         ></monitor-view>
       </template>

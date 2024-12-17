@@ -25,6 +25,7 @@ export default {
         encoding: 'dec',
         ignoreCols: ['time', 'device', 'note', 'eventExt'],
         filterEvents: [],
+        filterChannels: []
       }
     }
   },
@@ -69,6 +70,7 @@ export default {
         ref="monitor"
         :ignore-cols="settings.ignoreCols"
         :filter-events="settings.filterEvents"
+        :filter-channels="settings.filterChannels"
         :encoding="settings.encoding"
         :node="node"
         @settings-change="onSettingsChange"
