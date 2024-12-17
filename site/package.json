@@ -1,0 +1,21 @@
+{
+  "name": "mididash.com",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "stylus": "^0.64.0",
+    "stylus-loader": "^8.1.1",
+    "vite": "^6.0.1",
+    "vite-svg-loader": "^5.1.0"
+  }
+}
