@@ -4,29 +4,21 @@
   Mididash
   <br>
 </h1>
-
 <div align="center">
-  <a href="https://github.com/tiagolr/mididash/releases">
-    <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="">
-  </a>
-  <a href="https://github.com/tiagolr/mididash/releases">
-    <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" alt="">
-  </a>
-  <a href="https://github.com/tiagolr/mididash/releases">
-    <img src="https://img.shields.io/badge/MACOS-adb8c5?style=for-the-badge&logo=macos&logoColor=white" alt="">
-  </a>
-</div>
 
+[![Windows Support](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/tiagolr/mididash/releases)
+[![Ubuntu Support](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/tiagolr/mididash/releases)
+[![Mac Support](https://img.shields.io/badge/MACOS-adb8c5?style=for-the-badge&logo=macos&logoColor=white)](https://github.com/tiagolr/mididash/releases)
+
+</div>
 <div align="center">
-<img src="https://img.shields.io/github/v/release/tiagolr/mididash?color=%40&label=latest" alt="">
-<img src="https://img.shields.io/github/issues-raw/tiagolr/mididash" alt="">
-<img src="https://img.shields.io/github/downloads/tiagolr/mididash/total" alt="">
-<img src="https://img.shields.io/github/license/tiagolr/mididash">
+
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/tiagolr/mididash?color=%40&label=latest)](https://github.com/tiagolr/mididash/releases/latest)
+![GitHub issues](https://img.shields.io/github/issues-raw/tiagolr/mididash)
+![GitHub all releases](https://img.shields.io/github/downloads/tiagolr/mididash/total)
+![Github license](https://img.shields.io/github/license/tiagolr/mididash)
+
 </div>
-
-<p></p>
-
-
 
 Mididash is an open source MIDI routing software with a node-based dashboard. A modern take on programs like [MIDI-OX](http://www.midiox.com).
 
