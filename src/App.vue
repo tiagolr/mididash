@@ -87,45 +87,25 @@ export default {
       if (key === 'DELETE') {
         this.$store.graph.removeSelected()
 	    } else
-      // fix windows not responding to accelerators
-      // https://github.com/tauri-apps/wry/issues/451
-      if (this.$store.app.os === 'windows') {
+        // accelerators not working properly on windows and macos
+        // use global window events instead
         if (key === 'N' && evt.shiftKey && evt.ctrlKey) {
-          this.newBlankProject()
+          this.$store.app.newBlankProject()
         } else if (key === 'N' && evt.ctrlKey) {
-          this.newDevicesProject()
+          this.$store.app.newDevicesProject()
         } else if (key === 'Q' && evt.ctrlKey) {
-          this.forceQuit()
+          this.$store.app.forceQuit()
         } else if (key === 'O' && evt.ctrlKey) {
           this.$store.app.openFile()
         } else if (key === 'S' && evt.ctrlKey && evt.shiftKey) {
           this.$store.app.saveFileAs()
         } else if (key === 'S' && evt.ctrlKey) {
-          this.$store.app.saveFile()
+          if (this.$store.app.settings.projectPath) {
+            this.$store.app.saveFile()
+          } else {
+            this.$store.app.saveFileAs()
+          }
         }
-      }
-    },
-
-    /**
-     * WINDOWS ONLY COMMAND SHORTCUTS
-     * https://github.com/tauri-apps/wry/issues/451
-     */
-    async forceQuit () {
-      await saveWindowState(StateFlags.ALL)
-      await invoke('exit')
-    },
-    onSaveFile () {
-      if (this.$store.app.settings.projectPath) {
-        this.$store.app.saveFile()
-      } else {
-        this.$store.app.saveFileAs()
-      }
-    },
-    newDevicesProject() {
-      invoke('new_devices_project')
-    },
-    newBlankProject () {
-      invoke('new_blank_project')
     },
   }
 }

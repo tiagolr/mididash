@@ -7,6 +7,7 @@ import { camelCase, snakeCase } from '../utils';
 import graphStore from './graph';
 import { stripPrefix } from '../utils';
 import { DEFAULT_SCRIPT_TEMPLATES } from '../globals';
+import { saveWindowState, StateFlags } from '@tauri-apps/plugin-window-state'
 
 export default defineStore('app', {
   state: () => ({
@@ -45,6 +46,15 @@ export default defineStore('app', {
       await invoke('new_devices_project')
     },
 
+    async newBlankProject () {
+      await invoke('new_blank_project')
+    },
+
+    async forceQuit () {
+      await saveWindowState(StateFlags.ALL)
+      await invoke('exit')
+    },
+
     async toggleAbout () {
       this.showAbout = !this.showAbout
     },
@@ -52,6 +62,9 @@ export default defineStore('app', {
     async toggleHubPaused () {
       await invoke('set_hub_paused', { paused: !this.settings.hubPaused })
       await this.getSettings()
+      if (this.settings.hubPaused) {
+        this.showWarn('MIDI processing is now paused')
+      }
     },
 
     async onGlobalEvent (event) {
@@ -226,6 +239,10 @@ export default defineStore('app', {
 
     showError (text, timeout = 4500) {
       this.showFlash(text, 'error', timeout)
+    },
+
+    showWarn (text, timeout = 4500) {
+      this.showFlash(text, 'warn', timeout)
     },
 
     handleError (err) {

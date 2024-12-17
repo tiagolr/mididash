@@ -66,6 +66,10 @@ export default {
   color: #dbe8ee
 }
 
+.message.warn {
+  background: var(--warning);
+}
+
 .message.error {
   background-color: var(--error);
   color: 1px solid var(--error-content);

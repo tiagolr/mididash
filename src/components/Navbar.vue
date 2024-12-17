@@ -3,19 +3,24 @@ import path from 'path-browserify'
 import { TOGGLE_MONITOR_IN, TOGGLE_MONITOR_OUT } from '../globals';
 import IMonitorIn from '../assets/monitor-in.svg'
 import IMonitorOut from '../assets/monitor-out.svg'
+import ContextMenu from './global/ContextMenu.vue'
 import IPlay from '../assets/play.svg'
 import IPause from '../assets/pause.svg'
+import ILogo from '../assets/logo.svg'
 export default {
   components: {
     IMonitorIn,
     IMonitorOut,
+    ContextMenu,
     IPlay,
     IPause,
+    ILogo
   },
   data() {
     return {
       TOGGLE_MONITOR_IN,
       TOGGLE_MONITOR_OUT,
+      mainMenu: false,
     }
   },
   computed: {
@@ -26,6 +31,42 @@ export default {
         filename = filename.replaceAll('\\', '/')
       }
       return filename ? path.basename(filename) : ''
+    },
+    ismacos: vm => vm.$store.app.os === 'macos',
+    menuItems: vm => [
+      { id: 'new', label: 'New', tip: vm.ismacos ? 'Cmd+N' : 'Ctrl+N'},
+      { id: 'new-blank', label: 'New Blank', tip: vm.ismacos ? 'Cmd+Shift+N' : 'Ctrl+Shift+N' },
+      { id: 'sep1', type: 'separator'},
+      { id: 'open', label: 'Open', tip: vm.ismacos ? 'Cmd+O' : 'Ctrl+O' },
+      { id: 'save', label: 'Save', tip: vm.ismacos ? 'Cmd+S' : 'Ctrl+S' },
+      { id: 'saveas', label: 'Save As', tip: vm.ismacos ? 'Cmd+Shift+S' : 'Ctrl+Shift+S'},
+      { id: 'sep2', type: 'separator'},
+      { id: 'about', label: 'About'},
+      { id: 'quit', label: 'Quit', tip: vm.ismacos ? 'Cmd+Q' : 'Ctrl+Q'},
+    ]
+  },
+  methods: {
+    onSelectMainMenu (id) {
+      if (id === 'new') {
+        this.$store.app.newDevicesProject()
+      } else if (id === 'new-blank') {
+        this.$store.app.newBlankProject()
+      } else if (id === 'open') {
+        this.$store.app.openFile()
+      } else if (id === 'save') {
+        if (this.$store.app.settings.projectPath) {
+          this.$store.app.saveFile()
+        } else {
+          this.$store.app.saveFileAs()
+        }
+      } else if (id === 'saveas') {
+        this.$store.app.saveFileAs()
+      } else if (id === 'about') {
+        this.$store.app.toggleAbout()
+      } else if (id === 'quit') {
+        this.$store.app.forceQuit()
+      }
+      this.mainMenu = false
     }
   }
 }
@@ -34,6 +75,20 @@ export default {
 <template>
   <div class="navbar select-none" :class="isUserDragging && 'dragging'">
     <div class="left">
+      <div class="nav-button" :class="mainMenu && 'active'" @click="mainMenu = !mainMenu">
+        <i-logo class="icon">
+        </i-logo>
+        <context-menu
+          v-if="mainMenu"
+          :items="menuItems"
+          :start-x="0"
+          :start-y="40"
+          ignore-padding
+          no-shadow
+          @select="onSelectMainMenu"
+          @close="mainMenu = false"
+        ></context-menu>
+      </div>
       <div class="nav-button" @click="$store.app.toggleHubPaused">
         <i-play v-if="$store.app.settings.hubPaused" class="icon" style="transform: scale(0.9)">
         </i-play>
@@ -77,7 +132,6 @@ export default {
   pointer-events: none;
 }
 .navbar .nav-button {
-  font-weight: bold;
   cursor: pointer;
   min-height: 40px;
   min-width: 40px;
@@ -87,7 +141,7 @@ export default {
   user-select: none;
   -webkit-user-select: none;
 }
-.navbar .nav-button:hover {
+.navbar .nav-button:hover, .navbar .nav-button.active {
   background: var(--foreground-lighter);
 }
 .nav-button .icon {

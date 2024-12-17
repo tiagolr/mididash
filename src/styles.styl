@@ -172,6 +172,15 @@ a {
   color: var(--primary-content);
   text-decoration: none;
 }
+/* SCROLLBARS */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px
+}
+::-webkit-scrollbar-thumb {
+  background: #fff3;
+  border-radius: 1px;
+}
 
 /*
   FORMS
@@ -243,15 +252,7 @@ input[type="radio"]:checked::after {
   outline: none;
 }
 .select:active {
-  outline: 1px solid var(--primary)
-}
-.select::after {
-  content: '▼';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
+  outline: 1px solid var(--primary-content)
 }
 
 /*
@@ -416,18 +417,5 @@ input[type="radio"]:checked::after {
 
 .rotate-180 {
   transform: rotate(180deg)
-}
-/*
-  SCROLLBARS
- */
-.windows {
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #fff3;
-    border-radius: 3.5px;
-  }
 }
 

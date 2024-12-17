@@ -4,7 +4,9 @@ use app::{Project, APP_HANDLE};
 use globals::{EVT_FILE_OPEN, EVT_FILE_SAVE, EVT_FILE_SAVE_AS, EVT_SHOW_ABOUT, EVT_WINDOW_SHOW};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use tauri::{menu::{CheckMenuItem, Menu, MenuBuilder, MenuItemBuilder, SubmenuBuilder}, tray::{TrayIconBuilder, TrayIconEvent}, Builder, Manager};
+use tauri::{menu::{MenuBuilder, MenuItemBuilder}, tray::{TrayIconBuilder, TrayIconEvent}, Builder, Manager};
+#[cfg(target_os = "macos")]
+use tauri::menu::{ CheckMenuItem, Menu, SubmenuBuilder };
 use tauri_plugin_store::StoreExt;
 
 pub mod globals;
@@ -92,9 +94,13 @@ pub fn run() {
                 commands::new_devices_project()?;
             }
 
-            // Window menu
-            let menu = build_menu(app)?;
-            app.set_menu(menu)?;
+            // macOS window menu
+            #[cfg(target_os = "macos")]
+            {
+                let menu = build_menu(app)?;
+                app.set_menu(menu)?;
+            }
+
             app.on_menu_event(|app, event| {
                 match event.id().as_ref() {
                     "new" => {
@@ -122,7 +128,7 @@ pub fn run() {
                     "minimize_to_tray" => {
                         let mut settings = app::get_settings();
                         settings.minimize_to_tray = !settings.minimize_to_tray;
-                        app::set_settings(settings).unwrap();
+                        let _ = app::set_settings(settings);
                     }
                     "about" => app::emit(EVT_SHOW_ABOUT, json!(null)),
                     _ => {}
@@ -167,17 +173,17 @@ pub fn run() {
         .expect("error while running tauri application");
 }
 
-#[cfg(not(target_os = "macos"))]
+/* #[cfg(not(target_os = "macos"))]
 fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> {
     let file_menu = SubmenuBuilder::new(app.handle(), "&File")
-        .item(&MenuItemBuilder::with_id("new", "New").accelerator("CommandOrControl+N").build(app)?)
-        .item(&MenuItemBuilder::with_id("new_blank", "New Blank").accelerator("CommandOrControl+Shift+N").build(app)?)
+        .item(&MenuItemBuilder::with_id("new", "New").build(app)?)
+        .item(&MenuItemBuilder::with_id("new_blank", "New Blank").build(app)?)
         .separator()
-        .item(&MenuItemBuilder::with_id("open", "Open").accelerator("CommandOrControl+O").build(app)?)
-        .item(&MenuItemBuilder::with_id("save", "Save").accelerator("CommandOrControl+S").build(app)?)
-        .item(&MenuItemBuilder::with_id("save_as", "Save As").accelerator("CommandOrControl+Shift+S").build(app)?)
+        .item(&MenuItemBuilder::with_id("open", "Open").build(app)?)
+        .item(&MenuItemBuilder::with_id("save", "Save").build(app)?)
+        .item(&MenuItemBuilder::with_id("save_as", "Save As").build(app)?)
         .separator()
-        .item(&MenuItemBuilder::with_id("quit", "Quit").accelerator("CommandOrControl+Q").build(app)?)
+        .item(&MenuItemBuilder::with_id("quit", "Quit").build(app)?)
         .build()?;
 
     let settings = app::get_settings();
@@ -192,27 +198,24 @@ fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> 
         .build()?;
 
     Ok(menu)
-}
+} */
 
 #[cfg(target_os = "macos")]
 fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> {
     let file_menu = SubmenuBuilder::new(app.handle(), "&File")
-        .item(&MenuItemBuilder::with_id("new", "New").accelerator("Command+N").build(app)?)
-        .item(&MenuItemBuilder::with_id("new_blank", "New Blank").accelerator("Command+Shift+N").build(app)?)
+        .item(&MenuItemBuilder::with_id("new", "New").build(app)?)
+        .item(&MenuItemBuilder::with_id("new_blank", "New Blank").build(app)?)
         .separator()
-        .item(&MenuItemBuilder::with_id("open", "Open").accelerator("Command+O").build(app)?)
-        .item(&MenuItemBuilder::with_id("save", "Save").accelerator("Command+S").build(app)?)
-        .item(&MenuItemBuilder::with_id("save_as", "Save As").accelerator("Command+Shift+S").build(app)?)
-        .build()?;
-
-    let app_menu = SubmenuBuilder::new(app.handle(), "App")
-        .item(&MenuItemBuilder::with_id("about", "About").build(app)?)
-        .item(&MenuItemBuilder::with_id("quit", "Quit").accelerator("Command+Q").build(app)?)
+        .item(&MenuItemBuilder::with_id("open", "Open").build(app)?)
+        .item(&MenuItemBuilder::with_id("save", "Save").build(app)?)
+        .item(&MenuItemBuilder::with_id("save_as", "Save As").build(app)?)
+        .separator()
+        .item(&MenuItemBuilder::with_id("quit", "Quit").build(app)?)
         .build()?;
 
     let menu = MenuBuilder::new(app.handle())
         .item(&file_menu)
-        .item(&app_menu)
+        .item(&MenuItemBuilder::with_id("about", "About").build(app)?)
         .build()?;
 
     Ok(menu)
