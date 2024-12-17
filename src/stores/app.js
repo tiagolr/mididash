@@ -14,7 +14,8 @@ export default defineStore('app', {
     emitter: new Emitter(),
     version: '',
     os: __TAURI_OS_PLUGIN_INTERNALS__.os_type, // windows, linux or macos
-    showAbout: false,
+    showAbout: false, // about popup
+    showSettings: false, // settings popup
     settings: { // global settings
       projectPath: '',
       minimizeToTray: false,
@@ -55,15 +56,21 @@ export default defineStore('app', {
       await invoke('exit')
     },
 
-    async toggleAbout () {
+    toggleAbout () {
       this.showAbout = !this.showAbout
+    },
+
+    toggleSettings () {
+      this.showSettings = !this.showSettings
     },
 
     async toggleHubPaused () {
       await invoke('set_hub_paused', { paused: !this.settings.hubPaused })
       await this.getSettings()
       if (this.settings.hubPaused) {
-        this.showWarn('MIDI processing is now paused')
+        this.showWarn('MIDI processing paused')
+      } else {
+        this.showSuccess('MIDI processing resumed')
       }
     },
 

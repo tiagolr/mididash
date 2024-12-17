@@ -65,8 +65,7 @@ export default {
       await saveWindowState(StateFlags.ALL)
       if (this.$store.app.settings.minimizeToTray) {
         event.preventDefault()
-        getCurrentWindow().hide()
-        this.hidden = true
+        this.minimizeToTray()
       } else {
         event.preventDefault()
         this.$store.app
@@ -75,6 +74,11 @@ export default {
             invoke('exit')
           })
       }
+    },
+
+    minimizeToTray () {
+      getCurrentWindow().hide()
+      this.hidden = true
     },
 
     onGlobalKeydown (evt) {
@@ -119,7 +123,7 @@ export default {
       [$store.app.os]: true
     }"
   >
-    <main-view>
+    <main-view @minimize-to-tray="minimizeToTray">
     </main-view>
     <flash-messages>
     </flash-messages>

@@ -7,6 +7,7 @@ import ContextMenu from './global/ContextMenu.vue'
 import IPlay from '../assets/play.svg'
 import IPause from '../assets/pause.svg'
 import ILogo from '../assets/logo.svg'
+import IMinimize from '../assets/minimize.svg'
 export default {
   components: {
     IMonitorIn,
@@ -14,8 +15,12 @@ export default {
     ContextMenu,
     IPlay,
     IPause,
-    ILogo
+    ILogo,
+    IMinimize,
   },
+  emits: [
+    'minimize-to-tray'
+  ],
   data() {
     return {
       TOGGLE_MONITOR_IN,
@@ -61,6 +66,8 @@ export default {
         }
       } else if (id === 'saveas') {
         this.$store.app.saveFileAs()
+      } else if (id === 'settings') {
+        this.$store.app.toggleSettings()
       } else if (id === 'about') {
         this.$store.app.toggleAbout()
       } else if (id === 'quit') {
@@ -75,7 +82,7 @@ export default {
 <template>
   <div class="navbar select-none" :class="isUserDragging && 'dragging'">
     <div class="left">
-      <div class="nav-button" :class="mainMenu && 'active'" @click="mainMenu = !mainMenu">
+      <div class="nav-button" :class="mainMenu && 'active'" title="Menu" @click="mainMenu = !mainMenu">
         <i-logo class="icon">
         </i-logo>
         <context-menu
@@ -89,17 +96,21 @@ export default {
           @close="mainMenu = false"
         ></context-menu>
       </div>
-      <div class="nav-button" @click="$store.app.toggleHubPaused">
+      <div
+        class="nav-button"
+        :title="$store.app.settings.hubPaused ? 'Start MIDI processing' : 'Pause MIDI processing'"
+        @click="$store.app.toggleHubPaused"
+      >
         <i-play v-if="$store.app.settings.hubPaused" class="icon" style="transform: scale(0.9)">
         </i-play>
         <i-pause v-else class="icon" style="transform: scale(0.9)">
         </i-pause>
       </div>
-      <div class="nav-button" @click="$store.app.emitter.emit(TOGGLE_MONITOR_IN)">
+      <div class="nav-button" title="Input monitor" @click="$store.app.emitter.emit(TOGGLE_MONITOR_IN)">
         <i-monitor-in class="icon monitor-in">
         </i-monitor-in>
       </div>
-      <div class="nav-button" @click="$store.app.emitter.emit(TOGGLE_MONITOR_OUT)">
+      <div class="nav-button" title="Output monitor" @click="$store.app.emitter.emit(TOGGLE_MONITOR_OUT)">
         <i-monitor-out class="icon monitor-out">
         </i-monitor-out>
       </div>
@@ -110,6 +121,10 @@ export default {
       </div>
     </div>
     <div class="right">
+      <div class="nav-button" title="Minimize to tray" @click="$emit('minimize-to-tray')">
+        <i-minimize class="icon">
+        </i-minimize>
+      </div>
     </div>
   </div>
 </template>

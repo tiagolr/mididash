@@ -26,6 +26,9 @@ export default {
     IWrench,
     IBroom,
   },
+  emits: [
+    'minimize-to-tray'
+  ],
   data() {
     return {
       sidebarTab: 'modules',
@@ -121,7 +124,7 @@ export default {
 
 <template>
   <div class="main-view">
-    <navbar>
+    <navbar @minimize-to-tray="$emit('minimize-to-tray')">
     </navbar>
     <split
       ref="sidebar"

@@ -210,12 +210,12 @@ fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> 
         .item(&MenuItemBuilder::with_id("save", "Save").build(app)?)
         .item(&MenuItemBuilder::with_id("save_as", "Save As").build(app)?)
         .separator()
+        .item(&MenuItemBuilder::with_id("about", "About").build(app)?)
         .item(&MenuItemBuilder::with_id("quit", "Quit").build(app)?)
         .build()?;
 
     let menu = MenuBuilder::new(app.handle())
         .item(&file_menu)
-        .item(&MenuItemBuilder::with_id("about", "About").build(app)?)
         .build()?;
 
     Ok(menu)
