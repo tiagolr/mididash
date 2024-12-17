@@ -31,7 +31,7 @@ export default {
   methods: {
     onSettingsChange (settings) {
       Object.assign(this.settings, settings)
-      this.$store.graph.setDeviceProperty(this.node.id, 'settings', settings)
+      this.$store.graph.setDeviceProperty(this.node.id, 'settings', this.settings)
       this.$store.graph.fitNode(this.node.id)
     },
     toggleSettings () {

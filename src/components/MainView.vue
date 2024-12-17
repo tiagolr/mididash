@@ -29,17 +29,7 @@ export default {
   data() {
     return {
       sidebarTab: 'modules',
-      monitorOut: this.$store.app.settings.monitorOut || {
-        enabled: false,
-        encoding: 'dec',
-        ignoreCols: ['port'],
-        filterEvents: [],
-        x: 10 + 440 + 10,
-        y: 50,
-        w: 440,
-        h: 250,
-      },
-      monitorIn: this.$store.app.settings.monitorIn || {
+      monitorIn: {
         enabled: false,
         encoding: 'dec',
         ignoreCols: ['port'],
@@ -49,21 +39,42 @@ export default {
         w: 440,
         h: 250,
       },
+      monitorOut: {
+        enabled: false,
+        encoding: 'dec',
+        ignoreCols: ['port'],
+        filterEvents: [],
+        x: 10 + 440 + 10,
+        y: 50,
+        w: 440,
+        h: 250,
+      },
       windowOnTop: ''
     }
   },
-  computed: {
-    settings: vm => vm.$store.app.settings || {}
-  },
   watch: {
-    settings: 'loadLayout',
     '$store.graph.selected' (id) {
         this.sidebarTab = id ? 'inspector' : 'modules'
-    }
+    },
+    '$store.app.settings.sidebarWidth' (w) {
+      this.$refs.sidebar.offset = w
+    },
+    '$store.app.settings.monitorIn' (m) {
+      this.monitorIn = {...m}
+    },
+    '$store.app.settings.monitorOut' (m) {
+      this.monitorOut = {...m}
+    },
   },
   beforeMount () {
+    Object.assign(this.monitorIn, this.$store.app.settings.monitorIn) // hot reload only
+    Object.assign(this.monitorOut, this.$store.app.settings.monitorOut) // hot reload only
     this.$store.app.emitter.on(TOGGLE_MONITOR_IN, this.toggleMonitorIn)
     this.$store.app.emitter.on(TOGGLE_MONITOR_OUT, this.toggleMonitorOut)
+  },
+  beforeUnmount () {
+    this.$store.app.emitter.off(TOGGLE_MONITOR_IN, this.toggleMonitorIn)
+    this.$store.app.emitter.off(TOGGLE_MONITOR_OUT, this.toggleMonitorOut)
   },
   methods: {
     toggleMonitorIn () {
@@ -71,21 +82,14 @@ export default {
       if (this.monitorIn.enabled) {
         this.windowOnTop = 'monitor-in'
       }
+      this.saveSettings()
     },
     toggleMonitorOut () {
       this.monitorOut.enabled = !this.monitorOut.enabled
       if (this.monitorOut.enabled) {
         this.windowOnTop = 'monitor-out'
       }
-    },
-    saveLayout () {
-      const bsplit = this.$refs.bsplit.offset
-      this.$store.app.setSettings({ bsplit })
-    },
-    loadLayout () {
-      if (this.settings.bsplit) {
-        this.$refs.bsplit.offset = this.settings.bsplit
-      }
+      this.saveSettings()
     },
     onWindowChange () {
       if (this.$refs.monitorOutWin) {
@@ -103,7 +107,11 @@ export default {
       this.saveSettings()
     },
     saveSettings () {
-      // TODO
+      this.$store.app.setSettings({
+        monitorIn: this.monitorIn,
+        monitorOut: this.monitorOut,
+        sidebarWidth: parseInt(this.$refs.sidebar.offset),
+      })
     }
   }
 }
@@ -114,14 +122,15 @@ export default {
     <navbar>
     </navbar>
     <split
-      ref="bsplit"
+      ref="sidebar"
       resize-b
       horizontal
-      init="250px"
+      :init="($store.app.settings.sidebarWidth || 250) + 'px'"
       min="100px"
       max="calc(100% - 100px)"
       :gap="2"
       class="overflow"
+      @drag-stop="saveSettings"
     >
       <template #A>
         <graph-view class="panel panel-dark">
@@ -155,7 +164,7 @@ export default {
       :start-w="monitorIn.w"
       :start-h="monitorIn.h"
       :style="windowOnTop === 'monitor-in' ? 'z-index: 3' : 'z-index: 2'"
-      @close="monitorIn.enabled = false"
+      @close="toggleMonitorIn"
       @mousedown="windowOnTop = 'monitor-in'"
       @stop-drag="onWindowChange"
       @stop-resize="onWindowChange"
@@ -195,7 +204,7 @@ export default {
       :start-w="monitorOut.w"
       :start-h="monitorOut.h"
       :style="windowOnTop === 'monitor-out' ? 'z-index: 3' : 'z-index: 2'"
-      @close="monitorOut.enabled = false"
+      @close="toggleMonitorOut"
       @mousedown="windowOnTop = 'monitor-out'"
       @stop-drag="onWindowChange"
       @stop-resize="onWindowChange"

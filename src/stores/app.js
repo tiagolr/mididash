@@ -17,10 +17,12 @@ export default defineStore('app', {
     settings: { // global settings
       projectPath: '',
       minimizeToTray: false,
-      sidebarSplit: 0,
+      sidebarWidth: 0,
       scriptTemplates: [],
       scriptShowLineNumbers: false,
       hubPaused: false,
+      monitorIn: {},
+      monitorOut: {}
     },
     preferences: {}, // project settings
     flashMessages: [],

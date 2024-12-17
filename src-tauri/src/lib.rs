@@ -45,7 +45,7 @@ pub struct State {}
 pub struct Settings {
     pub project_path: String,
     pub minimize_to_tray: bool,
-    pub sidebar_split: u64,
+    pub sidebar_width: u64,
     pub script_templates: Vec<Value>,
     pub script_show_line_numbers: bool,
     pub monitor_in: Value,
