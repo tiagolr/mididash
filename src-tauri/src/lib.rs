@@ -4,7 +4,9 @@ use app::{Project, APP_HANDLE};
 use globals::{EVT_FILE_OPEN, EVT_FILE_SAVE, EVT_FILE_SAVE_AS, EVT_SHOW_ABOUT, EVT_WINDOW_SHOW};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use tauri::{menu::{MenuBuilder, MenuItemBuilder}, tray::{TrayIconBuilder, TrayIconEvent}, Builder, Manager};
+use tauri::{tray::{TrayIconBuilder, TrayIconEvent}, Builder, Manager};
+#[cfg(target_os = "linux")]
+use tauri::menu::{MenuBuilder, MenuItemBuilder};
 #[cfg(target_os = "macos")]
 use tauri::menu::{ CheckMenuItem, Menu, SubmenuBuilder };
 use tauri_plugin_store::StoreExt;
