@@ -195,7 +195,7 @@ fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> 
 }
 
 #[cfg(target_os = "macos")]
-fn build_menu(app: &mut App) -> Result<Menu<tauri::Wry>, Box<dyn std::error::Error>> {
+fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> {
     let file_menu = SubmenuBuilder::new(app.handle(), "&File")
         .item(&MenuItemBuilder::with_id("new", "New").accelerator("Command+N").build(app)?)
         .item(&MenuItemBuilder::with_id("new_blank", "New Blank").accelerator("Command+Shift+N").build(app)?)
