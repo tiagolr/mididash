@@ -20,7 +20,7 @@
 
 </div>
 
-Mididash is an open source MIDI routing software with a node-based dashboard. A modern take on programs like [MIDI-OX](http://www.midiox.com).
+Mididash is an open source MIDI routing software with a node-based dashboard and Lua scripting. A modern take on programs like [MIDI-OX](http://www.midiox.com).
 
 <div style="text-align: center">
   <img src="./src-assets/ss.png" style="max-width: 800px">
