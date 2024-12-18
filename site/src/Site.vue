@@ -162,7 +162,7 @@ export default {
       <p>
         <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GPL 3</a>
       </p>
-      <div class="text-center" style="color: #7be0ff;opacity: 0.5;">
+      <div class="text-center" style="color: var(--primary-highlight);opacity: 0.5;">
         -- tilr © 2025 --
       </div>
     </div>
@@ -179,7 +179,7 @@ body {
   font-size: 16px;
 }
 a {
-  color: #7be0ff;
+  color: var(--primary-highlight);
 }
 body {
   overflow: auto;
@@ -201,7 +201,7 @@ hr {
   background: none;
   color: none;
   border: none;
-  border-bottom: 1px solid #7be0ff;
+  border-bottom: 1px solid var(--primary-highlight);
   margin: 1rem 0;
 }
 li:not(:first-child) {
@@ -212,7 +212,7 @@ code {
   margin: 0;
   font-size: 85%;
   white-space: break-spaces;
-  background-color: #7be0ff;
+  background-color: var(--primary-highlight);
   color: var(--background);
   border-radius: 6px;
 }
@@ -233,7 +233,7 @@ code {
 .container {
   max-width: 900px;
   padding: 32px;
-  background: #232929;
+  background: var(--foreground);
   margin: auto;
   min-height: 100vh;
   color: var(--text);

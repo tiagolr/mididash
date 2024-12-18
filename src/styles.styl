@@ -1,34 +1,39 @@
 
 /*
-  COLORS https://www.hover.dev/css-color-palette-generator
+  COLORS
 */
 :root {
-  --primary: #0071cc;
-  --primary-dark: #015192;
-  --primary-light: #7be0ff;
-  --primary-content: #bbe3ea;
+  c-primary-highlight = #7be0ff;
+  c-background = #181b1c;
+  c-text = #fafbfb;
 
-  --background: #181b1b;
-  --foreground: #232829;
-  --foreground-dark: #151819;
-  --foreground-light: #31383A;
-  --foreground-lighter: #495252;
-  --foreground-alpha: #232829dd;
-  --foreground-light-alpha: #31383Acc;
-  --border: #3b4345;
+  --primary: darken(c-primary-highlight, 40);
+  --primary-dark: darken(c-primary-highlight, 50);
+  --primary-darker: darken(c-primary-highlight, 60);
+  --primary-highlight: c-primary-highlight;
+  --primary-content: lighten(c-primary-highlight, 18);
 
-  --button: #637174;
-  --button-10: #7b8b8f;
-  --button-20: #97a3a6;
-  --button--10: #4c5658;
-  --button--20: #343b3d;
-  --button-primary: #015192;
-  --button-primary-10: #016dc5;
-  --button-primary-20: #0289f7;
+  --background: c-background;
+  --foreground-dark: lighten(c-background, 2.5);
+  --foreground: lighten(c-background, 5);
+  --foreground-light: lighten(c-background, 10);
+  --foreground-lighter: lighten(c-background, 20);
+  --foreground-alpha: alpha(lighten(c-background, 5), 0.85);
+  --foreground-light-alpha: alpha(lighten(c-background, 10), 0.80);
+  --border: lighten(c-background, 15);
 
-  --text: #fbfbfb;
-  --text-light: #d6dbdc;
-  --text-lighter: #9fabac;
+  --button: lighten(c-background, 32);
+  --button-10: lighten(c-background, 42);
+  --button-20: lighten(c-background, 52);
+  --button--10: ligthen(c-background, 22);
+  --button--20: ligthen(c-background, 12);
+  --button-primary: var(--primary);
+  --button-primary-10: var(--primary-dark);
+  --button-primary-20: var(--primary-darker);
+
+  --text: c-text;
+  --text-light: darken(c-text, 15);
+  --text-lighter: darken(c-text, 30);
 
   --success: #287e28;
   --warning: #7e7e28;
@@ -43,10 +48,12 @@
   --port-size: 12px;
   --node-color: #5d6c6ed7;
   --port-color: #91a1a2;
-  --edge-color: var(--primary-light);
+  --edge-color: var(--primary-highlight);
   --port-connected-color: var(--edge-color) ;
   --edge-active-color: #f4484d;
   --port-active-color: var(--edge-active-color);
+  --grid-line: #fff1;
+  --grid-major-line: #fff2;
 
   --monitor-blue: #67ADF3;
   --monitor-blue-dark: #5187bd;
@@ -223,7 +230,7 @@ input[type="radio"]::after {
   transform: translate(-50%, -50%);
   width: 7px;
   height: 7px;
-  background-color: var(--primary-light); /* Inner circle color */
+  background-color: var(--primary-highlight); /* Inner circle color */
   border-radius: 50%;
   opacity: 0; /* Hidden by default */
   transition: opacity 0.3s ease;

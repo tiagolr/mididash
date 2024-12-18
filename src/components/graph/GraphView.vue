@@ -304,18 +304,20 @@ export default {
         </i-layout>
       </div>
     </div>
-    <svg style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 0;">
+    <svg class="grid">
       <line
         v-for="(line, i) in gridY" :key="i"
         :x1="0" x2="100%"
-        :y1="line.y" :y2="line.y" :stroke="line.highlight ? '#fff2': '#fff1'" stroke-width="1"
-        style="opacity: 0.8"
+        :y1="line.y" :y2="line.y"
+        :class="line.highlight ? 'major-line' : 'line'"
+        stroke-width="1"
       ></line>
       <line
         v-for="(line, i) in gridX" :key="i"
         :x1="line.x" :x2="line.x"
-        y1="0" y2="100%" :stroke="line.highlight ? '#fff2' : '#fff1'" stroke-width="1"
-        style="opacity: 0.8;"
+        y1="0" y2="100%"
+        :class="line.highlight ? 'major-line' : 'line'"
+        stroke-width="1"
       ></line>
     </svg>
     <screen ref="screen" class="screen" @dblclick="zoomNodes" @pan="onPan" @zoom="onZoom" @mouseup="onMouseupScreen">
@@ -414,6 +416,22 @@ export default {
 
 
 <style scoped>
+.grid {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+.grid .line {
+  stroke: var(--grid-line);
+  opacity: 0.9;
+}
+.grid .major-line {
+  stroke: var(--grid-major-line);
+  opacity: 0.9;
+}
 .graph {
   position: relative;
   padding: 0 !important;

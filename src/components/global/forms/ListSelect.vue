@@ -281,7 +281,7 @@ input.selected::placeholder {
 }
 
 .item.selected {
-  background: var(--primary-light);
+  background: var(--primary-highlight);
   color: var(--background);
 }
 </style>
