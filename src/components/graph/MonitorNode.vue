@@ -90,6 +90,10 @@ export default {
   max-height: 173px;
   height: 173px;
 }
+:deep(.monitor-content .row) {
+  user-select: none;
+  -webkit-user-select: none;
+}
 .icon {
   width: 18px;
   height: 18px;

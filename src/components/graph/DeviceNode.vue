@@ -58,7 +58,7 @@ export default {
   mounted () {
     this.$store.graph.emitter.on(FIT_NODE, this.onFitNode)
     setTimeout(() => {
-      this.mounted = true // HACK, allows time for node to calculate dimensions and center on mouse cursor
+      this.mounted = true // HACK, hides the node while giving time to calculate dimensions and center on mouse cursor
     }, 0);
   },
   beforeUnmount () {
@@ -287,7 +287,7 @@ export default {
   padding-right: 15px;
 }
 .content {
-  background: #31383Acc;
+  background: var(--foreground-light-alpha);
   border-bottom-left-radius: var(--node-radius);
   border-bottom-right-radius: var(--node-radius);
 }

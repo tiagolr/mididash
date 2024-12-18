@@ -110,10 +110,10 @@ export default {
 <style scoped>
 svg {
   display:block;
-  fill:var(--copy-light);
+  fill:var(--text-light);
 }
 svg:hover path {
-  fill: var(--copy-lighter);
+  fill: var(--text-lighter);
 }
 input {
   all: unset;
@@ -121,7 +121,7 @@ input {
   width: 100%;
   outline: none;
   border: none;
-  color: var(--copy);
+  color: var(--text);
   font-size: normal;
   text-align: right;
   appearance: none;
@@ -130,7 +130,7 @@ input {
   cursor: text;
 }
 input::placeholder {
-  color: var(--copy-lighter)
+  color: var(--text-lighter)
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {

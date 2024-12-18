@@ -18,7 +18,6 @@ export default defineStore('app', {
     showSettings: false, // settings popup
     settings: { // global settings
       projectPath: '',
-      minimizeToTray: false,
       sidebarWidth: 0,
       scriptTemplates: [],
       scriptShowLineNumbers: false,

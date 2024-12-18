@@ -236,7 +236,7 @@ code {
   background: #232929;
   margin: auto;
   min-height: 100vh;
-  color: var(--copy);
+  color: var(--text);
 }
 .logo {
   margin: auto;

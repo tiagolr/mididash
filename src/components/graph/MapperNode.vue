@@ -87,7 +87,7 @@ table {
 }
 table th {
   font-weight: normal;
-  color: var(--copy-lighter);
+  color: var(--text-lighter);
   text-align: left;
 }
 table td, table th {

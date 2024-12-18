@@ -143,7 +143,7 @@ export default {
     <div class="header" @mousedown="startDrag">
       <slot name="header"></slot>
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-close" @click="$emit('close')">
-        <path d="M16.875 7.125L7.125 16.875M7.125 7.125L16.875 16.875" stroke="var(--copy-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M16.875 7.125L7.125 16.875M7.125 7.125L16.875 16.875" stroke="var(--text-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
     <div class="content">

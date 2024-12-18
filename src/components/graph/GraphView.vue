@@ -94,6 +94,9 @@ export default {
     this.unsubscibe()
     this.$store.app.emitter.off(EVT_MIDI, this.onMidiEvent)
   },
+  mounted () {
+    this.zoomNodes() // focus nodes after show window from minimize to tray
+  },
   methods: {
     onWindowResize () {
       this.gridWidth = window.innerWidth
@@ -116,8 +119,6 @@ export default {
       if (this.nodes?.length) {
         const rect = this.$refs.screen.zoomNodes(this.nodes, { padding })
         if (this.$refs.screen.getZoom() > 1) {
-          // const vh = this.$refs.screen.$refs.screen.clientHeight
-          // rect.bottom += vh - rect.bottom - rect.top - 150
           this.$refs.screen.zoomRect(rect, { zoom: 1})
         }
       }
@@ -474,7 +475,7 @@ export default {
 }
 .group-header {
   width: 100%;
-  color: var(--copy-lighter);
+  color: var(--text-lighter);
   user-select: none;
   -webkit-user-drag: none;
 }

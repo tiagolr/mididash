@@ -62,21 +62,17 @@ export default {
       await getCurrentWindow().setFocus()
     },
     async onCloseRequested(event) {
+      event.preventDefault()
       await saveWindowState(StateFlags.ALL)
-      if (this.$store.app.settings.minimizeToTray) {
-        event.preventDefault()
-        this.minimizeToTray()
-      } else {
-        event.preventDefault()
-        this.$store.app
-          .saveCurrentProject()
-          .finally(() => {
-            invoke('exit')
-          })
-      }
+      this.$store.app
+        .saveCurrentProject()
+        .finally(() => {
+          invoke('exit')
+        })
     },
 
-    minimizeToTray () {
+    async minimizeToTray () {
+      await saveWindowState(StateFlags.ALL)
       getCurrentWindow().hide()
       this.hidden = true
     },
@@ -90,7 +86,7 @@ export default {
 
       if (key === 'DELETE') {
         this.$store.graph.removeSelected()
-	    } else
+	    } else {
         // accelerators not working properly on windows and macos
         // use global window events instead
         if (key === 'N' && evt.shiftKey && evt.ctrlKey) {
@@ -110,6 +106,7 @@ export default {
             this.$store.app.saveFileAs()
           }
         }
+      }
     },
   }
 }

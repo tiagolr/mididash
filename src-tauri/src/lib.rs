@@ -48,7 +48,6 @@ pub struct State {}
 #[serde(default)]
 pub struct Settings {
     pub project_path: String,
-    pub minimize_to_tray: bool,
     pub sidebar_width: u64,
     pub script_templates: Vec<Value>,
     pub script_show_line_numbers: bool,
@@ -127,11 +126,6 @@ pub fn run() {
                     },
                     "quit" => app.exit(0),
                     "show" => app::emit(EVT_WINDOW_SHOW, json!(null)),
-                    "minimize_to_tray" => {
-                        let mut settings = app::get_settings();
-                        settings.minimize_to_tray = !settings.minimize_to_tray;
-                        let _ = app::set_settings(settings);
-                    }
                     "about" => app::emit(EVT_SHOW_ABOUT, json!(null)),
                     _ => {}
                 }
@@ -174,33 +168,6 @@ pub fn run() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
-
-/* #[cfg(not(target_os = "macos"))]
-fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> {
-    let file_menu = SubmenuBuilder::new(app.handle(), "&File")
-        .item(&MenuItemBuilder::with_id("new", "New").build(app)?)
-        .item(&MenuItemBuilder::with_id("new_blank", "New Blank").build(app)?)
-        .separator()
-        .item(&MenuItemBuilder::with_id("open", "Open").build(app)?)
-        .item(&MenuItemBuilder::with_id("save", "Save").build(app)?)
-        .item(&MenuItemBuilder::with_id("save_as", "Save As").build(app)?)
-        .separator()
-        .item(&MenuItemBuilder::with_id("quit", "Quit").build(app)?)
-        .build()?;
-
-    let settings = app::get_settings();
-    let window_menu = SubmenuBuilder::new(app.handle(), "Window")
-        .item(&CheckMenuItem::with_id(app, "minimize_to_tray", "Close to tray", true, settings.minimize_to_tray, None::<String>)?)
-        .build()?;
-
-    let menu = MenuBuilder::new(app.handle())
-        .item(&file_menu)
-        .item(&window_menu)
-        .item(&MenuItemBuilder::with_id("about", "About").build(app)?)
-        .build()?;
-
-    Ok(menu)
-} */
 
 #[cfg(target_os = "macos")]
 fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> {

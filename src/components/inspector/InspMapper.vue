@@ -124,14 +124,14 @@ export default {
   margin-bottom: 8px;
 }
 .rule > div > div:first-child {
-  color: var(--copy-lighter);
+  color: var(--text-lighter);
   margin-bottom: 2px;
 }
 .rule-input:first-child {
   margin-right: 8px;
 }
 .label {
-  color: var(--copy-lighter);
+  color: var(--text-lighter);
   margin-bottom: 2px;
 }
 </style>

@@ -246,7 +246,7 @@ export default {
   cursor: move;
 }
 .list-item.disabled {
-  color: var(--copy-lighter);
+  color: var(--text-lighter);
 }
 .selected {
   box-shadow: inset 0px 0px 0px 1px var(--success-content);

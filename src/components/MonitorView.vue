@@ -336,7 +336,7 @@ export default {
 
     <div v-if="settingsVisible" class="settings" @wheel.stop>
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="btn-close" @click.stop="settingsVisible = false">
-        <path d="M16.875 7.125L7.125 16.875M7.125 7.125L16.875 16.875" stroke="var(--copy-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M16.875 7.125L7.125 16.875M7.125 7.125L16.875 16.875" stroke="var(--text-lighter)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
       <div class="font-lighter mb-05rem">Format</div>
       <div class="flex-center gap-4 mb-05rem">
@@ -416,16 +416,16 @@ export default {
   pointer-events: all;
 }
 
-.row.note-on { color: var(--green) }
-.row.note-off { color: var(--green-dark) }
-.row.cc { color: var(--orange) }
-.row.program-change { color: var(--blue) }
-.row.after-touch { color: var(--green-yellow) }
-.row.pitch { color: var(--red) }
-.row.system-common { color: var(--yellow) }
+.row.note-on { color: var(--monitor-green) }
+.row.note-off { color: var(--monitor-green-dark) }
+.row.cc { color: var(--monitor-orange) }
+.row.program-change { color: var(--monitor-blue) }
+.row.after-touch { color: var(--monitor-green-yellow) }
+.row.pitch { color: var(--monitor-red) }
+.row.system-common { color: var(--monitor-yellow) }
 
 .row.row-header {
-  color: var(--copy-lighter);
+  color: var(--text-lighter);
   padding-bottom: 5px;
   user-select: none;
   -webkit-user-select: none;

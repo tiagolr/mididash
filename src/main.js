@@ -1,4 +1,4 @@
-import './styles.styl'
+import './styles.css'
 import { path } from '@tauri-apps/api';
 import { createApp } from "vue";
 import { createPinia } from 'pinia';

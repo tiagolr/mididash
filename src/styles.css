@@ -1,27 +1,34 @@
 
 /*
-  COLORS
+  COLORS https://www.hover.dev/css-color-palette-generator
 */
 :root {
-  /* https://www.hover.dev/css-color-palette-generator */
-  --primary: #28727e;
+  --primary: #0071cc;
+  --primary-dark: #015192;
+  --primary-light: #7be0ff;
   --primary-content: #bbe3ea;
-  --primary-dark: #1c4f57;
-  --primary-light: #3495a5;
-
-  --secondary: #5f287e;
-  --secondary-content: #d9bbea;
-  --secondary-dark: #421c57;
-  --secondary-light: #7c34a5;
 
   --background: #181b1b;
   --foreground: #232829;
+  --foreground-dark: #151819;
+  --foreground-light: #31383A;
+  --foreground-lighter: #495252;
+  --foreground-alpha: #232829dd;
+  --foreground-light-alpha: #31383Acc;
   --border: #3b4345;
 
-  --copy-dark: #131313;
-  --copy: #fbfbfb;
-  --copy-light: #d6dbdc;
-  --copy-lighter: #9fabac;
+  --button: #637174;
+  --button-10: #7b8b8f;
+  --button-20: #97a3a6;
+  --button--10: #4c5658;
+  --button--20: #343b3d;
+  --button-primary: #015192;
+  --button-primary-10: #016dc5;
+  --button-primary-20: #0289f7;
+
+  --text: #fbfbfb;
+  --text-light: #d6dbdc;
+  --text-lighter: #9fabac;
 
   --success: #287e28;
   --warning: #7e7e28;
@@ -30,43 +37,33 @@
   --warning-content: #eaeabb;
   --error-content: #eabbbb;
 
-  --foreground-dark: #151819;
-  --foreground-light: #31383A;
-  --foreground-lighter: #495252;
-  --foreground-alpha: #232829dd;
-  --foreground-light-alpha: #31383Acc;
-
-  /* Monitor colors */
-  --blue: #67ADF3;
-  --blue-dark: #5187bd;
-  --orange: #FFAB2B;
-  --orange-dark: #b6720c;
-  --red: #D7414E;
-  --red-dark: #a0313a;
-  --green: #06cf28;
-  --green-dark: #059b1e;
-  --yellow: #fbff2b;
-  --yellow-dark: #c4c722;
-  --green-yellow: greenyellow;
-
-
   --panel-radius: 4px;
   --panel-padding: 8px;
   --node-radius: 4px;
   --port-size: 12px;
   --node-color: #5d6c6ed7;
   --port-color: #91a1a2;
-  // --edge-color: #7be0ff;
-  --edge-color: #7be0ff;
+  --edge-color: var(--primary-light);
   --port-connected-color: var(--edge-color) ;
   --edge-active-color: #f4484d;
   --port-active-color: var(--edge-active-color);
+
+  --monitor-blue: #67ADF3;
+  --monitor-blue-dark: #5187bd;
+  --monitor-orange: #FFAB2B;
+  --monitor-orange-dark: #b6720c;
+  --monitor-red: #D7414E;
+  --monitor-red-dark: #a0313a;
+  --monitor-green: #06cf28;
+  --monitor-green-dark: #059b1e;
+  --monitor-yellow: #fbff2b;
+  --monitor-yellow-dark: #c4c722;
+  --monitor-green-yellow: greenyellow;
 }
 
 /*
   RESET
 */
-
 *,
 *::before,
 *::after {
@@ -96,7 +93,7 @@ ol[role="list"] {
 
 body {
   min-height: 100vh;
-  color: var(--copy);
+  color: var(--text);
   background: var(--background);
   font-family:
     Inter,
@@ -111,7 +108,7 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif;
-  font-size: 14px; // this should be on root to set the rem units, however the style looks better as it is for now
+  font-size: 14px; /* this should be on root to set the rem units, however the style looks better as it is for now */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -128,8 +125,8 @@ body {
 */
 .button {
   all: unset;
-  background: #637174;
-  color: var(--copy);
+  background: var(--button);
+  color: var(--text);
   padding: 7px 12px;
   text-align: center;
   text-decoration: none;
@@ -144,30 +141,31 @@ body {
   cursor: not-allowed;
 }
 .button:hover:not(:disabled) {
-  background: lighten(#637174, 10%);
+  background: var(--button-10);
 }
 .button:active:not(:disabled) {
-  background: lighten(#637174, 20%);
+  background: var(--button-20);
 }
 .button.ghost {
   background: none;
-  border: 1px solid var(--copy-light);
+  border: 1px solid var(--text-light);
 }
 .button.ghost:hover:not(:disabled) {
-  background: darken(#637174, 10%)
+  background: var(--button--10);
 }
 .button.ghost:active:not(:disabled) {
-  background: #637174
+  background: var(--button)
 }
 .button.primary {
-  background: rgb(0, 94, 170);
+  background: var(--button-primary);
 }
 .button.primary:hover:not(:disabled) {
-  background: lighten(rgb(0, 94, 170), 10%);
+  background: var(--button-primary-10);
 }
 .button.primary:active:not(:disabled) {
-  background: lighten(rgb(0, 94, 170), 20%);
+  background: var(--button-primary-20);
 }
+
 a {
   color: var(--primary-content);
   text-decoration: none;
@@ -191,7 +189,7 @@ input.input {
   width: 100%;
   height: 2rem;
   width: 100%;
-  color: var(--copy);
+  color: var(--text);
   border-radius: 4px;
   box-sizing: border-box;
   outline: none;
@@ -202,14 +200,14 @@ input.input:disabled {
   opacity: 0.5;
 }
 input.input::placeholder {
-  color: var(--copy-lighter)
+  color: var(--text-lighter)
 }
 /* Base styles */
 input[type="radio"] {
   appearance: none; /* Remove default styles */
   width: 14px;
   height: 14px;
-  border: 1px solid var(--copy); /* Match accent color */
+  border: 1px solid var(--text); /* Match accent color */
   border-radius: 50%;
   outline: none;
   cursor: pointer;
@@ -247,7 +245,7 @@ input[type="radio"]:checked::after {
   background-size: 10px;
   padding-right: 30px;
   background-color: var(--foreground);
-  color: var(--copy);
+  color: var(--text);
   border: none;
   outline: none;
 }
@@ -290,7 +288,6 @@ input[type="radio"]:checked::after {
 .stretch {
   justify-self: stretch;
 }
-
 
 .mb-2 { margin-bottom: 2px; }
 .mb-4 { margin-bottom: 4px; }
@@ -345,9 +342,8 @@ input[type="radio"]:checked::after {
 .font-20 { font-size: 20px; }
 .font-24 { font-size: 24px; }
 .font-32 { font-size: 32px; }
-.font-gray { color: #616161; }
-.font-light { color: var(--copy-light) }
-.font-lighter { color: var(--copy-lighter) }
+.font-light { color: var(--text-light) }
+.font-lighter { color: var(--text-lighter) }
 
 .font-bold { font-weight: bold; }
 .font-semi { font-weight: 600; }
@@ -355,21 +351,14 @@ input[type="radio"]:checked::after {
 .text-left { text-align: left; }
 .text-center { text-align: center; }
 .text-right { text-align: right; }
-.font-gray { color: #616161; }
-.font-red { color: #FA0A60; }
-.font-purple { color: #730FE1; }
-.font-purple-dark { color: #540696; }
 .font-l { font-size: 1.1rem; }
 .font-xl { font-size: 1.25rem; }
 .font-xxl { font-size: 1.5rem; }
-
-
 
 .gap-1rem { gap: 1rem; }
 .gap-05rem { gap: 0.5rem; }
 .gap-025rem { gap: 0.25rem; }
 .gap-0125rem { gap: 0.125rem; }
-
 
 .gap-2 { gap: 2px; }
 .gap-4 { gap: 4px; }

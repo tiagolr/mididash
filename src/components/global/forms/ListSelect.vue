@@ -175,7 +175,7 @@ export default {
         width="20"
         height="20" viewBox="0 0 5.292 5.292" xmlns="http://www.w3.org/2000/svg" @click="showOptions()"
       >
-        <path style="fill:var(--copy-light);stroke:none;" d="m1.302 3.046-.525-.91-.526-.911H2.354l-.526.91z" transform="translate(.799 -.383) scale(1.41818)" />
+        <path style="fill:var(--text-light);stroke:none;" d="m1.302 3.046-.525-.91-.526-.911H2.354l-.526.91z" transform="translate(.799 -.383) scale(1.41818)" />
       </svg>
     </div>
     <div v-if="optionsVisible" ref="list" class="list" :class="alignTop && 'align-top'">
@@ -225,7 +225,7 @@ export default {
   position: relative;
   display: inline-block;
   height: 100%;
-  border: 1px solid var(--copy-light);
+  border: 1px solid var(--text-light);
   border-radius: 4px;
 }
 input {
@@ -236,16 +236,16 @@ input {
   width: 100%;
   height: 100%;
   border: none;
-  color: var(--copy)
+  color: var(--text)
 }
 input:disabled {
   opacity: 0.5;
 }
 input::placeholder {
-  color: var(--copy-lighter)
+  color: var(--text-lighter)
 }
 input.selected::placeholder {
-  color: var(--copy)
+  color: var(--text)
 }
 
 .list {
@@ -281,6 +281,7 @@ input.selected::placeholder {
 }
 
 .item.selected {
-  background: var(--primary);
+  background: var(--primary-light);
+  color: var(--background);
 }
 </style>

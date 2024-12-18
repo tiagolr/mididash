@@ -97,7 +97,7 @@ export default {
   box-shadow: none;
 }
 .item {
-  color: var(--copy);
+  color: var(--text);
   white-space: nowrap;
   display: flex;
   align-items: center;

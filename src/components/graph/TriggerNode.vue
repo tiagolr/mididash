@@ -154,7 +154,7 @@ export default {
 .key {
   height: 100%;
   outline: 1px solid var(--border);
-  background: var(--copy);
+  background: var(--text);
 }
 .key.white.keydown {
   background: #fcc;

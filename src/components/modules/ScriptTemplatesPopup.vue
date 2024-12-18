@@ -133,7 +133,7 @@ export default {
   display: block;
 }
 :deep(.i-arrow path) {
-  fill: var(--copy-light) !important;
+  fill: var(--text-light) !important;
 }
 .i-arrow-invert {
   transform: rotate(180deg);
