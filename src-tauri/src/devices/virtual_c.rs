@@ -82,7 +82,10 @@ impl Device for VirtualC {
         let out_ports = output.ports();
         let mut out_port = None;
 
+        #[cfg(target_os = "linux")]
         let re = Regex::new(&format!(r"^{}.*{}.*", PREFIX_VO, &self.id)).unwrap();
+        #[cfg(target_os = "macos")]
+        let re = Regex::new(&format!(r"^{}$", &self.id)).unwrap();
         for p in in_ports.iter() {
             if re.is_match(&input.port_name(p)?) {
                 in_port = Some(p.clone());
@@ -90,7 +93,10 @@ impl Device for VirtualC {
             }
         }
 
+        #[cfg(target_os = "linux")]
         let re = Regex::new(&format!(r"^{}.*{}.*", PREFIX_VI, &self.id)).unwrap();
+        #[cfg(target_os = "macos")]
+        let re = Regex::new(&format!(r"^{}$", &self.id)).unwrap();
         for p in out_ports.iter() {
             if re.is_match(&output.port_name(p)?) {
                 out_port = Some(p.clone());
