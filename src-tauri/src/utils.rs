@@ -178,14 +178,14 @@ pub fn get_valid_midi_ports() -> Result<MidiPorts, Box<dyn std::error::Error>> {
     let mut res_ins = Vec::new();
     let mut res_outs = Vec::new();
 
-    for destination in Destinations.into_iter() {
+    for destination in Sources.into_iter() {
         let pname = destination.display_name().unwrap_or_default();
         if !pname.is_empty() && !pname.starts_with(PREFIX_OUTPUT) && !pname.starts_with(PREFIX_O) && !pname.starts_with(PREFIX_VO) {
             res_ins.push(pname);
         }
     }
 
-    for source in Sources.into_iter() {
+    for source in Destinations.into_iter() {
         let pname = source.display_name().unwrap_or_default();
         if !pname.is_empty() && !pname.starts_with(PREFIX_INPUT) && !pname.starts_with(PREFIX_I) && !pname.starts_with(PREFIX_VI) {
             res_outs.push(pname);
