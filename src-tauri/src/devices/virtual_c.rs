@@ -55,8 +55,9 @@ impl Device for VirtualC {
         let output = MidiOutput::new(&self.out_id)?;
 
         // Virtual Output
+        let voconnid = PREFIX_VO.to_string() + &self.id;
         let voutput = MidiOutput::new(PREFIX_VO)?;
-        let mvoconn = Arc::new(Mutex::new(voutput.create_virtual(&self.id)?));
+        let mvoconn = Arc::new(Mutex::new(voutput.create_virtual(&voconnid)?));
         self.voconn = Some(Arc::clone(&mvoconn));
 
         // Virtual Input
@@ -64,9 +65,10 @@ impl Device for VirtualC {
         vinput.ignore(Ignore::None);
 
         // Virtual Input -> Virtual Output (midi through)
+        let viconnid = PREFIX_VI.to_string() + &self.id;
         let mvoconn_clone = Arc::clone(&mvoconn);
         self.viconn = Some(Mutex::new(vinput.create_virtual(
-            &self.id,
+            &viconnid,
             move |_, bytes, _| {
                 let mut conn = mvoconn_clone.lock().unwrap();
                 if let Err(e) = conn.send(bytes) { // midi through
@@ -82,10 +84,7 @@ impl Device for VirtualC {
         let out_ports = output.ports();
         let mut out_port = None;
 
-        #[cfg(target_os = "linux")]
-        let re = Regex::new(&format!(r"^{}.*{}.*", PREFIX_VO, &self.id)).unwrap();
-        #[cfg(target_os = "macos")]
-        let re = Regex::new(&format!(r"^{}$", &self.id)).unwrap();
+        let re = Regex::new(&format!(r"{}", voconnid)).unwrap();
         for p in in_ports.iter() {
             if re.is_match(&input.port_name(p)?) {
                 in_port = Some(p.clone());
@@ -93,10 +92,7 @@ impl Device for VirtualC {
             }
         }
 
-        #[cfg(target_os = "linux")]
-        let re = Regex::new(&format!(r"^{}.*{}.*", PREFIX_VI, &self.id)).unwrap();
-        #[cfg(target_os = "macos")]
-        let re = Regex::new(&format!(r"^{}$", &self.id)).unwrap();
+        let re = Regex::new(&format!(r"{}", viconnid)).unwrap();
         for p in out_ports.iter() {
             if re.is_match(&output.port_name(p)?) {
                 out_port = Some(p.clone());
@@ -105,13 +101,7 @@ impl Device for VirtualC {
         }
 
         if in_port.is_none() {
-            let mut pname = "".to_string();
-            if in_ports.len() > 0 {
-                let p = &input.port_name(&in_ports[0])?;
-                pname = p.to_string();
-            }
-            Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, format!("VC Output not found {} {}",in_ports.len(), pname))))?
-            // Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, "Virtual cable init failed virtual output port not found")))?
+            Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, "Virtual cable init failed virtual output port not found")))?
         }
 
         if out_port.is_none() {
