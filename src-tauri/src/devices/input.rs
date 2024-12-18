@@ -63,14 +63,8 @@ impl Device for Input {
             }
         }
         if !found {
-            // let str = String::from("Device port not found ") + &self.id;
-            if ports.len() > 0 {
-                let str = format!("WOW {}", &input.port_name(&ports[0])?);
-                Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, str)))?;
-            } else {
-                let str = format!("000 {}", ports.len());
-                Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, str)))?;
-            }
+            let str = String::from("Device port not found ") + &self.id;
+            Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, str)))?;
         }
         let port = &ports[idx];
         let id = self.id.clone();
