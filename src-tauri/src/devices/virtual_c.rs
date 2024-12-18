@@ -99,7 +99,13 @@ impl Device for VirtualC {
         }
 
         if in_port.is_none() {
-            Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, "Virtual cable init failed virtual output port not found")))?
+            let mut pname = "".to_string();
+            if in_ports.len() > 0 {
+                let p = &input.port_name(&in_ports[0])?;
+                pname = p.to_string();
+            }
+            Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, format!("VC Output not found {} {}",in_ports.len(), pname))))?
+            // Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, "Virtual cable init failed virtual output port not found")))?
         }
 
         if out_port.is_none() {

@@ -35,7 +35,7 @@ export default {
       <h1 class="text-center">
         Mididash
       </h1>
-      <div style="margin: 1rem 0; display: flex; justify-content: center; gap: 8px">
+      <div class="links">
         <a href="https://github.com/tiagolr/mididash/releases">
           <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="">
         </a>
@@ -46,8 +46,10 @@ export default {
           <img src="https://img.shields.io/badge/MACOS-adb8c5?style=for-the-badge&logo=macos&logoColor=white" alt="">
         </a>
       </div>
-      <div style="margin: 1rem 0; display: flex; justify-content: center; gap: 8px">
-        <img src="https://img.shields.io/github/v/release/tiagolr/mididash?color=%40&label=latest" alt="">
+      <div class="links">
+        <a href="https://github.com/tiagolr/mididash/releases">
+          <img src="https://img.shields.io/github/v/release/tiagolr/mididash?color=%40&label=latest" alt="">
+        </a>
         <img src="https://img.shields.io/github/issues-raw/tiagolr/mididash" alt="">
         <img src="https://img.shields.io/github/license/tiagolr/mididash">
       </div>
@@ -258,5 +260,14 @@ code {
   padding: 4px;
   border-radius: 8px;
   /* background: var(--background); */
+}
+.links {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.links > a {
+  line-height: 0;
 }
 </style>

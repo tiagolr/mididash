@@ -8,7 +8,7 @@ use tauri::{tray::{TrayIconBuilder, TrayIconEvent}, Builder, Manager};
 #[cfg(target_os = "linux")]
 use tauri::menu::{MenuBuilder, MenuItemBuilder};
 #[cfg(target_os = "macos")]
-use tauri::menu::{ MenuBuilder, MenuItemBuilder, CheckMenuItem, Menu, SubmenuBuilder };
+use tauri::menu::{ MenuBuilder, MenuItemBuilder, Menu, SubmenuBuilder };
 use tauri_plugin_store::StoreExt;
 
 pub mod globals;

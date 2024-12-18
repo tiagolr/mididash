@@ -66,7 +66,7 @@ export default {
     <div class="font-lighter mt-1rem">
       Inputs
     </div>
-    <div class="list panel mt-025rem">
+    <div v-if="inputs.length" class="list panel mt-025rem">
       <div class="overflow">
         <div
           v-for="input in inputs" :key="input"
@@ -88,7 +88,7 @@ export default {
     <div class="font-lighter mt-1rem">
       Outputs
     </div>
-    <div class="list panel mt-025rem">
+    <div v-if="outputs.length" class="list panel mt-025rem">
       <div class="overflow">
         <div
           v-for="output in outputs" :key="output"
