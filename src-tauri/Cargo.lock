@@ -2065,8 +2065,9 @@ dependencies = [
 
 [[package]]
 name = "mididash"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
+ "coremidi",
  "lazy_static",
  "midir",
  "mlua",

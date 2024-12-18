@@ -3,6 +3,8 @@ use std::collections::HashMap;
 use midir::{MidiInput, MidiOutput};
 use once_cell::sync::Lazy;
 use serde::Serialize;
+#[cfg(target_os = "macos")]
+use coremidi::{Destinations, Sources};
 
 use crate::globals::PREFIX_INPUT;
 use crate::globals::PREFIX_OUTPUT;
@@ -141,6 +143,7 @@ pub fn parse_midi(bytes: Vec<u8>, sysex: &mut Vec<u8>) -> Vec<(&'static str, u8,
 /**
  * Get midi ports that were not created by this application
  */
+#[cfg(not(target_os = "macos"))]
 pub fn get_valid_midi_ports() -> Result<MidiPorts, Box<dyn std::error::Error>> {
     let input = MidiInput::new("")?;
     let output = MidiOutput::new("")?;
@@ -165,8 +168,33 @@ pub fn get_valid_midi_ports() -> Result<MidiPorts, Box<dyn std::error::Error>> {
     }
 
     Ok(MidiPorts {
-        inputs: res_ins.clone(),
-        outputs: res_outs.clone()
+        inputs: res_ins,
+        outputs: res_outs
+    })
+}
+
+#[cfg(target_os = "macos")]
+pub fn get_valid_midi_ports() -> Result<MidiPorts, Box<dyn std::error::Error>> {
+    let mut res_ins = Vec::new();
+    let mut res_outs = Vec::new();
+
+    for destination in Destinations.into_iter() {
+        let pname = destination.display_name().unwrap_or_default();
+        if !pname.is_empty() && !pname.starts_with(PREFIX_OUTPUT) && !pname.starts_with(PREFIX_O) && !pname.starts_with(PREFIX_VO) {
+            res_ins.push(pname);
+        }
+    }
+
+    for source in Sources.into_iter() {
+        let pname = source.display_name().unwrap_or_default();
+        if !pname.is_empty() && !pname.starts_with(PREFIX_INPUT) && !pname.starts_with(PREFIX_I) && !pname.starts_with(PREFIX_VI) {
+            res_outs.push(pname);
+        }
+    }
+
+    Ok(MidiPorts {
+        inputs: res_ins,
+        outputs: res_outs
     })
 }
 
