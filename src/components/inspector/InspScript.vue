@@ -195,7 +195,7 @@ export default {
   </div>
   <div class="font-lighter mt-1rem mb-025rem flex-center">
     <div>Script</div>
-    <i-config class="flex-right icon-clear" @click="toggleScriptMenu">
+    <i-config class="flex-right icon icon-clear" @click="toggleScriptMenu">
     </i-config>
     <context-menu
       v-if="scriptMenu.visible"
@@ -235,7 +235,7 @@ export default {
   <div class="font-lighter mt-1rem mb-025rem flex-center">
     <div>Logs</div>
     <div class="flex-right">
-      <i-broom class="icon-clear" @click="clearLogs">
+      <i-broom class="icon icon-clear" @click="clearLogs">
       </i-broom>
     </div>
   </div>
@@ -297,6 +297,9 @@ input {
   width: 17px;
   height: 17px;
   cursor: pointer;
+}
+:deep(.icon path) {
+  fill: var(--text);
 }
 .icon-remove {
   width: 17px;

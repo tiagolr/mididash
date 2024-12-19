@@ -22,7 +22,12 @@
 
 Mididash is an open source MIDI routing software with a node-based dashboard and Lua scripting. A modern take on programs like [MIDI-OX](http://www.midiox.com).
 
-![Screenshot](./src-assets/ss.png)
+<div align="center">
+
+![Screenshot](./src-assets/ss-dark.png)
+![Screenshot](./src-assets/ss-light.png)
+
+</div>
 
 ### Features
 

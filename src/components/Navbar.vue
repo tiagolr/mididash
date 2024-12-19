@@ -6,7 +6,7 @@ import IMonitorOut from '../assets/monitor-out.svg'
 import ContextMenu from './global/ContextMenu.vue'
 import IPlay from '../assets/play.svg'
 import IPause from '../assets/pause.svg'
-import ILogo from '../assets/logo.svg'
+import IGear from '../assets/gear.svg'
 import IMinimize from '../assets/minimize.svg'
 import IMoon from '../assets/moon.svg'
 import ISun from '../assets/sun.svg'
@@ -17,7 +17,7 @@ export default {
     ContextMenu,
     IPlay,
     IPause,
-    ILogo,
+    IGear,
     IMinimize,
     IMoon,
     ISun,
@@ -87,8 +87,8 @@ export default {
   <div class="navbar select-none" :class="isUserDragging && 'dragging'">
     <div class="left">
       <div class="nav-button" :class="mainMenu && 'active'" @click="mainMenu = !mainMenu">
-        <i-logo class="icon logo">
-        </i-logo>
+        <i-gear class="icon" style="transform: scale(0.95)">
+        </i-gear>
         <context-menu
           v-if="mainMenu"
           :items="menuItems"

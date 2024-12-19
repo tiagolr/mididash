@@ -253,7 +253,7 @@ export default {
   border-radius: var(--node-radius);
 }
 .selected .outline {
-  outline: 3px solid var(--edge-color)
+  box-shadow: 0px 0px 0px 3px var(--edge-color);
 }
 .header {
   background: var(--node-color);

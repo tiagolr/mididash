@@ -301,7 +301,7 @@ export default {
   /* margin-bottom: -20px; */
   flex-shrink: 0;
 }
-:deep .icon path {
+:deep(.icon path), :deep(.icon-config path) {
   fill: var(--text) !important;
 }
 .icon.disabled {

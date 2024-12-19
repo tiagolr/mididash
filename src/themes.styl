@@ -140,7 +140,7 @@ body .light, .popup.light {
   --node-color: c-node
   --input-color: darken(saturation(c-node, 0), 10)
   --output-color: darken(saturation(c-node, 0), 10)
-  --virtual-color: saturation(c-node, 0)
+  --virtual-color: darken(saturation(c-node, 0), 10)
   --split-color: c-node
   --map-color: hue(c-node, -15)
   --delay-color: lighten(saturation(c-node,0), 10)
@@ -158,17 +158,17 @@ body .light, .popup.light {
   --grid-major-line: #00000020;
   --trigger-black-keys: darken(c-background, 60);
 
-  --monitor-blue: #67ADF3;
-  --monitor-blue-dark: #5187bd;
-  --monitor-orange: #FFAB2B;
-  --monitor-orange-dark: #b6720c;
-  --monitor-red: #D7414E;
-  --monitor-red-dark: #a0313a;
-  --monitor-green: #06cf28;
-  --monitor-green-dark: #059b1e;
-  --monitor-yellow: #fbff2b;
-  --monitor-yellow-dark: #c4c722;
-  --monitor-green-yellow: greenyellow;
+  --monitor-blue: darken(#67ADF3, 20);
+  --monitor-blue-dark: darken(#5187bd, 20);
+  --monitor-orange: darken(#FFAB2B, 20);
+  --monitor-orange-dark: darken(#b6720c, 20);
+  --monitor-red: darken(#D7414E, 20);
+  --monitor-red-dark: darken(#a0313a, 20);
+  --monitor-green: darken(#06cf28, 20);
+  --monitor-green-dark: darken(#059b1e, 20);
+  --monitor-yellow: darken(#fbff2b, 20);
+  --monitor-yellow-dark: darken(#c4c722, 20);
+  --monitor-green-yellow: darken(#adff2f, 20);
 
   --scrollbar: #0003;
 
