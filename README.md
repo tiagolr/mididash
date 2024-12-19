@@ -24,8 +24,8 @@ Mididash is an open source MIDI routing software with a node-based dashboard and
 
 <div align="center">
 
-<img src="./src-assets/ss-dark.png" style="width: 49%">
-<img src="./src-assets/ss-light.png" style="width: 49%">
+![Screenshot](./src-assets/ss-dark.png)
+<!-- ![Screenshot](./src-assets/ss-light.png) -->
 
 </div>
 
