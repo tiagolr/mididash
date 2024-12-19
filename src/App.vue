@@ -37,18 +37,18 @@ export default {
 
     setInterval(this.$store.app.getMidiPorts, 2500)
     this.$store.app.getMidiPorts()
-    this.$store.graph.init()
-    this.$store.app.init()
 
     document.addEventListener('keydown', this.onGlobalKeydown)
     if (!import.meta.env.DEV) {
       document.addEventListener('contextmenu', (e) => { e.preventDefault() }) // stop right click menus
     }
   },
-  async mounted () {
+  async beforeMount () {
+    this.$store.graph.init()
+    await this.$store.app.init()
     await this.$store.app.onProjectNew() // fetch initial project and settings
     if (import.meta.env.DEV) {
-      // await invoke('new_devices_project') // fix hot reloading by resetting to a new project
+      await invoke('new_devices_project') // fix hot reloading by resetting to a new project
     }
   },
   beforeUnmount () {

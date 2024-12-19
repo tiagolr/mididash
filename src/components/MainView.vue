@@ -65,10 +65,10 @@ export default {
       this.$refs.sidebar.offset = w
     },
     '$store.app.settings.monitorIn' (m) {
-      this.monitorIn = {...m}
+      Object.assign(this.monitorIn, JSON.parse(JSON.stringify(m)))
     },
     '$store.app.settings.monitorOut' (m) {
-      this.monitorOut = {...m}
+      Object.assign(this.monitorOut, JSON.parse(JSON.stringify(m)))
     },
   },
   beforeMount () {

@@ -107,6 +107,7 @@ export const MAPPER_MSGS = [
 
 export const DEFAULT_SCRIPT_TEMPLATES = [
   {
+    id: 'mdash-basic', // ids identify default templates allowing for updates
     name: 'Basic',
     outPorts: ['out'],
     script:
@@ -149,6 +150,7 @@ otherwise nothing happens.
 ]]`
   },
   {
+    id: 'mdash-filter',
     name: 'Filter',
     outPorts: ['noteon', 'other'],
     script:
@@ -168,6 +170,7 @@ else
 end`
   },
   {
+    id: 'mdash-rotator',
     name: 'Rotator',
     outPorts: ['out'],
     script:

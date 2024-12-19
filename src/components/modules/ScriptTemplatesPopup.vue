@@ -40,7 +40,7 @@ export default {
     restoreDefaults () {
       const defaults = JSON.parse(JSON.stringify(DEFAULT_SCRIPT_TEMPLATES))
       defaults.forEach(d => {
-        if (!this.templates.find(dd => dd.name === d.name)) {
+        if (!this.templates.find(dd => dd.id === d.id)) {
           this.templates.push(d)
         }
       })

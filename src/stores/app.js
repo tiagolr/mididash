@@ -41,8 +41,18 @@ export default defineStore('app', {
       await this.getSettings()
       if (!this.settings.scriptTemplates?.length) {
         this.settings.scriptTemplates = JSON.parse(JSON.stringify(DEFAULT_SCRIPT_TEMPLATES))
-        await this.setSettings(this.settings)
+      } else {
+        this.settings.scriptTemplates
+          .filter(t => t.id)
+          .forEach(t => {
+            // update default templates using latest version from DEFAULT_SCRIPT_TEMPLATES
+            const index = DEFAULT_SCRIPT_TEMPLATES.find(tt => tt.id === t.id)
+            if (index > -1) {
+              Object.assign(t, JSON.parse(JSON.stringify(DEFAULT_SCRIPT_TEMPLATES[index])))
+            }
+          })
       }
+      await this.setSettings({})
     },
 
     async newDevicesProject () {
@@ -68,7 +78,7 @@ export default defineStore('app', {
 
     toggleTheme () {
       this.setSettings({
-        theme: (!this.settings.theme || this.settings.theme === 'light') ? 'dark' : 'light'
+        theme: (!this.settings.theme || this.settings.theme === 'dark') ? 'light' : 'dark'
       })
     },
 
