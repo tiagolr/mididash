@@ -8,6 +8,8 @@ import IPlay from '../assets/play.svg'
 import IPause from '../assets/pause.svg'
 import ILogo from '../assets/logo.svg'
 import IMinimize from '../assets/minimize.svg'
+import IMoon from '../assets/moon.svg'
+import ISun from '../assets/sun.svg'
 export default {
   components: {
     IMonitorIn,
@@ -17,6 +19,8 @@ export default {
     IPause,
     ILogo,
     IMinimize,
+    IMoon,
+    ISun,
   },
   emits: [
     'minimize-to-tray'
@@ -82,8 +86,8 @@ export default {
 <template>
   <div class="navbar select-none" :class="isUserDragging && 'dragging'">
     <div class="left">
-      <div class="nav-button" :class="mainMenu && 'active'" title="Menu" @click="mainMenu = !mainMenu">
-        <i-logo class="icon">
+      <div class="nav-button" :class="mainMenu && 'active'" @click="mainMenu = !mainMenu">
+        <i-logo class="icon logo">
         </i-logo>
         <context-menu
           v-if="mainMenu"
@@ -121,6 +125,12 @@ export default {
       </div>
     </div>
     <div class="right">
+      <div class="nav-button" @click="$store.app.toggleTheme">
+        <i-moon v-if="$store.app.isLightTheme" class="icon">
+        </i-moon>
+        <i-sun v-else class="icon">
+        </i-sun>
+      </div>
       <div class="nav-button" title="Minimize to tray" @click="$emit('minimize-to-tray')">
         <i-minimize class="icon">
         </i-minimize>
@@ -162,6 +172,16 @@ export default {
 .nav-button .icon {
   width: 26px;
   height: 26px;
+}
+
+:deep(.nav-button .icon path) {
+  fill: var(--text) !important;
+}
+:deep(.nav-button .icon.logo path:first-child) {
+  fill: var(--text) !important
+}
+:deep(.nav-button .icon.logo path:last-child) {
+  fill: var(--background) !important;
 }
 /* :deep(.icon.monitor-in path) {
   fill: var(--error-content) !important;

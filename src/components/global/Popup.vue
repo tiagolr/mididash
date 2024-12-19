@@ -16,7 +16,13 @@ export default {
 
 <template>
   <Teleport to="body">
-    <div ref="popup" class="popup" tabindex="0" @keydown.esc.prevent.stop="$emit('close')">
+    <div
+      ref="popup"
+      class="popup"
+      :class="$store.app.settings.theme || 'light'"
+      tabindex="0"
+      @keydown.esc.prevent.stop="$emit('close')"
+    >
       <div class="background" @click="() => $emit('close')">
       </div>
       <div class="content" :style="styles?.content">

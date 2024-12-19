@@ -133,12 +133,12 @@ export default {
       :init="($store.app.settings.sidebarWidth || 250) + 'px'"
       min="100px"
       max="calc(100% - 100px)"
-      :gap="2"
+      :gap="0"
       class="overflow"
       @drag-stop="saveSettings"
     >
       <template #A>
-        <graph-view class="panel panel-dark">
+        <graph-view class="panel panel-dark" style="border-radius: 0">
         </graph-view>
       </template>
       <template #B>
@@ -302,6 +302,9 @@ export default {
 }
 :deep(.monitor-out .icon.icon-mout path) {
   fill: var(--primary-content) !important;
+}
+:deep(.icon path) {
+  fill: var(--text) !important;
 }
 .panel-dark {
   background: var(--foreground-dark);

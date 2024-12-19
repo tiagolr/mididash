@@ -1,0 +1,184 @@
+/*
+  COLORS
+*/
+:root {
+  c-primary-highlight = #7be0ff
+  c-background = #181b1c
+  c-node = alpha(lighten(c-background, 35), 0.9)
+  c-text = #fafbfb
+
+  --primary: darken(c-primary-highlight, 40);
+  --primary-dark: darken(c-primary-highlight, 50);
+  --primary-darker: darken(c-primary-highlight, 60);
+  --primary-highlight: c-primary-highlight;
+  --primary-content: lighten(c-primary-highlight, 18);
+
+  --viewport: #fefefe05;
+  --background: c-background;
+  --foreground: lighten(c-background, 5);
+  --foreground-dark: c-background;
+  --foreground-light: lighten(c-background, 10);
+  --foreground-lighter: lighten(c-background, 20);
+  --foreground-alpha: alpha(lighten(c-background, 5), 0.9);
+  --foreground-light-alpha: alpha(lighten(c-background, 10), 0.9);
+  --border: lighten(c-background, 15);
+  --input: lighten(c-background, 5);
+
+  --button: lighten(c-background, 32);
+  --button-10: lighten(c-background, 42);
+  --button-20: lighten(c-background, 52);
+  --button--10: ligthen(c-background, 22);
+  --button--20: ligthen(c-background, 12);
+  --button-primary: var(--primary);
+  --button-primary-10: var(--primary-dark);
+  --button-primary-20: var(--primary-darker);
+
+  --text: c-text;
+  --text-invert: invert(c-text);
+  --text-light: darken(c-text, 15);
+  --text-lighter: darken(c-text, 30);
+
+  --success: #287e28;
+  --warning: #7e7e28;
+  --error: #7e2828;
+  --success-content: #bbeabb;
+  --warning-content: #eaeabb;
+  --error-content: #eabbbb;
+
+  --panel-radius: 4px;
+  --panel-padding: 8px;
+  --node-radius: 4px;
+  --port-size: 12px;
+  --node-header: c-text;
+  --node-color: c-node
+  --input-color: c-node
+  --output-color: c-node
+  --virtual-color: c-node
+  --split-color: c-node
+  --map-color: c-node
+  --delay-color: c-node
+  --monitor-color: c-node
+  --trigger-color: c-node
+  --note-color: c-node
+  --script-color: c-node
+
+  --port-color: lighten(c-background, 60);
+  --edge-color: c-primary-highlight;
+  --port-connected-color: var(--edge-color) ;
+  --edge-active-color: #f4484d;
+  --port-active-color: var(--edge-active-color);
+  --grid-line: #fff1;
+  --grid-major-line: #fff2;
+  --trigger-black-keys: var(--border);
+
+  --monitor-blue: #67ADF3;
+  --monitor-blue-dark: #5187bd;
+  --monitor-orange: #FFAB2B;
+  --monitor-orange-dark: #b6720c;
+  --monitor-red: #D7414E;
+  --monitor-red-dark: #a0313a;
+  --monitor-green: #06cf28;
+  --monitor-green-dark: #059b1e;
+  --monitor-yellow: #fbff2b;
+  --monitor-yellow-dark: #c4c722;
+  --monitor-green-yellow: greenyellow;
+
+  --scrollbar: #fff3;
+}
+/*
+  LIGHT THEME
+*/
+body .light, .popup.light {
+  c-primary-highlight = darken(#7be0ff, 30)
+  c-background = #e6e6e5
+  c-node = hue(saturation(alpha(darken(c-background, 40), 0.9) 40) 0)
+  c-text = invert(#fafbfb)
+
+  --primary: lighten(c-primary-highlight, 10);
+  --primary-dark: darken(c-primary-highlight, 0);
+  --primary-darker: darken(c-primary-highlight, 10);
+  --primary-highlight: c-primary-highlight;
+  --primary-content: darken(c-primary-highlight, 18);
+
+  --viewport: #01010100;
+  --background: c-background;
+  --foreground: darken(c-background, 10);
+  --foreground-dark: c-background;
+  --foreground-light: darken(c-background, 5);
+  --foreground-lighter: darken(c-background, 15);
+  --foreground-alpha: alpha(darken(c-background, 5), 0.9);
+  --foreground-light-alpha: alpha(darken(c-background, 10), 0.9);
+  --border: darken(c-background, 25);
+  --input: lighten(c-background, 0);
+
+  --button: darken(c-background, 20);
+  --button-10: darken(c-background, 30);
+  --button-20: darken(c-background, 40);
+  --button--10: darken(c-background, 22);
+  --button--20: darken(c-background, 12);
+  --button-primary: var(--primary);
+  --button-primary-10: var(--primary-dark);
+  --button-primary-20: var(--primary-darker);
+
+  --text: c-text;
+  --text-invert: invert(c-text);
+  --text-light: lighten(c-text, 15);
+  --text-lighter: lighten(c-text, 30);
+
+  --success: lighten(#287e28, 40);
+  --warning: lighten(#7e7e28, 40);
+  --error: lighten(#7e2828, 40);
+  --success-content: #287e28;
+  --warning-content: #7e7e28;
+  --error-content: #7e2828;
+
+  --panel-radius: 4px;
+  --panel-padding: 8px;
+  --node-radius: 4px;
+  --port-size: 12px;
+  --node-header: invert(c-text)
+  --node-color: c-node
+  --input-color: darken(saturation(c-node, 0), 10)
+  --output-color: darken(saturation(c-node, 0), 10)
+  --virtual-color: saturation(c-node, 0)
+  --split-color: c-node
+  --map-color: hue(c-node, -15)
+  --delay-color: lighten(saturation(c-node,0), 10)
+  --monitor-color: hue(c-node, 30)
+  --trigger-color: hue(c-node, 130)
+  --note-color: hue(c-node, 50)
+  --script-color: hue(c-node, 210)
+
+  --port-color: darken(c-background, 30);
+  --edge-color: c-primary-highlight;
+  --port-connected-color: var(--edge-color) ;
+  --edge-active-color: #f4484d;
+  --port-active-color: var(--edge-active-color);
+  --grid-line: #00000015;
+  --grid-major-line: #00000020;
+  --trigger-black-keys: darken(c-background, 60);
+
+  --monitor-blue: #67ADF3;
+  --monitor-blue-dark: #5187bd;
+  --monitor-orange: #FFAB2B;
+  --monitor-orange-dark: #b6720c;
+  --monitor-red: #D7414E;
+  --monitor-red-dark: #a0313a;
+  --monitor-green: #06cf28;
+  --monitor-green-dark: #059b1e;
+  --monitor-yellow: #fbff2b;
+  --monitor-yellow-dark: #c4c722;
+  --monitor-green-yellow: greenyellow;
+
+  --scrollbar: #0003;
+
+  color: var(--text);
+
+  .button.primary {
+    background: var(--primary-darker);
+    color: invert(c-text)
+  }
+  .button.primary:hover {
+    background: var(--primary-dark);
+  }
+}

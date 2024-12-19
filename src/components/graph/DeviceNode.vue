@@ -257,6 +257,7 @@ export default {
 }
 .header {
   background: var(--node-color);
+  color: var(--node-header);
   font-weight: 600;
   padding: 0px 8px;
   height: 32px;
@@ -306,6 +307,11 @@ export default {
   -webkit-user-drag: none;
   user-drag: none;
 }
+
+:deep(.header .icon path) {
+  fill: var(--node-header) !important;
+}
+
 .collapsed .header {
   border-bottom-left-radius: var(--node-radius);
   border-bottom-right-radius: var(--node-radius);

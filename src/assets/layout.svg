@@ -1,16 +1,12 @@
 <svg width="23.664" height="23.664" viewBox="0 0 6.261 6.261" xml:space="preserve"
   xmlns="http://www.w3.org/2000/svg">
-  <g transform="matrix(.99995 0 0 1.00896 -201.93 -60.204)" style="stroke-width:.995575">
-    <rect style="opacity:1;fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="1.582" height="1.582" x="204.279" y="59.669" ry=".172"/>
-    <rect style="opacity:1;fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="1.582" height="1.582" x="204.279" y="61.981" ry=".172"/>
-    <rect style="opacity:1;fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="1.582" height="1.582" x="204.279" y="64.293" ry=".172"/>
+  <g style="stroke-width:.995575">
+    <path style="opacity:1;fill:#f8f8f8;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;paint-order:stroke fill markers" d="M204.451 59.669h1.238c.095 0 .172.077.172.172v1.238a.172.172 0 0 1-.172.172h-1.238a.172.172 0 0 1-.172-.172v-1.238c0-.095.077-.172.172-.172zM204.451 61.981h1.238c.095 0 .172.077.172.172v1.238a.172.172 0 0 1-.172.172h-1.238a.172.172 0 0 1-.172-.172v-1.238c0-.095.077-.172.172-.172zM204.451 64.293h1.238c.095 0 .172.077.172.172v1.238a.172.172 0 0 1-.172.172h-1.238a.172.172 0 0 1-.172-.172v-1.238c0-.095.077-.172.172-.172z" transform="matrix(.99995 0 0 1.00896 -201.93 -60.204)"/>
   </g>
-  <g transform="matrix(.99995 0 0 1.00896 -202.388 -60.158)" style="stroke-width:.995575">
-    <rect style="opacity:1;fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="1.582" height="1.582" x="207.078" y="60.856" ry=".172"/>
-    <rect style="opacity:1;fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="1.582" height="1.582" x="207.078" y="63.016" ry=".172"/>
+  <g style="stroke-width:.995575">
+    <path style="opacity:1;fill:#f8f8f8;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;paint-order:stroke fill markers" d="M207.25 60.856h1.238c.095 0 .172.077.172.172v1.238a.172.172 0 0 1-.172.172h-1.238a.172.172 0 0 1-.172-.172v-1.238c0-.095.077-.172.172-.172zM207.25 63.016h1.238c.095 0 .172.077.172.172v1.238a.172.172 0 0 1-.172.172h-1.238a.172.172 0 0 1-.172-.172v-1.238c0-.095.077-.172.172-.172z" transform="matrix(.99995 0 0 1.00896 -202.388 -60.158)"/>
   </g>
-  <g transform="matrix(.99995 0 0 1.00896 -201.593 -60.158)" style="stroke-width:.995575">
-    <rect style="opacity:1;fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="1.582" height="1.582" x="201.602" y="63.016" ry=".172"/>
-    <rect style="opacity:1;fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="1.582" height="1.582" x="201.602" y="60.856" ry=".172"/>
+  <g style="stroke-width:.995575">
+    <path style="opacity:1;fill:#f8f8f8;stroke-width:1.06029;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:5.2;paint-order:stroke fill markers" d="M201.774 63.016h1.238c.095 0 .172.077.172.172v1.238a.172.172 0 0 1-.172.172h-1.238a.172.172 0 0 1-.172-.172v-1.238c0-.095.077-.172.172-.172zM201.774 60.856h1.238c.095 0 .172.077.172.172v1.238a.172.172 0 0 1-.172.172h-1.238a.172.172 0 0 1-.172-.172v-1.238c0-.095.077-.172.172-.172z" transform="matrix(.99995 0 0 1.00896 -201.593 -60.158)"/>
   </g>
 </svg>

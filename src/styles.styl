@@ -1,84 +1,5 @@
 
-/*
-  COLORS
-*/
-:root {
-  c-primary-highlight = #7be0ff
-  c-background = #181b1c
-  c-node = alpha(saturation(lighten(c-background, 35), 0%) 0.85)
-  c-text = #fafbfb
-
-  --primary: darken(c-primary-highlight, 40);
-  --primary-dark: darken(c-primary-highlight, 50);
-  --primary-darker: darken(c-primary-highlight, 60);
-  --primary-highlight: c-primary-highlight;
-  --primary-content: lighten(c-primary-highlight, 18);
-
-  --background: c-background;
-  --foreground: lighten(c-background, 5);
-  --foreground-dark: c-background;
-  --foreground-light: lighten(c-background, 10);
-  --foreground-lighter: lighten(c-background, 20);
-  --foreground-alpha: alpha(lighten(c-background, 5), 0.85);
-  --foreground-light-alpha: alpha(lighten(c-background, 10), 0.85);
-  --border: lighten(c-background, 15);
-
-  --button: lighten(c-background, 32);
-  --button-10: lighten(c-background, 42);
-  --button-20: lighten(c-background, 52);
-  --button--10: ligthen(c-background, 22);
-  --button--20: ligthen(c-background, 12);
-  --button-primary: var(--primary);
-  --button-primary-10: var(--primary-dark);
-  --button-primary-20: var(--primary-darker);
-
-  --text: c-text;
-  --text-light: darken(c-text, 15);
-  --text-lighter: darken(c-text, 30);
-
-  --success: #287e28;
-  --warning: #7e7e28;
-  --error: #7e2828;
-  --success-content: #bbeabb;
-  --warning-content: #eaeabb;
-  --error-content: #eabbbb;
-
-  --panel-radius: 4px;
-  --panel-padding: 8px;
-  --node-radius: 4px;
-  --port-size: 12px;
-  --node-color: saturation(c-node, 0);
-  --input-color: saturation(hue(c-node, 0),0);
-  --output-color: saturation(hue(c-node, 200), 0);
-  --virtual-color: saturation(hue(c-node, 100), 0);
-  --split-color: hue(c-node, 0);
-  --map-color: hue(c-node, 0);
-  --delay-color: hue(c-node, 200);
-  --monitor-color: hue(c-node, 30);
-  --trigger-color: hue(c-node, 150);
-  --note-color: hue(c-node, 60);
-  --script-color: hue(c-node, 210);
-
-  --port-color: lighten(c-background, 60);
-  --edge-color: c-primary-highlight;
-  --port-connected-color: var(--edge-color) ;
-  --edge-active-color: #f4484d;
-  --port-active-color: var(--edge-active-color);
-  --grid-line: #fff1;
-  --grid-major-line: #fff2;
-
-  --monitor-blue: #67ADF3;
-  --monitor-blue-dark: #5187bd;
-  --monitor-orange: #FFAB2B;
-  --monitor-orange-dark: #b6720c;
-  --monitor-red: #D7414E;
-  --monitor-red-dark: #a0313a;
-  --monitor-green: #06cf28;
-  --monitor-green-dark: #059b1e;
-  --monitor-yellow: #fbff2b;
-  --monitor-yellow-dark: #c4c722;
-  --monitor-green-yellow: greenyellow;
-}
+@import "themes.styl";
 
 /*
   RESET
@@ -195,7 +116,7 @@ a {
   height: 4px
 }
 ::-webkit-scrollbar-thumb {
-  background: #fff3;
+  background: var(--scrollbar);
   border-radius: 1px;
 }
 
@@ -212,7 +133,7 @@ input.input {
   border-radius: 4px;
   box-sizing: border-box;
   outline: none;
-  background: var(--foreground);
+  background: var(--input);
   border: none;
 }
 input.input:disabled {
@@ -263,7 +184,7 @@ input[type="radio"]:checked::after {
   background-position: right 7px center;
   background-size: 10px;
   padding-right: 30px;
-  background-color: var(--foreground);
+  background-color: var(--input);
   color: var(--text);
   border: none;
   outline: none;

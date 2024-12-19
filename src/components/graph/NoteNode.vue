@@ -59,9 +59,9 @@ export default {
 .note-content {
   outline: none;
   white-space: pre;
-  color: var(--background);
+  color: var(--text);
 }
 .note :deep(.content) {
-  background: #f8f8f8cc;
+  /* background: #f8f8f8cc; */
 }
 </style>

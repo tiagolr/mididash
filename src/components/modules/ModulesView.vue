@@ -223,7 +223,7 @@ export default {
   display:none;
 }
 .panel {
-  background: var(--foreground);
+  background: var(--input);
   border-radius: var(--panel-radius);
   flex-shrink: 0;
   padding: 0.25rem;
@@ -243,7 +243,11 @@ export default {
 }
 .list-item:hover {
   background: var(--node-color);
+  color: var(--node-header);
   cursor: move;
+}
+:deep(.list-item:not(.disabled):hover .icon path) {
+  fill: var(--node-header) !important;
 }
 .list-item.input:hover {
   background: var(--input-color)
@@ -296,6 +300,9 @@ export default {
   /* margin-top: -2px; */
   /* margin-bottom: -20px; */
   flex-shrink: 0;
+}
+:deep .icon path {
+  fill: var(--text) !important;
 }
 .icon.disabled {
   opacity: 0.5;

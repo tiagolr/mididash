@@ -2,7 +2,7 @@
 import { VAceEditor } from 'vue3-ace-editor';
 import 'ace-builds/src-noconflict/mode-lua';
 import 'ace-builds/src-noconflict/theme-cobalt';
-import 'ace-builds/src-noconflict/theme-vibrant_ink';
+import 'ace-builds/src-noconflict/theme-github_light_default';
 import { EVT_SCRIPT_LOG, EVT_SCRIPT_ERROR } from '../../globals'
 import IBroom from '../../assets/broom.svg'
 import IClose from '../../assets/close.svg'
@@ -39,6 +39,9 @@ export default {
       { id: 'save-template', label: 'Save as template' },
       { id: 'show-gutter', label: 'Show line numbers', type: 'checkbox', checked: vm.showGutter },
     ],
+    editorTheme: vm => vm.$store.app.isLightTheme
+      ? 'github_light_default'
+      : 'cobalt'
   },
   watch: {
     device () {
@@ -207,7 +210,7 @@ export default {
     <v-ace-editor
       v-model:value="script"
       lang="lua"
-      theme="cobalt"
+      :theme="editorTheme"
       style="height: 100%;background: none;"
       :options="{
         showGutter: showGutter,
@@ -254,7 +257,7 @@ input {
   cursor: text;
 }
 :deep(.ace_gutter) {
-  background: var(--foreground)
+  background: var(--input)
 }
 .log.success {
   color: #0f0;
@@ -267,7 +270,7 @@ input {
 }
 .editor-container {
   padding: 8px;
-  background: var(--foreground);
+  background: var(--input);
   border-radius: var(--panel-radius);
   height: 200px;
   resize: vertical;
@@ -277,7 +280,7 @@ input {
   font-family: "Consolas", "Liberation Mono", "Monaco", monospace;
   font-size: 12px;
   padding: 8px;
-  background: var(--foreground);
+  background: var(--input);
   border-radius: var(--panel-radius);
   user-select: auto;
   -webkit-user-select: auto;

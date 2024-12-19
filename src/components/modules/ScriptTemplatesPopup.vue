@@ -100,7 +100,7 @@ export default {
   max-width: 80vw;
 }
 .panel {
-  background: var(--foreground);
+  background: var(--input);
   border-radius: var(--panel-radius);
   flex-shrink: 0;
   padding: 0.25rem;

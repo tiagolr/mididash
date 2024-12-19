@@ -468,6 +468,9 @@ export default {
   height: 16px;
   cursor: pointer;
 }
+:deep(.icon path) {
+  fill: var(--text) !important;
+}
 * {
   user-select: none;
   -webkit-user-select: none; /* Safari-specific prefix */
@@ -475,7 +478,7 @@ export default {
 }
 .graph .screen {
   padding: 0;
-  background: #fefefe05;
+  background: var(--viewport);
   z-index: 1;
 }
 .node {

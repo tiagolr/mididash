@@ -1,10 +1,10 @@
 <svg width="24.372" height="24.372" viewBox="0 0 6.448 6.448" xml:space="preserve"
    xmlns="http://www.w3.org/2000/svg">
-   <g transform="matrix(1.19645 0 0 1.23204 -301.784 -429.89)" style="stroke-width:.823644">
-      <rect style="fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:.448062;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="1.338" height="1.216" x="256.283" y="352.943" ry=".329"/>
-      <g transform="matrix(.7071 -.68668 .72814 .7071 -180.79 276.666)" style="stroke-width:.823644">
-         <rect style="fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:.448158;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" width="2.734" height=".65" x="352.297" y="-259.243" ry=".325" transform="matrix(-.01509 .99989 -.9999 .01423 0 0)"/>
-         <path style="fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:.448062;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" d="m253.532 352.079-.85-1.457 1.747-.025z"/>
+   <g style="stroke-width:.823644">
+      <path style="fill:#f8f8f8;stroke-width:.448062;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5.2;paint-order:stroke fill markers" d="M256.612 352.943h.68c.182 0 .329.147.329.329v.558a.328.328 0 0 1-.329.329h-.68a.328.328 0 0 1-.329-.329v-.558c0-.182.147-.329.329-.329z" transform="matrix(1.19645 0 0 1.23204 -301.784 -429.89)"/>
+      <g style="stroke-width:.823644">
+         <path style="fill:#f8f8f8;stroke-width:.448158;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5.2;paint-order:stroke fill markers" transform="matrix(.85832 .88385 -.83353 .85833 -518.09 -89.026)" d="M352.622-259.243h2.084a.324.324 0 1 1 0 .65h-2.084a.324.324 0 1 1 0-.65z"/>
+         <path style="fill:#f8f8f8;fill-opacity:1;stroke:none;stroke-width:.448062;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5.2;stroke-dasharray:none;paint-order:stroke fill markers" d="m253.532 352.079-.85-1.457 1.747-.025z" transform="matrix(.84601 -.84602 .87118 .87118 -518.09 -89.026)"/>
       </g>
    </g>
 </svg>

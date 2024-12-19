@@ -32,6 +32,9 @@ export default defineStore('app', {
       outputs: []
     },
   }),
+  getters: {
+    isLightTheme: vm => vm.settings.theme === 'light'
+  },
   actions: {
     async init () {
       this.version = await getVersion()
@@ -61,6 +64,12 @@ export default defineStore('app', {
 
     toggleSettings () {
       this.showSettings = !this.showSettings
+    },
+
+    toggleTheme () {
+      this.setSettings({
+        theme: (!this.settings.theme || this.settings.theme === 'light') ? 'dark' : 'light'
+      })
     },
 
     async toggleHubPaused () {

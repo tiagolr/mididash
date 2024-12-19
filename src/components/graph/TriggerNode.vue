@@ -127,12 +127,12 @@ export default {
 </template>
 
 <style scoped>
-:deep(.header) {
+/* :deep(.header) {
   background: none;
 }
 :deep(.outline) {
   background: var(--node-color);
-}
+} */
 :deep(.content) {
   background: none;
 }
@@ -153,8 +153,8 @@ export default {
 }
 .key {
   height: 100%;
-  outline: 1px solid var(--border);
-  background: var(--text);
+  outline: 1px solid var(--trigger-black-keys);
+  background: #f8f8f8;
 }
 .key.white.keydown {
   background: #fcc;
@@ -166,7 +166,7 @@ export default {
   border-bottom-right-radius: var(--node-radius);
 }
 .key.black {
-  background: var(--border);
+  background: var(--trigger-black-keys);
   width: 6px;
   height: 70%;
   top: -1px;
