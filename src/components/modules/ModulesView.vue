@@ -113,7 +113,7 @@ export default {
       </div>
       <div class="list panel mt-025rem">
         <div
-          class="list-item flex gap-8" :draggable="true"
+          class="virtual list-item flex gap-8" :draggable="true"
           @dragstart="e => onDragstart(e, { class: 'virtual' })"
           @dragend="onDragend"
         >
@@ -129,7 +129,7 @@ export default {
     <div class="list panel mt-025rem">
       <div class="overflow">
         <div
-          class="list-item flex gap-8" :draggable="true"
+          class="split list-item flex gap-8" :draggable="true"
           @dragstart="e => onDragstart(e, { class: 'split' })"
           @dragend="onDragend"
         >
@@ -138,7 +138,7 @@ export default {
           <div>Split</div>
         </div>
         <div
-          class="list-item flex gap-8" :draggable="true"
+          class="map list-item flex gap-8" :draggable="true"
           @dragstart="e => onDragstart(e, { class: 'map' })"
           @dragend="onDragend"
         >
@@ -147,7 +147,7 @@ export default {
           <div>Map</div>
         </div>
         <div
-          class="list-item flex gap-8" :draggable="true"
+          class="delay list-item flex gap-8" :draggable="true"
           @dragstart="e => onDragstart(e, { class: 'delay' })"
           @dragend="onDragend"
         >
@@ -156,7 +156,7 @@ export default {
           <div>Delay</div>
         </div>
         <div
-          class="list-item flex gap-8" :draggable="true"
+          class="monitor list-item flex gap-8" :draggable="true"
           @dragstart="e => onDragstart(e, { class: 'monitor' })"
           @dragend="onDragend"
         >
@@ -165,7 +165,7 @@ export default {
           <div>Monitor</div>
         </div>
         <div
-          class="list-item flex gap-8" :draggable="true"
+          class="trigger list-item flex gap-8" :draggable="true"
           @dragstart="e => onDragstart(e, { class: 'trigger' })"
           @dragend="onDragend"
         >
@@ -174,7 +174,7 @@ export default {
           <div>Trigger</div>
         </div>
         <div
-          class="list-item flex gap-8" :draggable="true"
+          class="note list-item flex gap-8" :draggable="true"
           @dragstart="e => onDragstart(e, { class: 'note' })"
           @dragend="onDragend"
         >
@@ -195,7 +195,7 @@ export default {
       <div class="overflow">
         <div
           v-for="template,i in $store.app.settings.scriptTemplates" :key="i"
-          class="list-item flex gap-8" :draggable="true"
+          class="script list-item flex gap-8" :draggable="true"
           @dragstart="e => onDragstart(e, { class: 'script', script: template.script, outPorts: template.outPorts, name: template.name })"
           @dragend="onDragend"
         >
@@ -245,13 +245,43 @@ export default {
   background: var(--node-color);
   cursor: move;
 }
+.list-item.input:hover {
+  background: var(--input-color)
+}
+.list-item.output:hover {
+  background: var(--output-color)
+}
+.list-item.virtual:hover {
+  background: var(--virtual-color)
+}
+.list-item.split:hover {
+  background: var(--split-color)
+}
+.list-item.map:hover {
+  background: var(--map-color)
+}
+.list-item.delay:hover {
+  background: var(--delay-color)
+}
+.list-item.monitor:hover {
+  background: var(--monitor-color)
+}
+.list-item.trigger:hover {
+  background: var(--trigger-color)
+}
+.list-item.note:hover {
+  background: var(--note-color)
+}
+.list-item.script:hover {
+  background: var(--script-color)
+}
 .list-item.disabled {
   color: var(--text-lighter);
 }
 .selected {
   box-shadow: inset 0px 0px 0px 1px var(--success-content);
 }
-.disabled:hover {
+.list-item.disabled:hover {
   background: none;
   cursor: default;
 }

@@ -268,6 +268,36 @@ export default {
   /* border: 1px solid #fff3; */
   /* border-bottom: 1px solid #fff3; */
 }
+.input .header {
+  background: var(--input-color);
+}
+.output .header {
+  background: var(--output-color);
+}
+.virtual .header {
+  background: var(--virtual-color);
+}
+.split .header {
+  background: var(--split-color);
+}
+.map .header {
+  background: var(--map-color);
+}
+.delay .header {
+  background: var(--delay-color);
+}
+.monitor .header {
+  background: var(--monitor-color);
+}
+.trigger .header {
+  background: var(--trigger-color);
+}
+.note .header {
+  background: var(--note-color);
+}
+.script .header {
+  background: var(--script-color);
+}
 
 .header .icon {
   width: 19px;

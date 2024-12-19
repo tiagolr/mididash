@@ -3,9 +3,10 @@
   COLORS
 */
 :root {
-  c-primary-highlight = #7be0ff;
-  c-background = #181b1c;
-  c-text = #fafbfb;
+  c-primary-highlight = #7be0ff
+  c-background = #181b1c
+  c-node = alpha(saturation(lighten(c-background, 35), 0%) 0.85)
+  c-text = #fafbfb
 
   --primary: darken(c-primary-highlight, 40);
   --primary-dark: darken(c-primary-highlight, 50);
@@ -14,12 +15,12 @@
   --primary-content: lighten(c-primary-highlight, 18);
 
   --background: c-background;
-  --foreground-dark: lighten(c-background, 2.5);
   --foreground: lighten(c-background, 5);
+  --foreground-dark: c-background;
   --foreground-light: lighten(c-background, 10);
   --foreground-lighter: lighten(c-background, 20);
   --foreground-alpha: alpha(lighten(c-background, 5), 0.85);
-  --foreground-light-alpha: alpha(lighten(c-background, 10), 0.80);
+  --foreground-light-alpha: alpha(lighten(c-background, 10), 0.85);
   --border: lighten(c-background, 15);
 
   --button: lighten(c-background, 32);
@@ -46,9 +47,20 @@
   --panel-padding: 8px;
   --node-radius: 4px;
   --port-size: 12px;
-  --node-color: #5d6c6ed7;
-  --port-color: #91a1a2;
-  --edge-color: var(--primary-highlight);
+  --node-color: saturation(c-node, 0);
+  --input-color: saturation(hue(c-node, 0),0);
+  --output-color: saturation(hue(c-node, 200), 0);
+  --virtual-color: saturation(hue(c-node, 100), 0);
+  --split-color: hue(c-node, 0);
+  --map-color: hue(c-node, 0);
+  --delay-color: hue(c-node, 200);
+  --monitor-color: hue(c-node, 30);
+  --trigger-color: hue(c-node, 150);
+  --note-color: hue(c-node, 60);
+  --script-color: hue(c-node, 210);
+
+  --port-color: lighten(c-background, 60);
+  --edge-color: c-primary-highlight;
   --port-connected-color: var(--edge-color) ;
   --edge-active-color: #f4484d;
   --port-active-color: var(--edge-active-color);

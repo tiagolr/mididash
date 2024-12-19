@@ -162,8 +162,6 @@ export default {
 <style scoped>
 .window {
   position: absolute;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
-  /* background-color: rgba(0,0,0,0.85); */
   background: var(--foreground-alpha);
   border: 1px solid var(--border);
   z-index: 1;
@@ -174,7 +172,6 @@ export default {
 
 .header {
   min-height: 32px;
-  /* color: var(--primary-content); */
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
