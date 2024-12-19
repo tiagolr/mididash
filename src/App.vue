@@ -48,7 +48,7 @@ export default {
   async mounted () {
     await this.$store.app.onProjectNew() // fetch initial project and settings
     if (import.meta.env.DEV) {
-      await invoke('new_devices_project') // fix hot reloading by resetting to a new project
+      // await invoke('new_devices_project') // fix hot reloading by resetting to a new project
     }
   },
   beforeUnmount () {

@@ -61,7 +61,7 @@ export default {
         Mididash is an open source MIDI routing software with a node-based dashboard.
         A modern take on programs like <a href="http://midiox.com" target="_blank">MIDI-OX</a>.
       </p>
-      <img src="/ss.png" alt="" style="width: 100%">
+      <img src="/ss-dark.png" alt="" style="width: 100%">
       <h3>
         Features
       </h3>
