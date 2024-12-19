@@ -10,7 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "pages": "mv docs/CNAME CNAME && rm -rf docs && cd site && npm run build && mv dist ../docs && cd .. && mv CNAME docs/CNAME"
+    "site": "mv docs/CNAME CNAME && rm -rf docs && cd site && npm run build && mv dist ../docs && cd .. && mv CNAME docs/CNAME"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
