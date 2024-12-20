@@ -478,7 +478,6 @@ export default {
 }
 .graph .screen {
   padding: 0;
-  background: var(--viewport);
   z-index: 1;
 }
 .node {

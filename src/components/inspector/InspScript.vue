@@ -36,8 +36,9 @@ export default {
   computed: {
     showGutter: vm => vm.$store.app.settings.scriptShowLineNumbers,
     scriptMenuItems: vm => [
-      { id: 'save-template', label: 'Save as template' },
       { id: 'show-gutter', label: 'Show line numbers', type: 'checkbox', checked: vm.showGutter },
+      { id: 'reset-state', label: 'Reset script state' },
+      { id: 'save-template', label: 'Save as template' },
     ],
     editorTheme: vm => vm.$store.app.isLightTheme
       ? 'github_light_default'
@@ -144,9 +145,10 @@ export default {
     onPortEnterPress (event) {
       event.target.blur()
     },
-    toggleScriptMenu (e) {
-      this.scriptMenu.x = e.clientX
-      this.scriptMenu.y = e.clientY
+    toggleScriptMenu () {
+      const rect = this.$refs.configButton.$el.getBoundingClientRect()
+      this.scriptMenu.x = rect.x
+      this.scriptMenu.y = rect.y + rect.height
       this.scriptMenu.visible = !this.scriptMenu.visible
     },
     onSelectScriptMenu (id) {
@@ -158,7 +160,9 @@ export default {
         })
         this.$store.app.showSuccess('Template saved')
       }
-      else if (id === 'show-gutter') {
+      else if (id === 'reset-state') {
+        this.$store.graph.setDeviceData(this.device.id, "reset-state", {})
+      } else if (id === 'show-gutter') {
         this.$store.app.setSettings({ scriptShowLineNumbers: !this.showGutter })
       }
       this.scriptMenu.visible = false
@@ -195,7 +199,7 @@ export default {
   </div>
   <div class="font-lighter mt-1rem mb-025rem flex-center">
     <div>Script</div>
-    <i-config class="flex-right icon icon-clear" @click="toggleScriptMenu">
+    <i-config ref="configButton" class="flex-right icon icon-clear" @click="toggleScriptMenu">
     </i-config>
     <context-menu
       v-if="scriptMenu.visible"
@@ -260,13 +264,13 @@ input {
   background: var(--input)
 }
 .log.success {
-  color: #0f0;
+  color: var(--monitor-green);
 }
 .log.error {
-  color: rgb(255, 128, 128);
+  color: var(--monitor-red);
 }
 .log.warn {
-  color: rgb(250, 246, 30);
+  color: var(--monitor-yellow);
 }
 .editor-container {
   padding: 8px;

@@ -44,9 +44,22 @@ Mididash is an open source MIDI routing software with a node-based dashboard and
 
 The latest version and others can be found on [Github releases](https://github.com/tiagolr/mididash/releases)
 
-### Beta software
+### Limitations
+
+#### Beta software
 
 This software is under active development, the core features are ready but there may be changes in appearance, stability patches and other changes until version 1.0.
+
+#### Unsigned software
+
+To avoid additional costs and setup, the software is currently unsigned. As a result, installation may require extra steps:
+
+- **Windows**: Skip the installation protection screen when prompted.
+- **macOS**: Navigate to System Preferences → Privacy & Security → Unblock the app after attempting to open it.
+
+#### macOS Testing
+
+MacOs builds are tested on a slow, unstable virtual machine using macOS Ventura 13.7, other versions of the OS have not been tested and it's the least tested target,
 
 ### How does it compare with MIDI-OX?
 

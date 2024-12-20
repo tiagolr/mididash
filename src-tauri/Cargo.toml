@@ -1,6 +1,6 @@
 [package]
 name = "mididash"
-version = "0.1.6"
+version = "0.1.7"
 description = "A new midi router"
 authors = ["tilr"]
 edition = "2021"

@@ -111,6 +111,10 @@ impl Device for Script {
                         .filter_map(|x| x.as_u64().map(|n| (n % 256) as u8))
                         .collect();
                 }
+            },
+            "reset-state" => {
+                let _ = self.init();
+                app::emit(EVT_SCRIPT_LOG, json!({ "id": self.id, "message": "Script state reset" }));
             }
             _ => {}
         }
