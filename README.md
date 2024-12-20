@@ -44,6 +44,12 @@ Mididash is an open source MIDI routing software with a node-based dashboard and
 
 The latest version and others can be found on [Github releases](https://github.com/tiagolr/mididash/releases)
 
+### How does it compare with MIDI-OX?
+
+MIDI-OX is the main reference for this program, this one offers more routing capabilities and practical scripting via Lua nodes, it does not contain the same amount of MIDI tools like bank selectors or NPRN calculators but those can be added over time.
+
+In terms of performance, it's about the same CPU usage (e.g. 5% CPU on high midi throughput), the bundle size is small but cannot compete with 1MB of MIDI-OX, the memory footprint of the program is also similar but the webview can consume a few  dozen MBs.
+
 ### Limitations
 
 #### Beta software
@@ -60,12 +66,6 @@ To avoid additional costs and setup, the software is currently unsigned. As a re
 #### macOS Testing
 
 MacOs builds are tested on a slow, unstable virtual machine using macOS Ventura 13.7, other versions of the OS have not been tested and it's the least tested target,
-
-### How does it compare with MIDI-OX?
-
-MIDI-OX is the main reference for this program, this one offers more routing capabilities and practical scripting via Lua nodes, it does not contain the same amount of MIDI tools like bank selectors or NPRN calculators but those can be added over time.
-
-In terms of performance, it's about the same CPU usage (e.g. 5% CPU on high midi throughput), the bundle size is small but cannot compete with 1MB of MIDI-OX, the memory footprint of the program is also similar but the webview can consume a few  dozen MBs.
 
 ### Hot plugging
 
