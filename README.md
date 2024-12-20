@@ -58,7 +58,7 @@ This software is under active development, the core features are ready but there
 
 #### Unsigned software
 
-To avoid additional costs and setup, the software is currently unsigned. As a result, installation may require extra steps:
+ Signing licenses have associated costs and required setup, for now this software is unsigned which means that additional steps are required for installation: 
 
 - **Windows**: Skip the installation protection screen when prompted.
 - **macOS**: Navigate to System Preferences → Privacy & Security → Unblock the app after attempting to open it.
