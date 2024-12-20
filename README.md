@@ -20,7 +20,7 @@
 
 </div>
 
-Mididash is an open source MIDI routing software with a node-based dashboard and Lua scripting. A modern take on programs like [MIDI-OX](http://www.midiox.com).
+Mididash is an open source MIDI routing software with a node-based interface and Lua scripting. A modern take on programs like [MIDI-OX](http://www.midiox.com).
 
 <div align="center">
 
@@ -65,7 +65,7 @@ To avoid additional costs and setup, the software is currently unsigned. As a re
 
 #### macOS Testing
 
-MacOs builds are tested on a slow, unstable virtual machine using macOS Ventura 13.7, other versions of the OS have not been tested and it's the least tested target,
+MacOs builds are tested on a slow, unstable virtual machine using Ventura 13.7, other versions of the OS have not been tested and it's the least tested target, please open a ticket for new issues found.
 
 ### Hot plugging
 
