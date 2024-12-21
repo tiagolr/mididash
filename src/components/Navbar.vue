@@ -102,6 +102,7 @@ export default {
       </div>
       <div
         class="nav-button"
+        :style="$store.app.settings.hubPaused && 'background: #f008'"
         :title="$store.app.settings.hubPaused ? 'Start MIDI processing' : 'Pause MIDI processing'"
         @click="$store.app.toggleHubPaused"
       >

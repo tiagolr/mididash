@@ -3,6 +3,29 @@
 version = 4
 
 [[package]]
+name = "Mididash"
+version = "0.1.8"
+dependencies = [
+ "coremidi",
+ "lazy_static",
+ "midir",
+ "mlua",
+ "once_cell",
+ "regex",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-dialog",
+ "tauri-plugin-os",
+ "tauri-plugin-shell",
+ "tauri-plugin-store",
+ "tauri-plugin-window-state",
+ "tokio",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2061,29 +2084,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "488016bfae457b036d996092f6cb448677611ce4449e970ceaf42695203f218a"
 dependencies = [
  "autocfg",
-]
-
-[[package]]
-name = "mididash"
-version = "0.1.7"
-dependencies = [
- "coremidi",
- "lazy_static",
- "midir",
- "mlua",
- "once_cell",
- "regex",
- "serde",
- "serde_json",
- "serial_test",
- "tauri",
- "tauri-build",
- "tauri-plugin-dialog",
- "tauri-plugin-os",
- "tauri-plugin-shell",
- "tauri-plugin-store",
- "tauri-plugin-window-state",
- "tokio",
 ]
 
 [[package]]

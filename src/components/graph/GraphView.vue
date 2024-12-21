@@ -109,7 +109,7 @@ export default {
     },
     async onProjectNew () {
       await this.$nextTick()
-      if (!this.$store.app.settings.projectPath) { // if its a new project not an opened one
+      if (!this.$store.app.preferences.lastSave) { // if its a new project not an opened one
         this.$store.graph.layoutNodes()
       }
       this.zoomNodes()
@@ -234,7 +234,7 @@ export default {
         const pan = this.$refs.screen.getPan()
         const x = (event.clientX - rect.left - pan.x) / zoom
         const y = (event.clientY - rect.top - pan.y) / zoom
-        this.$store.graph.createDeviceAt(x, y, device)
+        this.$store.graph.createDeviceAt(x, y, true, device)
       }
     },
 

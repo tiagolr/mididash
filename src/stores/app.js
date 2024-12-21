@@ -161,7 +161,7 @@ export default defineStore('app', {
       try {
         await this.getSettings() // make sure settings are up to date
         const project = await invoke('get_project').then(camelCase)
-        this.preferences = project.preferences
+        this.preferences = camelCase(project.preferences) || {}
 
         project.devices.forEach(device => {
           if (typeof device.name === 'string') {
@@ -225,6 +225,7 @@ export default defineStore('app', {
      * Saves current session to config file
      */
     async saveCurrentProject() {
+      this.preferences.lastSave = (new Date()).toISOString()
       await invoke('save_current_project', { project: snakeCase({
         version: this.version,
         preferences: this.preferences,

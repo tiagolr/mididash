@@ -1,9 +1,14 @@
 [package]
-name = "mididash"
-version = "0.1.7"
-description = "A new midi router"
+name = "Mididash"
+version = "0.1.8"
+description = "Midi router with Lua scripting and a node based interface"
 authors = ["tilr"]
 edition = "2021"
+readme = "../README.md"
+homepage = "mididash.com"
+repository = "https://github.com/tiagolr/mididash"
+license = "../LICENSE"
+keywords = ["audio", "cross-platform", "router", "midi", "midi-events", "tauri", "audio-midi", "midi-router"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

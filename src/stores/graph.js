@@ -139,7 +139,7 @@ export default defineStore('graph', {
       this.fitNode(id)
     },
 
-    async createDeviceAt(x, y, opts = { class: 'Unknown' }) {
+    async createDeviceAt(x, y, centerDevice, opts = { class: 'Unknown' }) {
       const makeUniqueId = classname => {
         const nodes = this.nodes.filter(n => n.class === classname)
         let i = nodes.length + 1
@@ -165,11 +165,13 @@ export default defineStore('graph', {
         device = this.addNewDevice(device)
 
         // center new device on mouse position
-        setTimeout(() => {
-          device = this.nodes.at(-1)
-          device.x -= device.width / 2
-          device.y -= 16
-        }, 0);
+        if (centerDevice) {
+          setTimeout(() => {
+            device = this.nodes.at(-1)
+            device.x -= device.width / 2
+            device.y -= 16
+          }, 0);
+        }
 
         // this needs to go some place better
         if (opts.class === 'trigger') {
@@ -187,6 +189,7 @@ export default defineStore('graph', {
           device.minimized = true
         }
 
+        // probably the same
         if (opts.class === 'script') {
           device.outPorts = opts.outPorts.map(id => ({ id, name: id }))
           device.name = opts.name // template name
@@ -211,7 +214,7 @@ export default defineStore('graph', {
       const outputs = this.edges.filter(e => e.to === device.id)
       try {
         await this.removeDevice(device.id) // remove old device
-        const newdevice = await this.createDeviceAt(device.x, device.y, { id, class: device.class }) // create new device
+        const newdevice = await this.createDeviceAt(device.x, device.y, false, { id, class: device.class }) // create new device
         this.setDeviceName(newdevice.id, newname)
         for (let input of inputs) { // reconnect new device
           input.from = newdevice.id
