@@ -226,8 +226,8 @@ export default defineStore('app', {
      */
     async saveCurrentProject() {
       this.preferences.lastSave = (new Date()).toISOString()
+      this.preferences.version = this.version
       await invoke('save_current_project', { project: snakeCase({
-        version: this.version,
         preferences: this.preferences,
         devices: graphStore().nodes,
         connectors: graphStore().edges

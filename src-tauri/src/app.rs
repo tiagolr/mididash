@@ -47,7 +47,6 @@ lazy_static! {
 // Project file frontend settings
 #[derive(Serialize, Deserialize, Default, Clone, Debug)]
 pub struct Project {
-    pub version: Value,
     pub preferences: Value,
     pub devices: Vec<Value>,
     pub connectors: Vec<Value>,
