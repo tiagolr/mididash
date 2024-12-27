@@ -1,6 +1,6 @@
 <script>
 import path from 'path-browserify'
-import { TOGGLE_MONITOR_IN, TOGGLE_MONITOR_OUT } from '../globals';
+import { TOGGLE_CODE_WINDOW, TOGGLE_MONITOR_IN, TOGGLE_MONITOR_OUT } from '../globals';
 import IMonitorIn from '../assets/monitor-in.svg'
 import IMonitorOut from '../assets/monitor-out.svg'
 import ContextMenu from './global/ContextMenu.vue'
@@ -10,6 +10,8 @@ import IGear from '../assets/gear.svg'
 import IMinimize from '../assets/minimize.svg'
 import IMoon from '../assets/moon.svg'
 import ISun from '../assets/sun.svg'
+import ICode from '../assets/code.svg'
+
 export default {
   components: {
     IMonitorIn,
@@ -21,6 +23,7 @@ export default {
     IMinimize,
     IMoon,
     ISun,
+    ICode
   },
   emits: [
     'minimize-to-tray'
@@ -78,6 +81,9 @@ export default {
         this.$store.app.forceQuit()
       }
       this.mainMenu = false
+    },
+    toggleCodeWindow () {
+      this.$store.app.emitter.emit(TOGGLE_CODE_WINDOW)
     }
   }
 }
@@ -110,6 +116,10 @@ export default {
         </i-play>
         <i-pause v-else class="icon" style="transform: scale(0.9)">
         </i-pause>
+      </div>
+      <div class="nav-button" title="Code window" @click="toggleCodeWindow">
+        <i-code class="icon">
+        </i-code>
       </div>
       <div class="nav-button" title="Input monitor" @click="$store.app.emitter.emit(TOGGLE_MONITOR_IN)">
         <i-monitor-in class="icon monitor-in">

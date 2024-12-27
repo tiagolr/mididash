@@ -16,6 +16,8 @@ export const EVT_SHOW_ABOUT = 'show-about'
 export const FIT_NODE = 'fit-node'
 export const TOGGLE_MONITOR_IN = 'toggle-monitor-in'
 export const TOGGLE_MONITOR_OUT = 'toggle-monitor-out'
+export const TOGGLE_CODE_WINDOW = 'toggle-code-window'
+export const EXPAND_CODE_WINDOW = 'expand-code-window'
 
 // splitter outputs ports, see splitter.rs
 export const PORT_NOTE_ON = 'noteon';
@@ -93,6 +95,7 @@ export const PORT_NAMES = {
   '14': 'Channel 14',
   '15': 'Channel 15',
   '16': 'Channel 16',
+  'unknown': 'Unknown'
 }
 
 export const MAPPER_MSGS = [

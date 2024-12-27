@@ -33,10 +33,22 @@ export default {
       type: Boolean,
       default: true
     },
+    snapTo: {
+      type: Number,
+      default: 0 // default no snap
+    }
   },
   emits: [
     'drag'
   ],
+  data() {
+    return {
+      dragStartX: 0,
+      dragStartY: 0,
+      dragAccX: 0,
+      dragAccY: 0
+    }
+  },
   computed: {
     nodeStyle: vm => ({
       left: vm.data.x + 'px',
@@ -50,10 +62,19 @@ export default {
   },
   methods: {
     onDrag ({ x,y }) {
-      // eslint-disable-next-line vue/no-mutating-props
-      this.data.x += x
-      // eslint-disable-next-line vue/no-mutating-props
-      this.data.y += y
+      this.dragAccX += x
+      this.dragAccY += y
+      if (this.snapTo) {
+        // eslint-disable-next-line vue/no-mutating-props
+        this.data.x = Math.round((this.dragStartX + this.dragAccX) / this.snapTo) * this.snapTo - 4
+        // eslint-disable-next-line vue/no-mutating-props
+        this.data.y = Math.round((this.dragStartY + this.dragAccY) / this.snapTo) * this.snapTo - 4
+      } else {
+        // eslint-disable-next-line vue/no-mutating-props
+        this.data.x = this.dragStartX + this.dragAccX
+        // eslint-disable-next-line vue/no-mutating-props
+        this.data.y = this.dragStartY + this.dragAccY
+      }
       this.$emit('drag', { x, y })
     },
     /**
@@ -68,6 +89,10 @@ export default {
     onMousedown (e) {
       if (this.useDrag) {
         e.stopPropagation() // prevent viewport drag
+        this.dragStartX = this.data.x
+        this.dragStartY = this.data.y
+        this.dragAccX = 0
+        this.dragAccY = 0
         this.startDrag(e)
       }
     }

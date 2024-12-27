@@ -54,7 +54,9 @@ pub struct Settings {
     pub script_show_line_numbers: bool,
     pub monitor_in: Value,
     pub monitor_out: Value,
+    pub code_window: Value,
     pub hub_paused: bool,
+    pub disable_grid_snap: bool,
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

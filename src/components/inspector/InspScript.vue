@@ -3,10 +3,11 @@ import { VAceEditor } from 'vue3-ace-editor';
 import 'ace-builds/src-noconflict/mode-lua';
 import 'ace-builds/src-noconflict/theme-cobalt';
 import 'ace-builds/src-noconflict/theme-github_light_default';
-import { EVT_SCRIPT_LOG, EVT_SCRIPT_ERROR } from '../../globals'
+import { EVT_SCRIPT_LOG, EVT_SCRIPT_ERROR, EXPAND_CODE_WINDOW } from '../../globals'
 import IBroom from '../../assets/broom.svg'
 import IClose from '../../assets/close.svg'
 import IConfig from '../../assets/wrench.svg'
+import IExpand from '../../assets/expand.svg'
 import ContextMenu from '../global/ContextMenu.vue';
 
 const MAX_LOGS = 250;
@@ -17,6 +18,7 @@ export default {
     IBroom,
     IClose,
     IConfig,
+    IExpand,
   },
   props: {
     device: Object
@@ -24,7 +26,7 @@ export default {
   data() {
     return {
       script: this.device.script,
-      testBytes: '0x80 60 127',
+      testBytes: this.device.testBytes || '0x80 60 127',
       logs: [],
       scriptMenu: {
         visible: false,
@@ -37,7 +39,6 @@ export default {
     showGutter: vm => vm.$store.app.settings.scriptShowLineNumbers,
     scriptMenuItems: vm => [
       { id: 'show-gutter', label: 'Show line numbers', type: 'checkbox', checked: vm.showGutter },
-      { id: 'reset-state', label: 'Reset script state' },
       { id: 'save-template', label: 'Save as template' },
     ],
     editorTheme: vm => vm.$store.app.isLightTheme
@@ -48,6 +49,12 @@ export default {
     device () {
       this.script = this.device.script
       this.logs = []
+    },
+    'device.script' (script) {
+      this.script = script
+    },
+    'device.testBytes' (s) {
+      this.testBytes = s
     }
   },
   created () {
@@ -64,6 +71,7 @@ export default {
   methods: {
     async saveScript () {
       await this.$store.graph.setDeviceData(this.device.id, 'script', this.script)
+      await this.$store.graph.setDeviceProperty(this.device.id, 'testBytes', this.testBytes)
       await this.$store.graph.setDeviceProperty(this.device.id, 'error', null)
       this.logSuccess('Script saved')
     },
@@ -159,13 +167,16 @@ export default {
           script: this.script,
         })
         this.$store.app.showSuccess('Template saved')
-      }
-      else if (id === 'reset-state') {
-        this.$store.graph.setDeviceData(this.device.id, "reset-state", {})
       } else if (id === 'show-gutter') {
         this.$store.app.setSettings({ scriptShowLineNumbers: !this.showGutter })
       }
       this.scriptMenu.visible = false
+    },
+    resetScriptState () {
+      this.$store.graph.setDeviceData(this.device.id, "reset-state", {})
+    },
+    expandCodeWindow () {
+      this.$store.app.emitter.emit(EXPAND_CODE_WINDOW, this.device.id)
     }
   }
 }
@@ -197,10 +208,16 @@ export default {
       </div>
     </div>
   </div>
-  <div class="font-lighter mt-1rem mb-025rem flex-center">
+  <div class="font-lighter mt-1rem mb-025rem flex-center gap-4">
     <div>Script</div>
-    <i-config ref="configButton" class="flex-right icon icon-clear" @click="toggleScriptMenu">
-    </i-config>
+    <div class="flex gap-4 flex-right">
+      <div title="Expand" @click="expandCodeWindow">
+        <i-expand class="icon icon-clear">
+        </i-expand>
+      </div>
+      <i-config ref="configButton" class="icon icon-clear" @click="toggleScriptMenu">
+      </i-config>
+    </div>
     <context-menu
       v-if="scriptMenu.visible"
       :start-x="scriptMenu.x"
@@ -234,7 +251,12 @@ export default {
     <button class="button" :title="'Ctrl+Enter'" @click="testScript">
       Test
     </button>
-    <input v-model="testBytes" type="text" class="input" @keydown.enter="onEnterKeyEditor">
+    <button class="button" @click="resetScriptState">
+      Reset
+    </button>
+  </div>
+  <div class="mt-05rem" title="Test bytes">
+    <input v-model="testBytes" type="text" class="input" placeholder="Test bytes" @keydown.enter="onEnterKeyEditor">
   </div>
   <div class="font-lighter mt-1rem mb-025rem flex-center">
     <div>Logs</div>

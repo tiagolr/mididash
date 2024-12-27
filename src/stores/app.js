@@ -31,6 +31,9 @@ export default defineStore('app', {
       inputs: [],
       outputs: []
     },
+    keys: { // keep track of modifiers pressed
+      shift: false
+    }
   }),
   getters: {
     isLightTheme: vm => vm.settings.theme === 'light'
@@ -255,19 +258,23 @@ export default defineStore('app', {
       }
     },
 
-    showSuccess (text, timeout = 4500) {
+    setShiftKey(bool) {
+      this.keys.shift = bool
+    },
+
+    showSuccess (text, timeout = 5000) {
       this.showFlash(text, 'success', timeout)
     },
 
-    showInfo (text, timeout = 4500) {
+    showInfo (text, timeout = 5000) {
       this.showFlash(text, 'info', timeout)
     },
 
-    showError (text, timeout = 4500) {
+    showError (text, timeout = 5000) {
       this.showFlash(text, 'error', timeout)
     },
 
-    showWarn (text, timeout = 4500) {
+    showWarn (text, timeout = 5000) {
       this.showFlash(text, 'warn', timeout)
     },
 

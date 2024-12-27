@@ -7,11 +7,14 @@ import InspView from './inspector/InspView.vue'
 import Navbar from './Navbar.vue'
 import Window from './global/Window.vue';
 import MonitorView from './MonitorView.vue'
-import { TOGGLE_MONITOR_IN, TOGGLE_MONITOR_OUT } from '../globals';
+import { TOGGLE_MONITOR_IN, TOGGLE_MONITOR_OUT, TOGGLE_CODE_WINDOW, EXPAND_CODE_WINDOW } from '../globals';
 import IMonitorIn from '../assets/monitor-in.svg'
 import IMonitorOut from '../assets/monitor-out.svg'
 import IWrench from '../assets/wrench.svg'
 import IBroom from '../assets/broom.svg'
+import ICode from '../assets/code.svg'
+import CodeView from './CodeView.vue';
+
 export default {
   components: {
     Split,
@@ -21,10 +24,12 @@ export default {
     Navbar,
     Window,
     MonitorView,
+    CodeView,
     IMonitorIn,
     IMonitorOut,
     IWrench,
     IBroom,
+    ICode
   },
   emits: [
     'minimize-to-tray'
@@ -54,8 +59,19 @@ export default {
         w: 440,
         h: 250,
       },
-      windowOnTop: ''
+      codeWindow: {
+        enabled: false,
+        deviceId: '',
+        x: 10,
+        y: 50,
+        w: 500,
+        h: 500,
+      },
+      windowOrder: ['monitorIn', 'monitorOut', 'code'],
     }
+  },
+  computed: {
+    scriptNodes: vm => vm.$store.graph.nodes.filter(n => n.class === 'script')
   },
   watch: {
     '$store.graph.selected' (id) {
@@ -70,31 +86,70 @@ export default {
     '$store.app.settings.monitorOut' (m) {
       Object.assign(this.monitorOut, JSON.parse(JSON.stringify(m)))
     },
+    '$store.app.settings.codeWindow' (m) {
+      Object.assign(this.codeWindow, JSON.parse(JSON.stringify(m)))
+    },
+    scriptNodes: {
+      immediate: true,
+      handler (nodes) {
+        if (!nodes.map(n => n.id).includes(this.codeWindow.deviceId)) {
+          this.codeWindow.deviceId = ''
+        }
+      }
+    },
+    'codeWindow.deviceId' () {
+      this.saveSettings()
+    }
   },
   beforeMount () {
-    Object.assign(this.monitorIn, this.$store.app.settings.monitorIn) // hot reload only
-    Object.assign(this.monitorOut, this.$store.app.settings.monitorOut) // hot reload only
+    Object.assign(this.monitorIn, this.$store.app.settings.monitorIn)
+    Object.assign(this.monitorOut, this.$store.app.settings.monitorOut)
+    Object.assign(this.codeWindow, this.$store.app.settings.codeWindow)
     this.$store.app.emitter.on(TOGGLE_MONITOR_IN, this.toggleMonitorIn)
     this.$store.app.emitter.on(TOGGLE_MONITOR_OUT, this.toggleMonitorOut)
+    this.$store.app.emitter.on(TOGGLE_CODE_WINDOW, this.toggleCodeWindow)
+    this.$store.app.emitter.on(EXPAND_CODE_WINDOW, this.onExpandCodeWindow)
   },
   beforeUnmount () {
     this.$store.app.emitter.off(TOGGLE_MONITOR_IN, this.toggleMonitorIn)
     this.$store.app.emitter.off(TOGGLE_MONITOR_OUT, this.toggleMonitorOut)
+    this.$store.app.emitter.off(TOGGLE_CODE_WINDOW, this.toggleCodeWindow)
+    this.$store.app.emitter.off(EXPAND_CODE_WINDOW, this.onExpandCodeWindow)
   },
   methods: {
+    bringWindowForward (wname) {
+      const index = this.windowOrder.indexOf(wname)
+      if (index > -1) {
+        this.windowOrder.splice(index, 1)
+      }
+      this.windowOrder.push(wname)
+    },
     toggleMonitorIn () {
       this.monitorIn.enabled = !this.monitorIn.enabled
       if (this.monitorIn.enabled) {
-        this.windowOnTop = 'monitor-in'
+        this.bringWindowForward('monitorIn')
       }
       this.saveSettings()
     },
     toggleMonitorOut () {
       this.monitorOut.enabled = !this.monitorOut.enabled
       if (this.monitorOut.enabled) {
-        this.windowOnTop = 'monitor-out'
+        this.bringWindowForward('monitorOut')
       }
       this.saveSettings()
+    },
+    toggleCodeWindow () {
+      this.codeWindow.enabled = !this.codeWindow.enabled
+      if (this.codeWindow.enabled) {
+        this.bringWindowForward('code')
+      }
+      this.saveSettings()
+    },
+    onExpandCodeWindow (deviceId) {
+      this.codeWindow.deviceId = deviceId
+      if (!this.codeWindow.enabled) {
+        this.toggleCodeWindow()
+      }
     },
     onWindowChange () {
       if (this.$refs.monitorOutWin) {
@@ -104,6 +159,10 @@ export default {
       if (this.$refs.monitorInWin) {
         const rect = this.$refs.monitorInWin.getRect()
         Object.assign(this.monitorIn, rect)
+      }
+      if (this.$refs.codeWindow) {
+        const rect = this.$refs.codeWindow.getRect()
+        Object.assign(this.codeWindow, rect)
       }
       this.saveSettings()
     },
@@ -115,6 +174,7 @@ export default {
       this.$store.app.setSettings({
         monitorIn: this.monitorIn,
         monitorOut: this.monitorOut,
+        codeWindow: this.codeWindow,
         sidebarWidth: parseInt(this.$refs.sidebar.offset),
       })
     }
@@ -168,9 +228,9 @@ export default {
       :start-y="monitorIn.y"
       :start-w="monitorIn.w"
       :start-h="monitorIn.h"
-      :style="windowOnTop === 'monitor-in' ? 'z-index: 3' : 'z-index: 2'"
+      :style="`z-index: ${2 + windowOrder.indexOf('monitorIn')}`"
       @close="toggleMonitorIn"
-      @mousedown="windowOnTop = 'monitor-in'"
+      @mousedown="bringWindowForward('monitorIn')"
       @stop-drag="onWindowChange"
       @stop-resize="onWindowChange"
     >
@@ -209,9 +269,9 @@ export default {
       :start-y="monitorOut.y"
       :start-w="monitorOut.w"
       :start-h="monitorOut.h"
-      :style="windowOnTop === 'monitor-out' ? 'z-index: 3' : 'z-index: 2'"
+      :style="`z-index: ${2 + windowOrder.indexOf('monitorOut')}`"
       @close="toggleMonitorOut"
-      @mousedown="windowOnTop = 'monitor-out'"
+      @mousedown="bringWindowForward('monitorOut')"
       @stop-drag="onWindowChange"
       @stop-resize="onWindowChange"
     >
@@ -242,10 +302,44 @@ export default {
         ></monitor-view>
       </template>
     </window>
+    <window
+      v-if="codeWindow.enabled"
+      ref="codeWindow"
+      class="code-window"
+      :start-x="codeWindow.x"
+      :start-y="codeWindow.y"
+      :start-w="codeWindow.w"
+      :start-h="codeWindow.h"
+      :style="`z-index: ${2 + windowOrder.indexOf('code')}`"
+      @close="toggleCodeWindow"
+      @mousedown="bringWindowForward('code')"
+      @stop-drag="onWindowChange"
+      @stop-resize="onWindowChange"
+    >
+      <template #header>
+        <div class="flex-center flex-1 gap-8 overflow-hidden">
+          <i-code class="icon">
+          </i-code>
+          <select v-model="codeWindow.deviceId" class="select" placeholder="Select node" @mousedown.stop>
+            <option :value="''">Select node</option>
+            <option v-for="script in scriptNodes" :key="script.id" :value="script.id">
+              {{ script.name }}
+            </option>
+          </select>
+        </div>
+      </template>
+      <template #default>
+        <code-view :device="scriptNodes.find(n => n.id === codeWindow.deviceId)">
+        </code-view>
+      </template>
+    </window>
   </div>
 </template>
 
 <style scoped>
+.select {
+  background-color: #fff0;
+}
 .main-view {
   width: 100%;
   height: 100%;

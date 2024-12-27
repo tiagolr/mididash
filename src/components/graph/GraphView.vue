@@ -10,6 +10,7 @@ import TriggerNode from './TriggerNode.vue'
 import { EVT_MIDI } from '../../globals';
 import IZoom from '../../assets/zoom.svg'
 import ILayout from '../../assets/layout.svg'
+import IMagnet from '../../assets/magnet.svg'
 export default {
   components: {
     Node,
@@ -23,7 +24,8 @@ export default {
     ScriptNode,
     TriggerNode,
     IZoom,
-    ILayout
+    ILayout,
+    IMagnet
   },
   data() {
     return {
@@ -281,6 +283,10 @@ export default {
 
     onDragover (event) {
       event.dataTransfer.dropEffect = 'move' // required to work on windows
+    },
+
+    toggleGridSnap () {
+      this.$store.app.setSettings({ disableGridSnap: !this.$store.app.settings.disableGridSnap })
     }
   }
 }
@@ -294,7 +300,11 @@ export default {
     @dragover.prevent="onDragover"
     @click="onClickGraph"
   >
-    <div class="top-right-buttons">
+    <div class="top-right-buttons" @click.stop>
+      <div title="Snap to grid" :class="!$store.app.settings.disableGridSnap && 'active'" @click="toggleGridSnap">
+        <i-magnet class="icon">
+        </i-magnet>
+      </div>
       <div title="Zoom nodes" @click="zoomNodes">
         <i-zoom class="icon">
         </i-zoom>
@@ -354,6 +364,8 @@ export default {
           :data="node"
           :drag-threshold="2"
           :style="node.disconnected && 'opacity: 0.4'"
+          :snap-to="($store.app.settings.disableGridSnap && !$store.app.keys.shift) ||
+            (!$store.app.settings.disableGridSnap && $store.app.keys.shift) ? 0 : 16"
         >
           <monitor-node
             v-if="node.class === 'monitor'"
@@ -460,7 +472,7 @@ export default {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
-.top-right-buttons > div:hover {
+.top-right-buttons > div:hover, .top-right-buttons > .active {
   background: var(--foreground-light);
 }
 .top-right-buttons .icon {

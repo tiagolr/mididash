@@ -39,6 +39,7 @@ export default {
     this.$store.app.getMidiPorts()
 
     document.addEventListener('keydown', this.onGlobalKeydown)
+    document.addEventListener('keyup', this.onGlobalKeyup)
     if (!import.meta.env.DEV) {
       document.addEventListener('contextmenu', (e) => { e.preventDefault() }) // stop right click menus
     }
@@ -53,6 +54,7 @@ export default {
   },
   beforeUnmount () {
     document.removeEventListener('keydown', this.onGlobalKeydown)
+    document.removeEventListener('keyup', this.onGlobalKeyup)
   },
   methods: {
     async onWindowShow() {
@@ -78,6 +80,11 @@ export default {
     },
 
     onGlobalKeydown (evt) {
+      if (evt.key === 'Shift') {
+        this.$store.app.setShiftKey(true)
+      }
+
+
       const el = document.activeElement
       if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable) {
 		    return
@@ -108,6 +115,12 @@ export default {
         }
       }
     },
+
+    onGlobalKeyup (evt) {
+      if (evt.key === 'Shift') {
+        this.$store.app.setShiftKey(false)
+      }
+    }
   }
 }
 </script>
