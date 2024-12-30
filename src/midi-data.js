@@ -163,3 +163,49 @@ export const CC = {
 '126':'Mono ON',
 '127':'Poly ON',
 }
+
+export const TRIGGER_CC_RAW = [
+  { id: 'pitch', label: 'Pitch Wheel', mode: 'pitch', status: 0x0E, min: -8192, max: 8192 },
+  { id: 'channelAT', label: 'Channel AT', mode: 'channel', status: 0x0D, min: 0, max: 127 }
+]
+
+Object.keys(CC).forEach(key => {
+  TRIGGER_CC_RAW.push({ id: key, label: `CC ${key} ${CC[key]}`, mode: 'raw', min: 0, max: 127 })
+})
+
+// HR
+export const TRIGGER_CCHR = JSON.parse(JSON.stringify(TRIGGER_CC_RAW))
+Object.keys(CCHR).forEach((key, i) => {
+  TRIGGER_CCHR[i+2] = {
+    id: key,
+    label: `${key} ${CCHR[key]}`,
+    mode: 'HR',
+    min: 0,
+    max: 16383,
+    cc1: key.split('/')[0],
+    cc2: key.split('/')[1]
+  }
+})
+// Pan HR
+TRIGGER_CCHR[10 + 2].min = -8192
+TRIGGER_CCHR[10 + 2].max = 8192
+// Switches
+const switches = [64, 65, 66, 67, 68, 69, 80, 81, 82, 83, 120, 121, 122, 123, 124, 125, 126, 127]
+switches.forEach(sw => {
+  TRIGGER_CCHR[sw + 2].mode = 'switch'
+})
+// RPN and NRPN
+Object.assign(TRIGGER_CCHR[99+2], {
+  min: 0,
+  max: 16383,
+  mode: 'HR',
+  cc1: 99,
+  cc2: 98
+})
+Object.assign(TRIGGER_CCHR[101+2], {
+  min: 0,
+  max: 16383,
+  mode: 'HR',
+  cc1: 101,
+  cc2: 100
+})

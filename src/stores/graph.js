@@ -179,8 +179,14 @@ export default defineStore('graph', {
             noteStart: 5,
             noteRange: 1,
             bytes: '0x90 60 127',
-            sliderStatus: 'CC',
-            sliderData1: '14'
+            channel: 0,
+            sliders: [{
+              id: 'pitch',
+              value: 0,
+              raw: false,
+              visible: false,
+              reset: false,
+            }]
           }
         }
 

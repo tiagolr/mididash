@@ -57,7 +57,7 @@ export default {
       this.keydown = key
       this.$store.app.hubProcess({
         ts: Date.now(),
-        bytes: [0x90, key, 127],
+        bytes: [0x90 | this.node.trigger.channel, key, 127],
         from: this.node.id,
         to: '*',
         fromPort: '*',
@@ -68,7 +68,7 @@ export default {
       this.keydown = null
       this.$store.app.hubProcess({
         ts: Date.now(),
-        bytes: [0x80, key, 0],
+        bytes: [0x80 | this.node.trigger.channel, key, 0],
         from: this.node.id,
         to: '*',
         fromPort: '*',

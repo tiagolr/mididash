@@ -12,6 +12,7 @@ export default {
     },
     placeholder: String,
     showPlaceholderOnMin: Boolean,
+    forceValidValue: Boolean
   },
   emits: ['update:modelValue', 'change'],
   data() {
