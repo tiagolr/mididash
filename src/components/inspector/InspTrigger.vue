@@ -104,6 +104,18 @@ export default {
       } else if (slider.mode === 'channelAT') {
         msg1.push(0xD0 | channel)
         msg1.push(value)
+      } else if (slider.mode === 'switch') {
+        if (value >= 64 && !this.trigger.sliders[i].switchOn) {
+          this.trigger.sliders[i].switchOn = true
+          msg1.push(0xB0 | channel)
+          msg1.push(slider.cc)
+          msg1.push(127)
+        } else if (value < 64 && this.trigger.sliders[i].switchOn) {
+          this.trigger.sliders[i].switchOn = false
+          msg1.push(0xB0 | channel)
+          msg1.push(slider.cc)
+          msg1.push(0)
+        }
       } else if (slider.mode === 'HR') {
         let msb, lsb
         if (slider.min < 0) {
@@ -122,7 +134,9 @@ export default {
         msg1.push(slider.cc)
         msg1.push(value)
       }
-      this.hubProcess(msg1)
+      if (msg1.length) {
+        this.hubProcess(msg1)
+      }
       if (msg2.length) {
         this.hubProcess(msg2)
       }
@@ -144,7 +158,7 @@ export default {
     toggleSwitchValue(i) {
       const slider = this.trigger.sliders[i]
       slider.value = slider.value > 63 ? 0 : 127
-      this.dispatchSlider()
+      this.dispatchSlider(i)
     },
     onSliderDragEnd (i) {
       const slider = this.trigger.sliders[i]
@@ -251,8 +265,13 @@ export default {
         :checked="trigger.sliders[i].value > 63"
         @click="toggleSwitchValue(i)"
       ></switch-button>
-      <number-input v-else v-model="trigger.sliders[i].value" :min="slider.min" :max="slider.max">
-      </number-input>
+      <number-input
+        v-else
+        v-model="trigger.sliders[i].value"
+        :min="slider.min"
+        :max="slider.max"
+        @change="dispatchSlider(i)"
+      ></number-input>
     </div>
     <div>
       <vue-slider
