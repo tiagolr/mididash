@@ -28,6 +28,11 @@ export default {
         : TRIGGER_CC_HR.find(cc => cc.id === c.id)
       )
   },
+  watch: {
+    device (d) {
+      this.trigger = d.trigger
+    }
+  },
   methods: {
     saveTrigger () {
       this.$store.graph.setDeviceProperty(this.device.id, 'trigger', this.trigger)
@@ -66,6 +71,7 @@ export default {
     zeroSliderDefer(i) {
       setTimeout(() => {
         this.zeroSlider(i)
+        this.dispatchSlider(i)
       }, 0);
     },
     resetSlider(evt, i) {
@@ -147,7 +153,7 @@ export default {
   <div class="mt-1rem font-lighter mb-025rem">
     Sliders
   </div>
-  <div v-for="slider,i in triggerSliders" :key="slider.id" class="slider">
+  <div v-for="slider,i in triggerSliders" :key="slider.id+i" class="slider">
     <div class="flex-center gap-8 mb-05rem">
       <div class="flex-center gap-4">
         <checkbox :checked="trigger.sliders[i].raw" @click="toggleSliderRaw(i)">

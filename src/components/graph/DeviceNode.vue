@@ -164,11 +164,15 @@ export default {
     @click.prevent.stop="onClickNode"
   >
     <div class="outline">
-      <div class="header text-ellipsis" :class="{'has-ports-left': inputs.length, 'has-ports-right': outputs.length}">
-        <component :is="`i-${device.class}`" class="icon">
-        </component>
-        <div v-if="device.name">{{ device.name }}</div>
-        <slot name="header">
+      <div class="header" :class="{'has-ports-left': inputs.length, 'has-ports-right': outputs.length}">
+        <div class="flex-center text-ellipsis gap-8" style="min-height: 32px;">
+          <component :is="`i-${device.class}`" class="icon">
+          </component>
+          <div v-if="device.name">{{ device.name }}</div>
+          <slot name="header">
+          </slot>
+        </div>
+        <slot name="header-bottom">
         </slot>
       </div>
       <div class="content">
@@ -260,10 +264,7 @@ export default {
   color: var(--node-header);
   font-weight: 600;
   padding: 0px 8px;
-  height: 32px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
+  min-height: 32px;
   border-top-left-radius: var(--node-radius);
   border-top-right-radius: var(--node-radius);
   /* border: 1px solid #fff3; */

@@ -1,9 +1,12 @@
 <script>
 import DeviceNode from './DeviceNode.vue';
+import { TRIGGER_CC_HR, TRIGGER_CC_RAW } from '../../midi-data'
+import VueSlider from "vue-3-slider-component"
 
 export default {
   components: {
     DeviceNode,
+    VueSlider
   },
   props: {
     node: Object,
@@ -15,7 +18,9 @@ export default {
   ],
   data() {
     return {
-      keydown: null
+      keydown: null,
+      trigger: this.node.trigger,
+      zoom: 1
     }
   },
   computed: {
@@ -27,7 +32,13 @@ export default {
     whiteKeys: vm => vm.keys.filter(k => [0,2,4,5,7,9,11].includes(k % 12)),
     blackKeys: vm => vm.keys.filter(k => [1,3,6,8,10].includes(k % 12)),
     keyWidth: vm => 100 / vm.whiteKeys.length,
-    blackKeyWidth: vm => vm.keyWidth * 0.5
+    blackKeyWidth: vm => vm.keyWidth * 0.5,
+    triggerSliders: vm => vm.trigger.sliders
+      .filter(t => t.visible)
+      .map(c => c.raw
+        ? TRIGGER_CC_RAW.find(cc => cc.id === c.id)
+        : TRIGGER_CC_HR.find(cc => cc.id === c.id)
+      )
   },
   watch: {
     keyboardWidth() {
@@ -38,6 +49,7 @@ export default {
     document.addEventListener('mouseup', this.onMouseupDocument)
   },
   mounted () {
+    this.getZoom()
     const range = this.node.trigger.noteRange
     // eslint-disable-next-line vue/no-mutating-props
     this.node.trigger.noteRange = 0
@@ -51,6 +63,13 @@ export default {
     document.removeEventListener('mouseup', this.onMouseupDocument)
   },
   methods: {
+    getZoom () {
+      let parent = this.$parent
+      while (parent && !parent.getZoom) {
+        parent = parent.$parent
+      }
+      this.zoom = parent?.getZoom() || 1
+    },
     // returns number of whitekeys before a blackkey
     getBlackSpacing (i) {
       return [1,2,4,5,6][i % 5] + Math.floor(i / 5) * 7
@@ -89,6 +108,40 @@ export default {
       if (event.buttons === 1) {
         this.onMouseupKey(key)
       }
+    },
+    zeroSliderDefer(i) {
+      setTimeout(() => {
+        const slider = this.trigger.sliders[i]
+        slider.value = 0
+        slider.switchOn = false
+        this.dispatchSlider(i)
+      }, 0);
+    },
+    dispatchSlider(i) {
+      // const val = this.trigger.sliders[i].value
+    },
+    onSliderDragStart () {
+      let graphView = this.$parent
+      while (graphView && !graphView.pan) {
+        graphView = graphView.$parent
+      }
+      if (graphView) {
+        graphView.ignoreClicks = true
+      }
+    },
+    onSliderDragEnd (i) {
+      let graphView = this.$parent
+      while (graphView && !graphView.pan) {
+        graphView = graphView.$parent
+      }
+      if (graphView) {
+        graphView.ignoreClicks = false
+      }
+      const slider = this.trigger.sliders[i]
+      if (slider.reset) {
+        slider.value = 0
+        this.dispatchSlider()
+      }
     }
   }
 }
@@ -101,6 +154,27 @@ export default {
     @mousedown-port="args => $emit('mousedown-port', args)"
     @mouseup-port="args => $emit('do-connect', args)"
   >
+    <template v-if="triggerSliders.length" #header-bottom>
+      <div class="sliders">
+        <vue-slider
+          v-for="slider,i in triggerSliders" :key="slider.id + i"
+          v-model="trigger.sliders[i].value"
+          :min="slider.min"
+          :max="slider.max"
+          :tooltip="'none'"
+          :contained="true"
+          :process="pos => slider.min === -slider.max ? [[50, pos[0]]] : [[0, pos[0]]]"
+          :zoom="zoom"
+          @change="dispatchSlider(i)"
+          @dblclick="zeroSliderDefer(i)"
+          @drag-start="onSliderDragStart"
+          @drag-end="onSliderDragEnd(i)"
+          @mousedown.stop
+          @mousedown.capture="getZoom"
+          @click.stop
+        ></vue-slider>
+      </div>
+    </template>
     <div class="keys" @click.stop>
       <div class="white-keys">
         <div
@@ -140,6 +214,13 @@ export default {
 } */
 :deep(.content) {
   background: none;
+}
+.sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: -6px;
+  margin-right: -12px;
 }
 .keys {
   position: relative;
