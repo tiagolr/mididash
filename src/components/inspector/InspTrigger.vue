@@ -4,12 +4,14 @@ import VueSlider from "vue-3-slider-component"
 import NumberInput from '../global/forms/NumberInput.vue'
 import Checkbox from '../global/forms/Checkbox.vue'
 import SwitchButton from '../global/forms/SwitchButton.vue'
+import IClose from '../../assets/close.svg'
 export default {
   components: {
     VueSlider,
     NumberInput,
     Checkbox,
-    SwitchButton
+    SwitchButton,
+    IClose,
   },
   props: {
     device: Object
@@ -47,13 +49,7 @@ export default {
         this.sendBytes()
       }
     },
-    sendBytes () {
-      const bytes = this.trigger.bytes
-        .split(/\s+/)
-        .map(s => parseInt(s))
-        .filter(i => !isNaN(i))
-        .map(i => i % 256)
-
+    hubProcess (bytes) {
       this.$store.app.hubProcess({
         ts: Date.now(),
         bytes,
@@ -62,6 +58,14 @@ export default {
         fromPort: '*',
         toPort: '*'
       })
+    },
+    sendBytes () {
+      const bytes = this.trigger.bytes
+        .split(/\s+/)
+        .map(s => parseInt(s))
+        .filter(i => !isNaN(i))
+        .map(i => i % 256)
+      this.hubProcess(bytes)
     },
     zeroSlider(i) {
       const slider = this.trigger.sliders[i]
@@ -77,12 +81,51 @@ export default {
     resetSlider(evt, i) {
       const id = evt.target.value
       this.zeroSlider(i)
-      // FIX - force slider id change, capture event interfers with v-model and its necessary to reset the value before slider id change
-      // otherwise results in console errors because the slider value may be outside min max bounds
+      // FIX - force slider id change, capture event interfers with v-model
+      // and its necessary to reset the value before slider id change otherwise
+      // results in console errors because the slider value may be outside min max bounds
       this.trigger.sliders[i].id = id
     },
-    dispatchSlider(i) {
-      // const val = this.trigger.sliders[i].value
+    async dispatchSlider(i) {
+      await this.$nextTick()
+      const slider = this.triggerSliders[i]
+      let value = this.trigger.sliders[i].value
+      const channel = this.trigger.channel
+      const msg1 = []
+      const msg2 = []
+
+      if (slider.mode === 'pitch') {
+        msg1.push(0xE0 | channel)
+        value += 8192
+        const lsb = value & 0x7F
+        const msb = (value >> 7) & 0x7F
+        msg1.push(msb)
+        msg1.push(lsb)
+      } else if (slider.mode === 'channelAT') {
+        msg1.push(0xD0 | channel)
+        msg1.push(value)
+      } else if (slider.mode === 'HR') {
+        let msb, lsb
+        if (slider.min < 0) {
+          value += 8192
+        }
+        lsb = value & 0x7F
+        msb = (value >> 7) & 0x7F
+        msg1.push(0xB0 | channel)
+        msg1.push(slider.cc1)
+        msg1.push(msb)
+        msg2.push(0xB0 | channel)
+        msg2.push(slider.cc2)
+        msg2.push(lsb)
+      } else {
+        msg1.push(0xB0 | channel)
+        msg1.push(slider.cc)
+        msg1.push(value)
+      }
+      this.hubProcess(msg1)
+      if (msg2.length) {
+        this.hubProcess(msg2)
+      }
     },
     toggleSliderRaw(i) {
       this.zeroSlider(i)
@@ -107,8 +150,21 @@ export default {
       const slider = this.trigger.sliders[i]
       if (slider.reset) {
         slider.value = 0
-        this.dispatchSlider()
+        this.dispatchSlider(i)
       }
+    },
+    removeSlider (i) {
+      this.trigger.sliders.splice(i, 1)
+    },
+    addSlider () {
+      this.trigger.sliders.push({
+        id: 'pitch',
+        value: 0,
+        raw: false,
+        visible: false,
+        reset: false,
+        switchOn: false // field to toggle switch on/off when slider crosses middle
+      })
     }
   }
 }
@@ -150,8 +206,13 @@ export default {
       <option :value="8">8</option>
     </select>
   </div>
-  <div class="mt-1rem font-lighter mb-025rem">
-    Sliders
+  <div class="mt-1rem mb-025rem flex-center">
+    <div class="font-lighter">
+      Sliders
+    </div>
+    <div class="flex-right cursor-pointer" @click="addSlider">
+      + Add
+    </div>
   </div>
   <div v-for="slider,i in triggerSliders" :key="slider.id+i" class="slider">
     <div class="flex-center gap-8 mb-05rem">
@@ -169,6 +230,10 @@ export default {
         <checkbox :checked="trigger.sliders[i].reset" @click="toggleSliderReset(i)">
         </checkbox>
         Reset
+      </div>
+      <div class="flex-right">
+        <i-close class="icon" @click="removeSlider(i)">
+        </i-close>
       </div>
     </div>
     <div class="flex-center gap-4">
@@ -240,5 +305,13 @@ export default {
   padding: 0.5rem;
   border: 1px solid var(--border);
   border-radius: var(--panel-radius);
+}
+.icon {
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+}
+:deep(.icon path) {
+  fill: var(--text);
 }
 </style>

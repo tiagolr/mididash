@@ -77,27 +77,23 @@ export default {
     onMouseupDocument () {
       this.keydown = null
     },
-    onMousedownKey (key) {
-      this.keydown = key
+    hubProcess (bytes) {
       this.$store.app.hubProcess({
         ts: Date.now(),
-        bytes: [0x90 | this.node.trigger.channel, key, 127],
+        bytes,
         from: this.node.id,
         to: '*',
         fromPort: '*',
         toPort: '*'
       })
     },
+    onMousedownKey (key) {
+      this.keydown = key
+      this.hubProcess([0x90 | this.node.trigger.channel, key, 127])
+    },
     onMouseupKey (key) {
       this.keydown = null
-      this.$store.app.hubProcess({
-        ts: Date.now(),
-        bytes: [0x80 | this.node.trigger.channel, key, 0],
-        from: this.node.id,
-        to: '*',
-        fromPort: '*',
-        toPort: '*'
-      })
+      this.hubProcess([0x80 | this.node.trigger.channel, key, 0])
     },
     onMouseenterKey (event, key) {
       if (event.buttons === 1) {
@@ -117,8 +113,46 @@ export default {
         this.dispatchSlider(i)
       }, 0);
     },
-    dispatchSlider(i) {
-      // const val = this.trigger.sliders[i].value
+    async dispatchSlider(i) {
+      await this.$nextTick()
+      const slider = this.triggerSliders[i]
+      let value = this.trigger.sliders[i].value
+      const channel = this.trigger.channel
+      const msg1 = []
+      const msg2 = []
+
+      if (slider.mode === 'pitch') {
+        msg1.push(0xE0 | channel)
+        value += 8192
+        const lsb = value & 0x7F
+        const msb = (value >> 7) & 0x7F
+        msg1.push(msb)
+        msg1.push(lsb)
+      } else if (slider.mode === 'channelAT') {
+        msg1.push(0xD0 | channel)
+        msg1.push(value)
+      } else if (slider.mode === 'HR') {
+        let msb, lsb
+        if (slider.min < 0) {
+          value += 8192
+        }
+        lsb = value & 0x7F
+        msb = (value >> 7) & 0x7F
+        msg1.push(0xB0 | channel)
+        msg1.push(slider.cc1)
+        msg1.push(msb)
+        msg2.push(0xB0 | channel)
+        msg2.push(slider.cc2)
+        msg2.push(lsb)
+      } else {
+        msg1.push(0xB0 | channel)
+        msg1.push(slider.cc)
+        msg1.push(value)
+      }
+      this.hubProcess(msg1)
+      if (msg2.length) {
+        this.hubProcess(msg2)
+      }
     },
     onSliderDragStart () {
       let graphView = this.$parent
@@ -206,12 +240,6 @@ export default {
 </template>
 
 <style scoped>
-/* :deep(.header) {
-  background: none;
-}
-:deep(.outline) {
-  background: var(--node-color);
-} */
 :deep(.content) {
   background: none;
 }
@@ -221,6 +249,7 @@ export default {
   gap: 4px;
   margin-left: -6px;
   margin-right: -12px;
+  padding-bottom: 4px;
 }
 .keys {
   position: relative;

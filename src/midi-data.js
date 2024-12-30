@@ -165,12 +165,19 @@ export const CC = {
 }
 
 export const TRIGGER_CC_RAW = [
-  { id: 'pitch', label: 'Pitch Wheel', mode: 'pitch', status: 0x0E, min: -8192, max: 8192 },
-  { id: 'channelAT', label: 'Channel AT', mode: 'channel', status: 0x0D, min: 0, max: 127 }
+  { id: 'pitch', label: 'Pitch Wheel', mode: 'pitch', min: -8192, max: 8191 },
+  { id: 'channelAT', label: 'Channel AT', mode: 'channelAT', min: 0, max: 127 }
 ]
 
 Object.keys(CC).forEach(key => {
-  TRIGGER_CC_RAW.push({ id: key, label: `CC ${key} ${CC[key]}`, mode: 'raw', min: 0, max: 127 })
+  TRIGGER_CC_RAW.push({
+    id: key,
+    cc: parseInt(key),
+    label: `CC ${key} ${CC[key]}`,
+    mode: 'raw',
+    min: 0,
+    max: 127
+  })
 })
 
 // HR
@@ -181,13 +188,13 @@ Object.keys(CCHR).forEach((key, i) => {
     mode: 'HR',
     min: 0,
     max: 16383,
-    cc1: key.split('/')[0],
-    cc2: key.split('/')[1]
+    cc1: parseInt(key.split('/')[0]),
+    cc2: parseInt(key.split('/')[1])
   })
 })
 // Pan HR
 TRIGGER_CC_HR[10 + 2].min = -8192
-TRIGGER_CC_HR[10 + 2].max = 8192
+TRIGGER_CC_HR[10 + 2].max = 8191
 // Switches
 const switches = [64, 65, 66, 67, 68, 69, 80, 81, 82, 83, 120, 121, 122, 123, 124, 125, 126, 127]
 switches.forEach(sw => {
