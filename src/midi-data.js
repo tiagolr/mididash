@@ -1,5 +1,5 @@
 export const CCHR = {
-  '00/32': 'BankSel HR,',
+  '00/32': 'BankSel HR',
   '01/33': 'Mod Whl HR',
   '02/34': 'Breath HR',
   '03/35': 'HR',
@@ -174,38 +174,39 @@ Object.keys(CC).forEach(key => {
 })
 
 // HR
-export const TRIGGER_CCHR = JSON.parse(JSON.stringify(TRIGGER_CC_RAW))
+export const TRIGGER_CC_HR = JSON.parse(JSON.stringify(TRIGGER_CC_RAW))
 Object.keys(CCHR).forEach((key, i) => {
-  TRIGGER_CCHR[i+2] = {
-    id: key,
+  Object.assign(TRIGGER_CC_HR[i+2], {
     label: `${key} ${CCHR[key]}`,
     mode: 'HR',
     min: 0,
     max: 16383,
     cc1: key.split('/')[0],
     cc2: key.split('/')[1]
-  }
+  })
 })
 // Pan HR
-TRIGGER_CCHR[10 + 2].min = -8192
-TRIGGER_CCHR[10 + 2].max = 8192
+TRIGGER_CC_HR[10 + 2].min = -8192
+TRIGGER_CC_HR[10 + 2].max = 8192
 // Switches
 const switches = [64, 65, 66, 67, 68, 69, 80, 81, 82, 83, 120, 121, 122, 123, 124, 125, 126, 127]
 switches.forEach(sw => {
-  TRIGGER_CCHR[sw + 2].mode = 'switch'
+  TRIGGER_CC_HR[sw + 2].mode = 'switch'
 })
 // RPN and NRPN
-Object.assign(TRIGGER_CCHR[99+2], {
+Object.assign(TRIGGER_CC_HR[99+2], {
   min: 0,
   max: 16383,
   mode: 'HR',
+  label: 'CC 99 NRP',
   cc1: 99,
   cc2: 98
 })
-Object.assign(TRIGGER_CCHR[101+2], {
+Object.assign(TRIGGER_CC_HR[101+2], {
   min: 0,
   max: 16383,
   mode: 'HR',
+  label: 'CC 101 RP',
   cc1: 101,
   cc2: 100
 })

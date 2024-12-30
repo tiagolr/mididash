@@ -38,8 +38,13 @@ export default {
     document.addEventListener('mouseup', this.onMouseupDocument)
   },
   mounted () {
+    const range = this.node.trigger.noteRange
+    // eslint-disable-next-line vue/no-mutating-props
+    this.node.trigger.noteRange = 0
     setTimeout(() => {
       this.$store.graph.fitNode(this.node.id) // FIX ports not aligning correctly
+      // eslint-disable-next-line vue/no-mutating-props
+      this.node.trigger.noteRange = range // FIX initial width v-bind not working properly on Gtk linux
     }, 0);
   },
   beforeUnmount () {

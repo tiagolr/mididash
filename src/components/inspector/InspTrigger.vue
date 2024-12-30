@@ -1,13 +1,15 @@
 <script>
-import { TRIGGER_CCHR as TRIGGER_CC_RAW } from '../../midi-data'
+import { TRIGGER_CC_HR, TRIGGER_CC_RAW } from '../../midi-data'
 import VueSlider from "vue-3-slider-component"
 import NumberInput from '../global/forms/NumberInput.vue'
 import Checkbox from '../global/forms/Checkbox.vue'
+import SwitchButton from '../global/forms/SwitchButton.vue'
 export default {
   components: {
     VueSlider,
     NumberInput,
-    Checkbox
+    Checkbox,
+    SwitchButton
   },
   props: {
     device: Object
@@ -15,12 +17,16 @@ export default {
   data() {
     return {
       TRIGGER_CC_RAW,
+      TRIGGER_CC_HR,
       trigger: this.device.trigger
     }
   },
   computed: {
     triggerSliders: vm => vm.trigger.sliders
-      .map(c => TRIGGER_CC_RAW.find(cc => cc.id === c.id))
+      .map(c => c.raw
+        ? TRIGGER_CC_RAW.find(cc => cc.id === c.id)
+        : TRIGGER_CC_HR.find(cc => cc.id === c.id)
+      )
   },
   methods: {
     saveTrigger () {
@@ -52,26 +58,58 @@ export default {
         toPort: '*'
       })
     },
-    resetSlider(i) {
-      this.trigger.sliders[i].value = 0
-      this.saveTrigger()
+    zeroSlider(i) {
+      const slider = this.trigger.sliders[i]
+      slider.value = 0
+      slider.switchOn = false
+    },
+    zeroSliderDefer(i) {
+      setTimeout(() => {
+        this.zeroSlider(i)
+      }, 0);
+    },
+    resetSlider(evt, i) {
+      const id = evt.target.value
+      this.zeroSlider(i)
+      // FIX - force slider id change, capture event interfers with v-model and its necessary to reset the value before slider id change
+      // otherwise results in console errors because the slider value may be outside min max bounds
+      this.trigger.sliders[i].id = id
     },
     dispatchSlider(i) {
-      const val = this.trigger.sliders[i].value
-      console.log(val)
+      // const val = this.trigger.sliders[i].value
     },
     toggleSliderRaw(i) {
+      this.zeroSlider(i)
+      const slider = this.trigger.sliders[i]
+      slider.raw = !slider.raw
     },
     toggleSliderVisible(i) {
+      const slider = this.trigger.sliders[i]
+      slider.visible = !slider.visible
     },
     toggleSliderReset(i) {
+      this.zeroSlider(i)
+      const slider = this.trigger.sliders[i]
+      slider.reset = !slider.reset
+    },
+    toggleSwitchValue(i) {
+      const slider = this.trigger.sliders[i]
+      slider.value = slider.value > 63 ? 0 : 127
+      this.dispatchSlider()
+    },
+    onSliderDragEnd (i) {
+      const slider = this.trigger.sliders[i]
+      if (slider.reset) {
+        slider.value = 0
+        this.dispatchSlider()
+      }
     }
   }
 }
 </script>
 
 <template>
-  <select v-model="trigger.channel" class="select mt-1rem" @change="saveTrigger">
+  <select v-model="trigger.channel" class="select mt-1rem">
     <option v-for="i in 16" :key="i" :value="i - 1">
       Channel {{ i }}
     </option>
@@ -128,24 +166,37 @@ export default {
       </div>
     </div>
     <div class="flex-center gap-4">
-      <select v-model="trigger.sliders[i].id" class="select" @change="resetSlider(i)">
-        <option v-for="cc in TRIGGER_CC_RAW" :key="cc.id" :value="cc.id">
+      <select v-model="trigger.sliders[i].id" class="select" @change.capture="evt => resetSlider(evt, i)">
+        <option v-for="cc in (trigger.sliders[i].raw ? TRIGGER_CC_RAW : TRIGGER_CC_HR)" :key="cc.id" :value="cc.id">
           {{ cc.label }}
         </option>
       </select>
-      <number-input v-model="trigger.sliders[i].value" :min="slider.min" :max="slider.max">
+      <switch-button
+        v-if="slider.mode === 'switch'"
+        small
+        color
+        :no-text="'Off'"
+        :yes-text="'On'"
+        :checked="trigger.sliders[i].value > 63"
+        @click="toggleSwitchValue(i)"
+      ></switch-button>
+      <number-input v-else v-model="trigger.sliders[i].value" :min="slider.min" :max="slider.max">
       </number-input>
     </div>
-    <vue-slider
-      v-model="trigger.sliders[i].value"
-      class="mt-05rem"
-      :min="slider.min"
-      :max="slider.max"
-      :tooltip="'none'"
-      :contained="true"
-      :process="pos => slider.min === -slider.max ? [[50, pos[0]]] : [[0, pos[0]]]"
-      @change="dispatchSlider(i)"
-    ></vue-slider>
+    <div>
+      <vue-slider
+        v-model="trigger.sliders[i].value"
+        class="mt-05rem"
+        :min="slider.min"
+        :max="slider.max"
+        :tooltip="'none'"
+        :contained="true"
+        :process="pos => slider.min === -slider.max ? [[50, pos[0]]] : [[0, pos[0]]]"
+        @change="dispatchSlider(i)"
+        @drag-end="onSliderDragEnd(i)"
+        @dblclick="zeroSliderDefer(i)"
+      ></vue-slider>
+    </div>
   </div>
   <div class="mt-1rem font-lighter mb-025rem">
     Bytes

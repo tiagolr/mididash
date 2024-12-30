@@ -186,6 +186,7 @@ export default defineStore('graph', {
               raw: false,
               visible: false,
               reset: false,
+              switchOn: false // field to toggle switch on/off when slider crosses middle
             }]
           }
         }
