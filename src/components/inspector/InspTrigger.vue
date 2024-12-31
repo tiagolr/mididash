@@ -5,6 +5,9 @@ import NumberInput from '../global/forms/NumberInput.vue'
 import Checkbox from '../global/forms/Checkbox.vue'
 import SwitchButton from '../global/forms/SwitchButton.vue'
 import IClose from '../../assets/close.svg'
+import { GMFileParsed } from '../../utils'
+
+
 export default {
   components: {
     VueSlider,
@@ -20,7 +23,13 @@ export default {
     return {
       TRIGGER_CC_RAW,
       TRIGGER_CC_HR,
-      trigger: this.device.trigger
+      trigger: this.device.trigger,
+      programFile: this.device.programFile || GMFileParsed,
+      bank: '',
+      bankMSB: 0,
+      bankLSB: 0,
+      patch: '',
+      patchLSB: 0,
     }
   },
   computed: {
@@ -33,7 +42,28 @@ export default {
   watch: {
     device (d) {
       this.trigger = d.trigger
-    }
+      this.programFile = d.programFile || GMFileParsed
+    },
+    bank (b) {
+      if (this.programFile.banks[b] >= 0) {
+        const value = this.programFile.banks[b]
+        this.bankLSB = value & 0x7F
+        this.bankMSB = (value >> 7) & 0x7F
+      }
+    },
+    patch (p) {
+      if (this.programFile.patches[this.bank]?.[p] >= 0) {
+        const value = this.programFile.patches[this.bank][p]
+        this.patchLSB = value
+      }
+    },
+    bankMSB: 'onBankChange',
+    bankLSB: 'onBankChange',
+    patchLSB: 'onPatchChange'
+  },
+  mounted () {
+    this.onBankChange()
+    this.onPatchChange()
   },
   methods: {
     saveTrigger () {
@@ -179,6 +209,24 @@ export default {
         reset: false,
         switchOn: false // field to toggle switch on/off when slider crosses middle
       })
+    },
+    onBankChange () {
+      const value = this.bankMSB * 128 + this.bankLSB
+      const index = Object.values(this.programFile.banks).indexOf(value)
+      this.bank = index >= 0
+        ? Object.keys(this.programFile.banks)[index]
+        : ''
+    },
+    onPatchChange () {
+      const index = Object.values(this.programFile.patches[this.bank] || {}).indexOf(this.patchLSB)
+      this.patch = index >= 0
+        ? Object.keys(this.programFile.patches[this.bank])[index]
+        : ''
+    },
+    applyProgram () {
+      // send banksel msb
+      // send banksel lsb
+      // send program
     }
   }
 }
@@ -251,7 +299,7 @@ export default {
       </div>
     </div>
     <div class="flex-center gap-4">
-      <select v-model="trigger.sliders[i].id" class="select" @change.capture="evt => resetSlider(evt, i)">
+      <select v-model="trigger.sliders[i].id" class="select flex-1" @change.capture="evt => resetSlider(evt, i)">
         <option v-for="cc in (trigger.sliders[i].raw ? TRIGGER_CC_RAW : TRIGGER_CC_HR)" :key="cc.id" :value="cc.id">
           {{ cc.label }}
         </option>
@@ -281,11 +329,69 @@ export default {
         :max="slider.max"
         :tooltip="'none'"
         :contained="true"
-        :process="pos => slider.min === -slider.max ? [[50, pos[0]]] : [[0, pos[0]]]"
+        :process="pos => slider.min < 0 ? [[50, pos[0]]] : [[0, pos[0]]]"
         @change="dispatchSlider(i)"
         @drag-end="onSliderDragEnd(i)"
         @dblclick="zeroSliderDefer(i)"
       ></vue-slider>
+    </div>
+  </div>
+  <div class="mt-1rem font-lighter mb-025rem">
+    Program
+  </div>
+  <div class="flex-center gap-8 mb-025rem">
+    <div class="font-lighter" style="width: 50px">
+      Bank
+    </div>
+    <select v-model="bank" class="select w100">
+      <option v-for="bnk in Object.keys(programFile.banks)" :key="bnk" :value="bnk">
+        {{ bnk }}
+      </option>
+    </select>
+  </div>
+  <div class="flex-center gap-8">
+    <div class="font-lighter" style="width: 50px">
+      Patch
+    </div>
+    <select v-model="patch" class="select w100">
+      <option v-for="ptch in bank ? Object.keys(programFile.patches[bank]) : []" :key="ptch" :value="ptch">
+        {{ ptch }}
+      </option>
+    </select>
+  </div>
+  <div class="flex gap-8 mt-025rem">
+    <div class="flex-column flex-center gap-025rem">
+      <div class="font-10 font-lighter">
+        Bank MSB
+      </div>
+      <number-input
+        v-model="bankMSB"
+        :min="0"
+        :max="127"
+      ></number-input>
+    </div>
+    <div class="flex-column flex-center gap-025rem">
+      <div class="font-10 font-lighter">
+        Bank LSB
+      </div>
+      <number-input
+        v-model="bankLSB"
+        :min="0"
+        :max="127"
+      ></number-input>
+    </div>
+    <div class="flex-column flex-center gap-025rem">
+      <div class="font-10 font-lighter">
+        Patch LSB
+      </div>
+      <number-input
+        v-model="patchLSB"
+        :min="0"
+        :max="127"
+      ></number-input>
+    </div>
+    <div class="flex-right flex-column" style="align-self: stretch; justify-content: flex-end;">
+      <button class="button">Apply</button>
     </div>
   </div>
   <div class="mt-1rem font-lighter mb-025rem">

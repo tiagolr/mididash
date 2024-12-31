@@ -211,7 +211,7 @@ export default {
           :max="slider.max"
           :tooltip="'none'"
           :contained="true"
-          :process="pos => slider.min === -slider.max ? [[50, pos[0]]] : [[0, pos[0]]]"
+          :process="pos => slider.min < 0 ? [[50, pos[0]]] : [[0, pos[0]]]"
           :zoom="zoom"
           @change="dispatchSlider(i)"
           @dblclick="zeroSliderDefer(i)"

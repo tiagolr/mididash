@@ -72,11 +72,9 @@ export default {
 
 .message.error {
   background-color: var(--error);
-  color: 1px solid var(--error-content);
 }
 
 .message.success {
   background-color: var(--success);
-  color: 1px solid var(--success-content);
 }
 </style>

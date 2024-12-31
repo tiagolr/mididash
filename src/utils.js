@@ -1,4 +1,45 @@
 import { prefixes } from './globals'
+import GMFile from './assets/GM.INS?raw'
+
+export function parseInsFile(file) {
+  if (!file) file = GMFile
+  const banks = {}
+  const patches = {}
+  let currentSection = null
+
+  const lines = file.split(/\r?\n/)
+  lines.forEach(line => {
+    line = line.trim()
+    if (!line || line.startsWith(';')) return
+
+    const sectionMatch = line.match(/^\[(.+)\]$/)
+    if (sectionMatch) {
+        currentSection = sectionMatch[1]
+        if (!patches[currentSection]) {
+          patches[currentSection] = {}
+        }
+        return
+    }
+
+    const programMatch = line.match(/^(\d+)\s*=\s*(.+)$/)
+    if (programMatch && currentSection) {
+        const programNumber = parseInt(programMatch[1])
+        const programName = programMatch[2].trim()
+        patches[currentSection][programName] = programNumber
+    }
+
+    const bankMatch = line.match(/^Patch\[(\d+)\]\s*=\s*(.+)$/)
+    if (bankMatch && currentSection) {
+      const patchNumber = parseInt(bankMatch[1])
+      const patchName = bankMatch[2].trim()
+      banks[patchName] = patchNumber
+    }
+  })
+
+  return { banks, patches }
+}
+
+export const GMFileParsed = parseInsFile()
 
 export function midiNoteName(noteNumber) {
   const pitchClasses = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
