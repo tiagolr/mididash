@@ -5,8 +5,7 @@ import NumberInput from '../global/forms/NumberInput.vue'
 import Checkbox from '../global/forms/Checkbox.vue'
 import SwitchButton from '../global/forms/SwitchButton.vue'
 import IClose from '../../assets/close.svg'
-import { GMFileParsed } from '../../utils'
-
+import { GMFileParsed, parseInsFile } from '../../utils'
 
 export default {
   components: {
@@ -24,12 +23,9 @@ export default {
       TRIGGER_CC_RAW,
       TRIGGER_CC_HR,
       trigger: this.device.trigger,
-      programFile: this.device.programFile || GMFileParsed,
+      programFile: this.device.trigger.programFile || GMFileParsed,
       bank: '',
-      bankMSB: 0,
-      bankLSB: 0,
       patch: '',
-      patchLSB: 0,
     }
   },
   computed: {
@@ -42,36 +38,32 @@ export default {
   watch: {
     device (d) {
       this.trigger = d.trigger
-      this.programFile = d.programFile || GMFileParsed
+      this.programFile = d.trigger.programFile || GMFileParsed
     },
     bank (b) {
       if (this.programFile.banks[b] >= 0) {
         const value = this.programFile.banks[b]
-        this.bankLSB = value & 0x7F
-        this.bankMSB = (value >> 7) & 0x7F
+        this.trigger.bankLSB = value & 0x7F
+        this.trigger.bankMSB = (value >> 7) & 0x7F
       }
     },
     patch (p) {
       if (this.programFile.patches[this.bank]?.[p] >= 0) {
         const value = this.programFile.patches[this.bank][p]
-        this.patchLSB = value
+        this.trigger.patchLSB = value
       }
     },
-    bankMSB: 'onBankChange',
-    bankLSB: 'onBankChange',
-    patchLSB: 'onPatchChange'
+    'trigger.bankMSB': 'onBankChange',
+    'trigger.bankLSB': 'onBankChange',
+    'trigger.patchLSB': 'onPatchChange'
   },
   mounted () {
     this.onBankChange()
     this.onPatchChange()
   },
   methods: {
-    saveTrigger () {
-      this.$store.graph.setDeviceProperty(this.device.id, 'trigger', this.trigger)
-    },
     saveBytes () {
       this.trigger.bytes = this.$refs.bytes.innerText
-      this.saveTrigger()
     },
     onEnterBytes (evt) {
       if (evt.ctrlKey || evt.metaKey) {
@@ -211,14 +203,14 @@ export default {
       })
     },
     onBankChange () {
-      const value = this.bankMSB * 128 + this.bankLSB
+      const value = this.trigger.bankMSB * 128 + this.trigger.bankLSB
       const index = Object.values(this.programFile.banks).indexOf(value)
       this.bank = index >= 0
         ? Object.keys(this.programFile.banks)[index]
         : ''
     },
     onPatchChange () {
-      const index = Object.values(this.programFile.patches[this.bank] || {}).indexOf(this.patchLSB)
+      const index = Object.values(this.programFile.patches[this.bank] || {}).indexOf(this.trigger.patchLSB)
       this.patch = index >= 0
         ? Object.keys(this.programFile.patches[this.bank])[index]
         : ''
@@ -227,6 +219,30 @@ export default {
       // send banksel msb
       // send banksel lsb
       // send program
+    },
+    onProgramFileLoaded () {
+      const file = this.$refs.programFileInput.files[0]
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = (evt) => {
+          const f = parseInsFile(evt.target.result)
+          if (!Object.keys(f.banks).length) {
+            this.$store.app.showError('No patches found - make sure the file is *.ins and well formatted')
+            return
+          }
+          this.trigger.programFile = f
+          this.programFile = f
+          this.trigger.bankLSB = 0
+          this.trigger.bankMSB = 0
+          this.trigger.patchLSB = 0
+          this.onBankChange()
+          this.onPatchChange()
+        }
+        reader.onerror = () => {
+          this.$store.app.showError('Failed to load file')
+        }
+        reader.readAsText(file)
+      }
     }
   }
 }
@@ -336,8 +352,12 @@ export default {
       ></vue-slider>
     </div>
   </div>
-  <div class="mt-1rem font-lighter mb-025rem">
-    Program
+  <div class="flex-center mt-1rem mb-025rem">
+    <div class="font-lighter">Program</div>
+    <div class="flex-right">
+      <div class="cursor-pointer" @click="$refs.programFileInput.click()">+ Load File</div>
+      <input ref="programFileInput" type="file" style="display: none" accept=".ins, .INS" @change="onProgramFileLoaded">
+    </div>
   </div>
   <div class="flex-center gap-8 mb-025rem">
     <div class="font-lighter" style="width: 50px">
@@ -365,7 +385,7 @@ export default {
         Bank MSB
       </div>
       <number-input
-        v-model="bankMSB"
+        v-model="trigger.bankMSB"
         :min="0"
         :max="127"
       ></number-input>
@@ -375,7 +395,7 @@ export default {
         Bank LSB
       </div>
       <number-input
-        v-model="bankLSB"
+        v-model="trigger.bankLSB"
         :min="0"
         :max="127"
       ></number-input>
@@ -385,7 +405,7 @@ export default {
         Patch LSB
       </div>
       <number-input
-        v-model="patchLSB"
+        v-model="trigger.patchLSB"
         :min="0"
         :max="127"
       ></number-input>

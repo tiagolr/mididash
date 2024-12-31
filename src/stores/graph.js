@@ -176,6 +176,10 @@ export default defineStore('graph', {
         // this needs to go some place better
         if (opts.class === 'trigger') {
           device.trigger = {
+            programFile: null,
+            bankMSB: 0,
+            bankLSB: 0,
+            patchLSB: 0,
             noteStart: 5,
             noteRange: 1,
             bytes: '0x90 60 127',
