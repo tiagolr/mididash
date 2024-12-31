@@ -23,7 +23,7 @@ export default {
     return {
       settings: this.node.settings || {
         encoding: 'dec',
-        ignoreCols: ['time', 'device', 'note', 'eventExt'],
+        ignoreCols: ['time', 'port', 'device', 'note'],
         filterEvents: [],
         filterChannels: []
       }

@@ -216,9 +216,13 @@ export default {
         : ''
     },
     applyProgram () {
-      // send banksel msb
-      // send banksel lsb
-      // send program
+      const channel = this.trigger.channel
+      const msg1 = [0xB0 | channel, 0, this.trigger.bankMSB]
+      const msg2 = [0xB0 | channel, 32, this.trigger.bankLSB]
+      const msg3 = [0xC0 | channel, this.trigger.patchLSB]
+      this.hubProcess(msg1)
+      this.hubProcess(msg2)
+      this.hubProcess(msg3)
     },
     onProgramFileLoaded () {
       const file = this.$refs.programFileInput.files[0]
@@ -227,7 +231,7 @@ export default {
         reader.onload = (evt) => {
           const f = parseInsFile(evt.target.result)
           if (!Object.keys(f.banks).length) {
-            this.$store.app.showError('No patches found - make sure the file is *.ins and well formatted')
+            this.$store.app.showError('No patches found. Make sure the file is *.ins and well formatted')
             return
           }
           this.trigger.programFile = f
@@ -411,7 +415,9 @@ export default {
       ></number-input>
     </div>
     <div class="flex-right flex-column" style="align-self: stretch; justify-content: flex-end;">
-      <button class="button">Apply</button>
+      <button class="button" @click="applyProgram">
+        Apply
+      </button>
     </div>
   </div>
   <div class="mt-1rem font-lighter mb-025rem">

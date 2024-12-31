@@ -8,7 +8,7 @@ import Checkbox from './global/forms/Checkbox.vue';
 const MAX_ITEMS = 1000
 const columns = {
   time: 'Time',
-  dev: 'Dev',
+  dev: 'Node',
   port: 'Port',
   channel: 'Channel',
   status: 'Status',
@@ -249,7 +249,7 @@ export default {
           <pre>TIME        </pre>
         </div>
         <div v-if="!ignoreCols.includes('dev')" title="Device shortname">
-          <pre>{{ node ? 'NODE ' : 'DEV  ' }}</pre>
+          <pre>NODE </pre>
         </div>
         <div v-if="!ignoreCols.includes('port')">
           <pre>PORT</pre>
