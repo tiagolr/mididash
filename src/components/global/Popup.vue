@@ -19,7 +19,7 @@ export default {
     <div
       ref="popup"
       class="popup"
-      :class="$store.app.settings.theme || 'light'"
+      :class="$store.app.settings.theme || 'dark'"
       tabindex="0"
       @keydown.esc.prevent.stop="$emit('close')"
     >
