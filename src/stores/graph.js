@@ -355,7 +355,8 @@ export default defineStore('graph', {
       const nodePadding = 4 // compensate node padding, nodes have a small padding to fix rendering traces/glitches on linux
       const gridSize = 32
       const yspacing = gridSize // y spacing between elemenets
-      const xspacing = 384 // x spacing between inputs and outputs when there is no graph depth
+      const xspacing = gridSize * 12 // x spacing between inputs and outputs when there is no graph depth
+
       const inputs = this.nodes.filter(n => n.class === 'input')
         .concat(this.nodes.filter(n => n.class === 'trigger'))
       const outputs = this.nodes.filter(n => n.class === 'output')
