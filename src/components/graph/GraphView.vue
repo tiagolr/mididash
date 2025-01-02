@@ -96,7 +96,8 @@ export default {
     this.unsubscibe()
     this.$store.app.emitter.off(EVT_MIDI, this.onMidiEvent)
   },
-  mounted () {
+  async mounted () {
+    await this.$nextTick()
     this.zoomNodes() // focus nodes after show window from minimize to tray
   },
   methods: {

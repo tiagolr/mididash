@@ -48,7 +48,8 @@ export default {
   created () {
     document.addEventListener('mouseup', this.onMouseupDocument)
   },
-  mounted () {
+  async mounted () {
+    await this.$nextTick() // avoid errors during minimize -> restore
     this.getZoom()
     const range = this.node.trigger.noteRange
     // eslint-disable-next-line vue/no-mutating-props
