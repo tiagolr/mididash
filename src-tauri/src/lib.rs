@@ -47,6 +47,7 @@ pub struct State {}
 #[derive(Default, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Settings {
+    pub version: String,
     pub theme: String,
     pub project_path: String,
     pub sidebar_width: u64,

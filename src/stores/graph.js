@@ -4,6 +4,7 @@ import { graph } from '../lib/vnodes'
 import { appStore } from '.'
 import { stripPrefix, camelCase, snakeCase, snakeCaseStr, millisToSecondsStr, capitalize } from '../utils';
 import Emitter from 'tiny-emitter'
+import { createDAG } from '../lib/vnodes/src/util'
 import { DEFAULT_PORTS, FIT_NODE, PORT_NAMES } from '../globals';
 
 export default defineStore('graph', {
@@ -351,43 +352,60 @@ export default defineStore('graph', {
     },
 
     layoutNodes () {
-      // layout nodes
       const nodePadding = 4 // compensate node padding, nodes have a small padding to fix rendering traces/glitches on linux
-      const yspacing = 32 // y spacing between elemenets
-      const xspacing = 384 // x spacing between inputs and outputs
+      const gridSize = 32
+      const yspacing = gridSize // y spacing between elemenets
+      const xspacing = 384 // x spacing between inputs and outputs when there is no graph depth
       const inputs = this.nodes.filter(n => n.class === 'input')
+        .concat(this.nodes.filter(n => n.class === 'trigger'))
       const outputs = this.nodes.filter(n => n.class === 'output')
-      const others = this.nodes.filter(n => n.class !== 'input' && n.class !== 'output')
+      const others = this.nodes.filter(n => !['input', 'output', 'trigger'].includes(n.class))
 
-      let yacc = -nodePadding
-      inputs.forEach(input => {
-        input.x = -input.width + nodePadding
-        input.y = yacc // distribute inputs vertically
-        yacc += input.height + yspacing - nodePadding * 2
-      })
-      inputs.forEach(input => {
-        input.y -= (yacc + nodePadding) / 2 - yspacing // center on x axis
-      })
+      function setGraphDepth(node, depth = 0) {
+        node.depth = depth
+        node.children.forEach(node => setGraphDepth(node, depth + 1))
+      }
 
-      yacc = -nodePadding
-      others.forEach(other => {
-        other.x = xspacing / 2 - other.width / 2 - nodePadding / 2
-        other.y = yacc
-        yacc += other.height + yspacing - nodePadding * 2 // distribute other nodes vertically
-      })
-      others.forEach(other => {
-        other.y -= (yacc + nodePadding) / 2 - yspacing // center on x axis
-      })
+      // the graph of connected nodes excludes inputs and outputs
+      const graph = createDAG(others, this.edges)
+      graph
+        .filter(node => !node.parentIds.length)
+        .forEach(node => setGraphDepth(node, 0))
+      const graphDepth = graph.reduce((acc, node) => Math.max(acc, node.depth), 0)
 
-      yacc = -nodePadding
-      outputs.forEach(output => {
-        output.x = xspacing - nodePadding
-        output.y = yacc // distribute outputs vertically
-        yacc += output.height + yspacing - nodePadding * 2
-      })
-      outputs.forEach(output => {
-        output.y -= (yacc + nodePadding) / 2 - yspacing // center on x axis
-      })
+      function layoutLevel(nodes, xpos, xalign = 'left') {
+        let yacc = -nodePadding
+        nodes.forEach(node => {
+          node.x = xpos
+          if (xalign === 'left') node.x -= nodePadding
+          else if (xalign === 'right') node.x -= node.width - nodePadding
+          else if (xalign === 'center') node.x -= node.width / 2 - nodePadding / 2
+          node.y = yacc
+          yacc += node.height + yspacing - nodePadding * 2 // distribute other nodes vertically
+        })
+        nodes.forEach(node => {
+          node.y -= (yacc + nodePadding) / 2 - yspacing // center on x axis
+        })
+      }
+
+      layoutLevel(inputs, 0, 'right')
+      if (graphDepth === 0) {
+        layoutLevel(others, xspacing / 2, 'center')
+        layoutLevel(outputs, xspacing, 'left')
+      } else {
+        const graphSpacing = 96
+        let depth = 0
+        let graphWidth = 0
+        while (depth <= graphDepth) {
+          const nodes = graph
+            .filter(nodes => nodes.depth === depth)
+            .map(node => others.find(n => n.id === node.id))
+          layoutLevel(nodes, Math.round((graphWidth + graphSpacing) / gridSize) * gridSize , 'left')
+          graphWidth = nodes.reduce((acc, node) => Math.max(acc, node.x + node.width), 0)
+          depth += 1
+        }
+        layoutLevel(outputs, Math.round((graphWidth + graphSpacing) / gridSize) * gridSize, 'left')
+      }
     }
   }
 })

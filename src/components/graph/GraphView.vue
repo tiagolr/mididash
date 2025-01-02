@@ -125,6 +125,10 @@ export default {
         }
       }
     },
+    layoutNodes () {
+      this.$store.graph.layoutNodes()
+      this.zoomNodes()
+    },
     startConnect ({ event, x, y, isInput, deviceId, portId }) {
       if (this.connecting) return
       this.ignoreClicks = true
@@ -287,7 +291,7 @@ export default {
 
     toggleGridSnap () {
       this.$store.app.setSettings({ disableGridSnap: !this.$store.app.settings.disableGridSnap })
-    }
+    },
   }
 }
 </script>
@@ -309,7 +313,7 @@ export default {
         <i-zoom class="icon">
         </i-zoom>
       </div>
-      <div title="Layout nodes" @click="$store.graph.layoutNodes">
+      <div title="Layout nodes" @click="layoutNodes">
         <i-layout class="icon">
         </i-layout>
       </div>

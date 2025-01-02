@@ -55,6 +55,7 @@ export default defineStore('app', {
             }
           })
       }
+      this.settings.version = this.version
       await this.setSettings({})
     },
 

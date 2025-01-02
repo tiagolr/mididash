@@ -54,7 +54,7 @@ function boxBoxes(box, boxes) {
   return boxes.filter(b => boxBox(b, box))
 }
 
-function createDAG (nodes, edges) {
+export function createDAG (nodes, edges) {
   const _nodes = nodes.map(node => ({
     id: node.id,
     x: node.x,

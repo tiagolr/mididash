@@ -1,9 +1,11 @@
 <script>
 import { MAPPER_MSGS } from '../../globals';
 import NumberInput from '../global/forms/NumberInput.vue';
+import Checkbox from '../global/forms/Checkbox.vue'
 export default {
   components: {
-    NumberInput
+    NumberInput,
+    Checkbox
   },
   props: {
     device: Object
@@ -27,7 +29,9 @@ export default {
           data1Min: -1,
           data1Max: -1,
           data2Min: -1,
-          data2Max: -1
+          data2Max: -1,
+          pullData1: false,
+          pullData2: false
         }
       }
     }
@@ -52,21 +56,25 @@ export default {
       this.cols.output.data1Max = this.device.rule.outData1Max
       this.cols.output.data2Min = this.device.rule.outData2Min
       this.cols.output.data2Max = this.device.rule.outData2Max
+      this.cols.output.pullData1 = this.device.rule.pullData1
+      this.cols.output.pullData2 = this.device.rule.pullData2
     },
     saveRule () {
       const rule = {
-        in_channel: this.cols.input.channel,
-        in_type: this.cols.input.type,
-        in_data1Min: this.cols.input.data1Min,
-        in_data1Max: this.cols.input.data1Max,
-        in_data2Min: this.cols.input.data2Min,
-        in_data2Max: this.cols.input.data2Max,
-        out_channel: this.cols.output.channel,
-        out_type: this.cols.output.type,
-        out_data1Min: this.cols.output.data1Min,
-        out_data1Max: this.cols.output.data1Max,
-        out_data2Min: this.cols.output.data2Min,
-        out_data2Max: this.cols.output.data2Max,
+        inChannel: this.cols.input.channel,
+        inType: this.cols.input.type,
+        inData1Min: this.cols.input.data1Min,
+        inData1Max: this.cols.input.data1Max,
+        inData2Min: this.cols.input.data2Min,
+        inData2Max: this.cols.input.data2Max,
+        outChannel: this.cols.output.channel,
+        outType: this.cols.output.type,
+        outData1Min: this.cols.output.data1Min,
+        outData1Max: this.cols.output.data1Max,
+        outData2Min: this.cols.output.data2Min,
+        outData2Max: this.cols.output.data2Max,
+        pullData1: this.cols.output.pullData1,
+        pullData2: this.cols.output.pullData2
       }
       this.$store.graph.setDeviceData(this.device.id, 'rule', rule)
     }
@@ -76,7 +84,7 @@ export default {
 
 <template>
   <div class="mt-1rem gap-8 flex-column gap-8">
-    <div v-for="(io, key) in cols" :key="key" class="rule flex-wrap flex-1">
+    <div v-for="(io, key) in cols" :key="key" class="rule flex-column flex-1">
       <div style="font-weight: 600;text-transform: uppercase;width: 100%;" class="uppercase">
         {{ key }}
       </div>
@@ -98,20 +106,34 @@ export default {
           </select>
         </div>
       </div>
-      <div class="flex flex-wrap gap-4">
+      <div class="flex-column gap-4">
         <div class="flex-center">
           <div class="label">Data1</div>
           <number-input v-model="io.data1Min" :min="-1" :max="127" placeholder="Min" style="width: 60px" show-placeholder-on-min @change="saveRule">
           </number-input>
           <number-input v-model="io.data1Max" :min="-1" :max="127" placeholder="Max" style="width: 60px" show-placeholder-on-min @change="saveRule">
           </number-input>
+          <div v-if="key === 'output'" class="flex-center gap-4" style="margin-left: 12px" title="Use data 2 input instead of data 1">
+            <checkbox :checked="io.pullData1" @click="() => { io.pullData1 = !io.pullData1; saveRule() }">
+            </checkbox>
+            <div class="font-lighter">
+              Pull 2
+            </div>
+          </div>
         </div>
-        <div class="flex-center">
+        <div class="flex-center" :class="(io.type === 0x0C || io.type === 0x0D) && 'opacity-05'">
           <div class="label">Data2</div>
           <number-input v-model="io.data2Min" :min="-1" :max="127" placeholder="Min" style="width: 60px" show-placeholder-on-min @change="saveRule">
           </number-input>
           <number-input v-model="io.data2Max" :min="-1" :max="127" placeholder="Max" style="width: 60px" show-placeholder-on-min @change="saveRule">
           </number-input>
+          <div v-if="key === 'output'" class="flex-center gap-4" style="margin-left: 12px" title="Use data 1 input instead of data 2">
+            <checkbox :checked="io.pullData2" @click="() => { io.pullData2 = !io.pullData2; saveRule() }">
+            </checkbox>
+            <div class="font-lighter">
+              Pull 1
+            </div>
+          </div>
         </div>
       </div>
     </div>
