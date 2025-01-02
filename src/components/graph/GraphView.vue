@@ -99,6 +99,9 @@ export default {
   async mounted () {
     await this.$nextTick()
     this.zoomNodes() // focus nodes after show window from minimize to tray
+    this.nodes.forEach(node => {
+      this.$store.graph.fitNode(node.id) // FIX bad port anchors after minimize to tray and restore
+    })
   },
   methods: {
     onWindowResize () {
