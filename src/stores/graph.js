@@ -360,7 +360,7 @@ export default defineStore('graph', {
       const inputs = this.nodes.filter(n => n.class === 'input')
         .concat(this.nodes.filter(n => n.class === 'trigger'))
       const outputs = this.nodes.filter(n => n.class === 'output')
-      const others = this.nodes.filter(n => !['input', 'output', 'trigger'].includes(n.class))
+      const others = this.nodes.filter(n => !['input', 'output', 'trigger', 'note'].includes(n.class))
 
       function setGraphDepth(node, depth = 0) {
         node.depth = depth
