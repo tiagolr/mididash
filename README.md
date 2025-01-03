@@ -13,7 +13,7 @@
 </div>
 <div align="center">
 
-[![GitHub package.json version](https://img.shields.io/github/package-json/v/tiagolr/mididash?color=%40&label=latest)](https://github.com/tiagolr/mididash/releases/latest)
+[![GitHub package.json version](https://img.shields.io/github/v/release/tiagolr/mididash?color=%40&label=latest)](https://github.com/tiagolr/mididash/releases/latest)
 ![GitHub issues](https://img.shields.io/github/issues-raw/tiagolr/mididash)
 ![GitHub all releases](https://img.shields.io/github/downloads/tiagolr/mididash/total)
 ![Github license](https://img.shields.io/github/license/tiagolr/mididash)
