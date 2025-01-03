@@ -40,7 +40,7 @@ export default {
           <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="">
         </a>
         <a href="https://github.com/tiagolr/mididash/releases">
-          <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" alt="">
+          <img src="https://img.shields.io/badge/Linux-E95420?style=for-the-badge&logo=linux&logoColor=white" alt="">
         </a>
         <a href="https://github.com/tiagolr/mididash/releases">
           <img src="https://img.shields.io/badge/MACOS-adb8c5?style=for-the-badge&logo=macos&logoColor=white" alt="">
