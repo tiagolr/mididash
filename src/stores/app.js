@@ -21,6 +21,7 @@ export default defineStore('app', {
       sidebarWidth: 0,
       scriptTemplates: [],
       scriptShowLineNumbers: false,
+      startMinimized: false,
       hubPaused: false,
       monitorIn: {},
       monitorOut: {}

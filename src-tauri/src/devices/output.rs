@@ -49,8 +49,7 @@ impl Device for Output {
         }
         let port = &ports[idx];
         let id = self.id.clone();
-        self.conn = Some(Mutex::new(output.connect(port, &id).unwrap()));
-
+        self.conn = Some(Mutex::new(output.connect(port, &id)?));
         Ok(())
     }
     fn get_id(&self) -> &str {

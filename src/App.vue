@@ -7,12 +7,14 @@ import MainView from './components/MainView.vue'
 import { EVT_WINDOW_SHOW, EVT_SETTINGS_CHANGE, EVT_PROJECT_NEW, EVT_ERROR, EVT_MIDI, EVT_FILE_OPEN, EVT_FILE_SAVE_AS, EVT_FILE_SAVE, EVT_SCRIPT_LOG, EVT_SCRIPT_ERROR, EVT_SHOW_ABOUT } from './globals'
 import { invoke } from "@tauri-apps/api/core";
 import AboutView from './components/AboutView.vue'
+import SettingsView from './components/SettingsView.vue'
 
 export default {
   components: {
     FlashMessages,
     MainView,
     AboutView,
+    SettingsView,
   },
   data() {
     return {
@@ -50,6 +52,9 @@ export default {
     await this.$store.app.onProjectNew() // fetch initial project and settings
     if (import.meta.env.DEV) {
       await invoke('new_devices_project') // fix hot reloading by resetting to a new project
+    }
+    if (this.$store.app.settings.startMinimized) {
+      this.minimizeToTray()
     }
   },
   beforeUnmount () {
@@ -139,6 +144,8 @@ export default {
     </flash-messages>
     <about-view v-if="$store.app.showAbout">
     </about-view>
+    <settings-view v-if="$store.app.showSettings">
+    </settings-view>
   </main>
 </template>
 

@@ -54,6 +54,7 @@ export default {
       { id: 'saveas', label: 'Save As', tip: vm.ismacos ? 'Cmd+Shift+S' : 'Ctrl+Shift+S'},
       { id: 'sep2', type: 'separator'},
       { id: 'about', label: 'About'},
+      { id: 'settings', label: 'Settings' },
       { id: 'quit', label: 'Quit', tip: vm.ismacos ? 'Cmd+Q' : 'Ctrl+Q'},
     ]
   },
@@ -77,6 +78,8 @@ export default {
         this.$store.app.toggleSettings()
       } else if (id === 'about') {
         this.$store.app.toggleAbout()
+      } else if (id === 'settings') {
+        this.$store.app.toggleSettings()
       } else if (id === 'quit') {
         this.$store.app.forceQuit()
       }

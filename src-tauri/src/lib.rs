@@ -53,6 +53,7 @@ pub struct Settings {
     pub sidebar_width: u64,
     pub script_templates: Vec<Value>,
     pub script_show_line_numbers: bool,
+    pub start_minimized: bool,
     pub monitor_in: Value,
     pub monitor_out: Value,
     pub code_window: Value,
