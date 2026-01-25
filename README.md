@@ -82,6 +82,15 @@ click the settings icon near the code editor and then `Save as template`.
 
 Make sure [tauri 2 requirements](https://v2.tauri.app/start/prerequisites/) are met for the target platform, hit `npm install` and then `npm start` should start the application in development mode.
 
+### MacOS
+
+MacOS target untested and unsigned, if you run into troubles, running these commands may help getting it to work:
+
+```bash
+codesign --force --deep --sign - /Applications/Mididash.app
+xattr -c /Applications/Mididash.app
+```
+
 ### License
 
 [GPL 3](https://www.gnu.org/licenses/gpl-3.0.en.html)
