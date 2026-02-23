@@ -1,7 +1,7 @@
-name: 'publish'
+name: 'publish-test'
 
 on:
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
   release:
