@@ -8,6 +8,7 @@ use coremidi::{Destinations, Sources};
 
 use crate::globals::PREFIX_INPUT;
 use crate::globals::PREFIX_OUTPUT;
+use crate::globals::SUFFIX_SEPARATOR;
 #[cfg(not(windows))]
 use crate::globals::PREFIX_I;
 #[cfg(not(windows))]
@@ -152,18 +153,25 @@ pub fn get_valid_midi_ports() -> Result<MidiPorts, Box<dyn std::error::Error>> {
 
     let mut res_ins = Vec::new();
     let mut res_outs = Vec::new();
+    let mut in_counts: HashMap<String, usize> = HashMap::new();
+    let mut out_counts: HashMap<String, usize> = HashMap::new();
 
     for p in in_ports {
         let pname = input.port_name(&p)?;
+
         if !pname.starts_with(PREFIX_OUTPUT) && !pname.starts_with(PREFIX_O) && !pname.starts_with(PREFIX_VO) {
-            res_ins.push(pname);
+            let count = in_counts.entry(pname.clone()).or_insert(0);
+            *count += 1;
+            res_ins.push(format!("{}{}{}", pname, SUFFIX_SEPARATOR, count));
         }
     }
 
     for p in out_ports {
         let pname = output.port_name(&p)?;
         if !pname.starts_with(PREFIX_INPUT) && !pname.starts_with(PREFIX_I) && !pname.starts_with(PREFIX_VI) {
-            res_outs.push(pname);
+            let count = out_counts.entry(pname.clone()).or_insert(0);
+            *count += 1;
+            res_outs.push(format!("{}{}{}", pname, SUFFIX_SEPARATOR, count));
         }
     }
 

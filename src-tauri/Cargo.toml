@@ -1,6 +1,6 @@
 [package]
 name = "Mididash"
-version = "0.4.2"
+version = "0.5.0"
 description = "MIDI router with Lua scripting and a node based interface"
 authors = ["tilr"]
 edition = "2021"

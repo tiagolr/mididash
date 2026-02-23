@@ -5,7 +5,7 @@ use std::error::Error as StdErr;
 use std::sync::Mutex;
 
 use crate::devices::device::Device;
-use crate::globals::PREFIX_OUTPUT;
+use crate::globals::{PREFIX_OUTPUT, SUFFIX_SEPARATOR, split_device_id};
 
 /*
  * Output for midi hardware
@@ -21,7 +21,19 @@ pub struct Output {
 
 impl Output {
     pub fn new(id: &str) -> Self {
-        let preid = if id.starts_with(PREFIX_OUTPUT) { id } else { &format!("{}{}", PREFIX_OUTPUT, id) };
+        let mut preid =
+            if id.starts_with(PREFIX_OUTPUT) { id.to_string() }
+            else { format!("{}{}", PREFIX_OUTPUT, id) };
+
+        let has_suffix = preid.rsplit_once(SUFFIX_SEPARATOR)
+            .and_then(|(_, n)| n.parse::<usize>().ok())
+            .is_some();
+
+        if !has_suffix {
+            preid.push_str(SUFFIX_SEPARATOR);
+            preid.push_str("1");
+        }
+
         Output {
             id: String::from(preid),
             class: String::from("output"),
@@ -36,17 +48,27 @@ impl Device for Output {
         let ports = &output.ports();
         let mut found = false;
         let mut idx = 0;
+        let mut count = 0;
+        let raw_id = self.id.strip_prefix(PREFIX_OUTPUT).unwrap();
+        let (target_name, target_instance) = split_device_id(raw_id);
+
         for (i, p) in ports.iter().enumerate() {
-            if &output.port_name(p)? == &self.id.strip_prefix(PREFIX_OUTPUT).unwrap() {
-                found = true;
-                idx = i;
-                break;
+            let name = output.port_name(p)?;
+            if name == target_name {
+                count += 1;
+                if count == target_instance {
+                    found = true;
+                    idx = i;
+                    break;
+                }
             }
         }
+
         if !found {
             let str = String::from("Device port not found ") + &self.id;
             return Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, str)));
         }
+
         let port = &ports[idx];
         let id = self.id.clone();
         self.conn = Some(Mutex::new(output.connect(port, &id)?));

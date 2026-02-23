@@ -93,12 +93,26 @@ pub fn run() {
                 .get("project")
                 .and_then(|p| serde_json::from_value(p).ok());
 
-            if let Some(project) = last_project {
-                // load last session project
-                app::load_project(project.clone())?;
-            } else {
-                commands::new_devices_project()?;
-            }
+            //if let Some(project) = last_project {
+            //    // load last session project
+            //    app::load_project(project.clone())?;
+            //} else {
+            //    commands::new_devices_project()?;
+            //}
+
+            let handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                // Give macOS MIDI + drivers time to settle
+                std::thread::sleep(std::time::Duration::from_millis(800));
+
+                let _ = handle.run_on_main_thread(move || {
+                    if let Some(project) = last_project {
+                        let _ = app::load_project(project);
+                    } else {
+                        let _ = commands::new_devices_project();
+                    }
+                });
+            });
 
             // macOS window menu
             #[cfg(target_os = "macos")]

@@ -27,8 +27,17 @@ pub const PORT_UNKNOWN: &str = "unknown";
 
 pub const PREFIX_INPUT: &str = "Mdash In - ";
 pub const PREFIX_OUTPUT: &str = "Mdash Out - ";
+pub const SUFFIX_SEPARATOR: &str = "-:@@:-";
 pub const PREFIX_I: &str = "Mdash In - "; // virtual device input
 pub const PREFIX_O: &str = "Mdash Out - ";
 pub const PREFIX_VI: &str = "Mdash VIn - "; // input for virtual device virtual input
 pub const PREFIX_VO: &str = "Mdash VOut - ";
 
+pub fn split_device_id(id: &str) -> (&str, usize) {
+    if let Some((name, num)) = id.rsplit_once(SUFFIX_SEPARATOR) {
+        if let Ok(n) = num.parse::<usize>() {
+            return (name, n);
+        }
+    }
+    (id, 1)
+}

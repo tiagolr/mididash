@@ -7,7 +7,7 @@ use std::sync::Mutex;
 use crate::hub::Hub;
 use crate::devices::device::Device;
 
-use crate::globals::PREFIX_INPUT;
+use crate::globals::{PREFIX_INPUT, SUFFIX_SEPARATOR, split_device_id};
 
 /*
  * Input for midi hardware
@@ -23,7 +23,19 @@ pub struct Input {
 
 impl Input {
     pub fn new(id: &str) -> Self {
-        let preid = if id.starts_with(PREFIX_INPUT) { id } else { &format!("{}{}", PREFIX_INPUT, id) };
+        let mut preid =
+            if id.starts_with(PREFIX_INPUT) { id.to_string() }
+            else { format!("{}{}", PREFIX_INPUT, id) };
+
+        let has_suffix = preid.rsplit_once(SUFFIX_SEPARATOR)
+            .and_then(|(_, n)| n.parse::<usize>().ok())
+            .is_some();
+
+        if !has_suffix {
+            preid.push_str(SUFFIX_SEPARATOR);
+            preid.push_str("1");
+        }
+
         Input {
             id: String::from(preid),
             class: String::from("input"),
@@ -55,17 +67,27 @@ impl Device for Input {
         let ports = &input.ports();
         let mut found = false;
         let mut idx = 0;
+        let mut count = 0;
+        let raw_id = self.id.strip_prefix(PREFIX_INPUT).unwrap();
+        let (target_name, target_instance) = split_device_id(raw_id);
+
         for (i, p) in ports.iter().enumerate() {
-            if &input.port_name(p)? == &self.id.strip_prefix(PREFIX_INPUT).unwrap() {
-                found = true;
-                idx = i;
-                break;
+            let name = input.port_name(p)?;
+            if name == target_name {
+                count += 1;
+                if count == target_instance {
+                    found = true;
+                    idx = i;
+                    break;
+                }
             }
         }
+
         if !found {
             let str = String::from("Device port not found ") + &self.id;
             Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, str)))?;
         }
+
         let port = &ports[idx];
         let id = self.id.clone();
         self.conn = Some(Mutex::new(input.connect(
