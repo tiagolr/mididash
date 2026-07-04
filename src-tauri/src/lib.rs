@@ -8,7 +8,7 @@ use tauri::{tray::{TrayIconBuilder, TrayIconEvent}, Builder, Manager};
 #[cfg(target_os = "linux")]
 use tauri::menu::{MenuBuilder, MenuItemBuilder};
 #[cfg(target_os = "macos")]
-use tauri::menu::{ MenuBuilder, MenuItemBuilder, Menu, SubmenuBuilder };
+use tauri::menu::{ MenuBuilder, MenuItemBuilder, Menu, SubmenuBuilder, PredefinedMenuItem };
 use tauri_plugin_store::StoreExt;
 
 pub mod globals;
@@ -183,6 +183,13 @@ fn build_menu(app: &mut tauri::App) -> Result<Menu<tauri::Wry>, Box<dyn Error>> 
         .item(&MenuItemBuilder::with_id("open", "Open").build(app)?)
         .item(&MenuItemBuilder::with_id("save", "Save").build(app)?)
         .item(&MenuItemBuilder::with_id("save_as", "Save As").build(app)?)
+        .separator()
+        .undo()
+        .redo()
+        .separator()
+        .cut()
+        .copy()
+        .paste()
         .separator()
         .item(&MenuItemBuilder::with_id("about", "About").build(app)?)
         .item(&MenuItemBuilder::with_id("quit", "Quit").build(app)?)
